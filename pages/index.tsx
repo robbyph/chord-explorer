@@ -4,9 +4,19 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import {useCollection} from "react-firebase-hooks/firestore"
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+import { useEffect } from 'react'
+import { db } from "../firebase/firestore";
 
 const Home: NextPage = () => {
-    
+
+  const [value, loading, error] = useCollection(
+    collection(db, 'Users'),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
+
+  
 
   return (
     <div className={styles.container}>
@@ -33,11 +43,17 @@ const Home: NextPage = () => {
 
           <a href="" className={styles.card}>
             <h2>Current Users</h2>
+            {error && <strong>Error: {JSON.stringify(error)}</strong>}
+            {loading && <span>Collection: Loading...</span>}
+            {value && (
             <ul>
-                <li>User One</li>
-                <li>User Two</li>
-                <li>User Three</li>
+                {value.docs.map((doc) => (
+                <p key={doc.id}>
+                    {doc.data().Name}
+                </p>
+                ))}
             </ul>
+        )}
           </a>
         </div>
       </main>
