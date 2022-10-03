@@ -8,7 +8,7 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <Head>
         <title>Chord Explorer</title>
-        <meta name="description" content="An music education website where you can search for songs based on the chords you're learning/teaching, as well as getting community based feedback on your playing!" />
+        <meta name="description" content="A music education website where you can search for songs based on the chords you're learning/teaching, as well as getting community based feedback on your playing!" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
