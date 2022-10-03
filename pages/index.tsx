@@ -33,7 +33,11 @@ const Home: NextPage = () => {
 
           <a href="" className={styles.card}>
             <h2>Current Users</h2>
-            <p>View the repository on GitHub.</p>
+            <ul>
+                <li>User One</li>
+                <li>User Two</li>
+                <li>User Three</li>
+            </ul>
           </a>
         </div>
       </main>
