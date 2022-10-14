@@ -19,48 +19,39 @@ const Home: NextPage = () => {
   
 
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Chord Explorer</title>
         <meta name="description" content="A music education website where you can search for songs based on the chords you're learning/teaching, as well as getting community based feedback on your playing!" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <span className='text-orange-600'>Chord Explorer</span>
-        </h1>
+      <main className='grid grid-cols-3 ml-16 mt-96 '>
+        <div className='row-start-3'>
+            <h2 className='text-4xl'>
+          Learn guitar, without the boring stuff 
+        </h2>
 
-        <p className={styles.description}>
-          Under construction. Please check back at a later time.
+        <p className=''>
+          Learn to play chords on the guitar while simultaneously learning the songs you know and love.
         </p>
 
-        <div className={styles.grid}>
-          <a href="https://github.com/robbyph/chord-explorer" className={styles.card}>
-            <h2>Repository</h2>
-            <p>View the repository on GitHub.</p>
+        <p className=''>
+          Search for songs to learn based on what chords you are learning, then submit your performance for community based feedback
+        </p>
+
+        <div>
+          <a href="https://github.com/robbyph/chord-explorer" >
+            Search
           </a>
 
-          <a href="" className={styles.card}>
-            <h2>Current Users</h2>
-            {error && <strong>Error: {JSON.stringify(error)}</strong>}
-            {loading && <span>Collection: Loading...</span>}
-            {value && (
-            <ul>
-                {value.docs.map((doc) => (
-                <p key={doc.id}>
-                    {doc.data().Name}
-                </p>
-                ))}
-            </ul>
-        )}
+          <a href="" >
+            Get Feedback
           </a>
         </div>
+        </div>
+        
       </main>
-
-      <footer className={styles.footer}>
-        <p>Thank you for your patience.</p>
-      </footer>
     </div>
   )
 }
