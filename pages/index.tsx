@@ -29,7 +29,7 @@ const Home: NextPage = () => {
       <main className='grid grid-cols-3 '>
         <div className='row-start-3 p-4 bg-[#120724] ml-16 mt-80'>
         <h2 className='p-2 text-4xl'>
-          Learn guitar, without the boring stuff 
+          Learn guitar, without the boring stuff! 
         </h2>
 
         <p className='p-2'>
@@ -37,10 +37,10 @@ const Home: NextPage = () => {
         </p>
 
         <p className='p-2'>
-          Search for songs to learn based on what chords you are learning, then submit your performance for community based feedback
+          Search for songs to learn based on what chords you are learning, then submit your performance for community based feedback.
         </p>
 
-        <div className='flex flex-row gap-4 p-4 text-xl font-medium '>
+        <div className='flex flex-row gap-4 p-4 pl-2 text-xl font-medium '>
           <a href="https://github.com/robbyph/chord-explorer" className='px-4 py-2 bg-[#5B21B6] rounded-md col-span-2'>
             Search
           </a>
