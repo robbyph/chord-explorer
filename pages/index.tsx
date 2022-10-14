@@ -19,33 +19,32 @@ const Home: NextPage = () => {
   
 
   return (
-    <div>
+    <div >
       <Head>
         <title>Chord Explorer</title>
         <meta name="description" content="A music education website where you can search for songs based on the chords you're learning/teaching, as well as getting community based feedback on your playing!" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className='grid grid-cols-3 ml-16 mt-96 '>
-        <div className='row-start-3'>
-            <h2 className='text-4xl'>
+      <main className='grid grid-cols-3 '>
+        <div className='row-start-3 p-4 bg-[#120724] ml-16 mt-80'>
+        <h2 className='p-2 text-4xl'>
           Learn guitar, without the boring stuff 
         </h2>
 
-        <p className=''>
+        <p className='p-2'>
           Learn to play chords on the guitar while simultaneously learning the songs you know and love.
         </p>
 
-        <p className=''>
+        <p className='p-2'>
           Search for songs to learn based on what chords you are learning, then submit your performance for community based feedback
         </p>
 
-        <div>
-          <a href="https://github.com/robbyph/chord-explorer" >
+        <div className='flex flex-row gap-4 p-4 text-xl font-medium '>
+          <a href="https://github.com/robbyph/chord-explorer" className='px-4 py-2 bg-[#5B21B6] rounded-md col-span-2'>
             Search
           </a>
-
-          <a href="" >
+          <a href="" className='px-4 py-2 bg-[#5B21B6] rounded-md col-span-3'>
             Get Feedback
           </a>
         </div>
