@@ -6,6 +6,7 @@ import { useCollection } from "react-firebase-hooks/firestore"
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import { useEffect } from 'react'
 import { db } from "../firebase/firestore";
+import Link from 'next/link'
 
 const Home: NextPage = () => {
 
@@ -41,12 +42,16 @@ const Home: NextPage = () => {
                     </p>
 
                     <div className='flex flex-row gap-4 p-4 pl-2 text-xl font-medium '>
-                        <a href="/search" className='px-4 py-2 bg-[#5B21B6] rounded-md col-span-2'>
-                            Search
-                        </a>
-                        <a href="/submitfeedback" className='px-4 py-2 bg-[#5B21B6] rounded-md col-span-3'>
-                            Get Feedback
-                        </a>
+                        <Link href="/search">
+                            <a  className='px-4 py-2 bg-[#5B21B6] rounded-md col-span-2'>
+                                Search
+                            </a>
+                        </Link>
+                        <Link href="/submitfeedback">
+                            <a className='px-4 py-2 bg-[#5B21B6] rounded-md col-span-3'>
+                                Get Feedback
+                            </a>
+                        </Link>
                     </div>
                 </div>
 
