@@ -14,25 +14,25 @@ const Navigation = ({ currentPage }) => {
     <>
       <nav className='flex flex-row gap-12 p-4'>
         <Link href='/'>
-          <a onClick={() => setActive(false)}>Home</a>
+          <a onClick={() => setShow(false)}>Home</a>
         </Link>
         <Link href='/search'>
-          <a onClick={() => setActive(false)}>Search</a>
+          <a onClick={() => setShow(false)}>Search</a>
         </Link>
         <Link href='/chordlibrary'>
-          <a onClick={() => setActive(false)}>Chord Library</a>
+          <a onClick={() => setShow(false)}>Chord Library</a>
         </Link>
         <Link href='/givefeedback'>
-          <a onClick={() => setActive(false)}>Give Feedback</a>
+          <a onClick={() => setShow(false)}>Give Feedback</a>
         </Link>
         <Link href='/submitfeedback'>
-          <a onClick={() => setActive(false)}>Submit Feedback</a>
+          <a onClick={() => setShow(false)}>Submit Feedback</a>
         </Link>
         <Link href='/accountpage'>
-          <a onClick={() => setActive(false)}>Account</a>
+          <a onClick={() => setShow(false)}>Account</a>
         </Link>
         <Link href='/submitsong'>
-          <a onClick={() => setActive(false)}>Submit A Song</a>
+          <a onClick={() => setShow(false)}>Submit A Song</a>
         </Link>
       </nav>
     </>
