@@ -8,9 +8,19 @@ const submitfeedback = () => {
     const [vidLink, setVidLink] = useState('')
     const [title, setTitle] = useState('')
 
+    // //this is for sending the data to firebase, fields need to be correct for it to send?
+    // export const handleSubmit = (e) => {
+    //     const PostsRef = collection(db, 'Posts')
+    //     return addDoc(PostsRef, {
+    //             created: serverTimestamp(),
+    //             //fields for the data to be sent to, make sure to seperate each with a comma
+    //             Title: [{ name: title }],
+    //             vidlink: [{ name: vidLink }],
+    //             Description: [{name: description}]
 
-    const handleSubmit = (e) => {
-        
+    //         });
+    // };
+    
     }
 
   return (
