@@ -1,6 +1,8 @@
 //@ts-nocheck
 import React, { useState } from 'react'
 import Head from 'next/head'
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase/firestore";
 
 
 const submitfeedback = () => {
@@ -11,13 +13,13 @@ const submitfeedback = () => {
     
     const handleSubmit = (e) => {
          const PostsRef = collection(db, 'Posts')
-         return addDoc(PostsRef, {
-                 created: serverTimestamp(),
-                //fields for the data to be sent to, make sure to seperate each with a comma
-                 Title: [{ name: title }],
-                 vidlink: [{ name: vidLink }],
-                Description: [{name: description}]
-            });
+            return addDoc(PostsRef, {
+                    created: serverTimestamp(),
+                    //fields for the data to be sent to, make sure to separate each with a comma
+                    title: title,
+                    vidLink: vidLink,
+                    description: description
+                });
      };
 
   return (
@@ -36,6 +38,8 @@ const submitfeedback = () => {
 
                 <label htmlFor='vidLink' className="block text-base font-medium lg:text-xl" >Video Link</label>
                 <input minLength={3} type='text' onChange={(e)=>{setVidLink(e.target.value)}} name='vidLink' value={vidLink} required/>
+                <p className='text-sm'>Testing Link: https://www.youtube.com/embed/8tPnX7OPo0Q</p>
+
 
                 <label htmlFor='description' className="block text-base font-medium lg:text-xl">Description</label>
                 <input minLength={3} type='text' onChange={(e)=>{setDescription(e.target.value)}} name='description' value={description} required/>
