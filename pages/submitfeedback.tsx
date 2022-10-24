@@ -3,9 +3,10 @@ import React, { useState } from 'react'
 import Head from 'next/head'
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase/firestore";
+import { NextPage } from 'next';
 
 
-const submitfeedback = () => {
+const SubmitFeedback: NextPage = () => {
     const [description, setDescription] = useState('')
     const [vidLink, setVidLink] = useState('')
     const [title, setTitle] = useState('')
@@ -63,4 +64,4 @@ const submitfeedback = () => {
   )
 }
 
-export default submitfeedback
+export default SubmitFeedback
