@@ -8,20 +8,17 @@ const submitfeedback = () => {
     const [vidLink, setVidLink] = useState('')
     const [title, setTitle] = useState('')
 
-    // //this is for sending the data to firebase, fields need to be correct for it to send?
-    // export const handleSubmit = (e) => {
-    //     const PostsRef = collection(db, 'Posts')
-    //     return addDoc(PostsRef, {
-    //             created: serverTimestamp(),
-    //             //fields for the data to be sent to, make sure to seperate each with a comma
-    //             Title: [{ name: title }],
-    //             vidlink: [{ name: vidLink }],
-    //             Description: [{name: description}]
-
-    //         });
-    // };
     
-    }
+    const handleSubmit = (e) => {
+         const PostsRef = collection(db, 'Posts')
+         return addDoc(PostsRef, {
+                 created: serverTimestamp(),
+                //fields for the data to be sent to, make sure to seperate each with a comma
+                 Title: [{ name: title }],
+                 vidlink: [{ name: vidLink }],
+                Description: [{name: description}]
+            });
+     };
 
   return (
     <div>
@@ -39,7 +36,6 @@ const submitfeedback = () => {
 
                 <label htmlFor='vidLink' className="block text-base font-medium lg:text-xl" >Video Link</label>
                 <input minLength={3} type='text' onChange={(e)=>{setVidLink(e.target.value)}} name='vidLink' value={vidLink} required/>
-                <p className='text-sm'>Testing Link: https://www.youtube.com/embed/8tPnX7OPo0Q</p>
 
                 <label htmlFor='description' className="block text-base font-medium lg:text-xl">Description</label>
                 <input minLength={3} type='text' onChange={(e)=>{setDescription(e.target.value)}} name='description' value={description} required/>
@@ -51,10 +47,10 @@ const submitfeedback = () => {
             <div className='col-span-2 pr-6'>
                 <h2>Submission Preview</h2>
                 <div className='text-black bg-white border-2'>
-                    <h3 className='p-2 text-2xl'>{title}</h3>
+                    <h3 className='p-2 text-2xl'>{title.length > 0 ? title : 'Title Placeholder'}</h3>
                     <p className='p-2'>Submitted by <span className='underline'>Current User</span></p>
-                    <embed className='p-2' width="560" height="315" src={vidLink} title="Video Submission" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></embed>
-                    <p className='p-2'>{description}</p>
+                    <embed className='p-2' width="560" height="315" src={vidLink.length > 0 ? vidLink : 'https://www.youtube.com/embed/ScMzIvxBSi4'} title="Video Submission" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></embed>
+                    <p className='p-2'>{description.length > 0 ? description : 'Type a description for your post, and it will appear here!'}</p>
                 </div>
             </div>
         </main>
