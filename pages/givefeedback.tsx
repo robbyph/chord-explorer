@@ -10,7 +10,7 @@ const givefeedback = () => {
             <link rel="icon" href="/favicon.ico" />
         </Head>
         <main className='grid grid-cols-4'>
-          <h1 className='col-span-4 p-6 text-4xl'>Give Feedback</h1>
+          <h1 className='col-span-4 p-6 text-4xl'>Recent Feedback Submissions</h1>
 
 
         </main>
