@@ -34,7 +34,7 @@ const submitfeedback = () => {
                 <input minLength={3} type='text' onChange={(e)=>{setVidLink(e.target.value)}} name='title' value={title} required/>
 
                 <br />
-                <input value="Send" onClick={(e)=>{handleSubmit(e)}} className="p-2 m-2 ml-0 border-2 cursor-pointer" type='submit'/>
+                <input value="Submit" onClick={(e)=>{handleSubmit(e)}} className="p-2 m-2 ml-0 border-2 cursor-pointer" type='submit'/>
             </div>
             <div className='col-span-2 pr-6'>
                 <h2>Submission Preview</h2>
