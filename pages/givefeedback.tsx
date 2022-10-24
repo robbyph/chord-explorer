@@ -1,9 +1,7 @@
 import React from 'react'
 
 const givefeedback = () => {
-  return (
-    <div>givefeedback</div>
-  )
+  <div></div>
 }
 
 export default givefeedback
