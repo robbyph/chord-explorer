@@ -18,7 +18,8 @@ const submitfeedback = () => {
                     //fields for the data to be sent to, make sure to separate each with a comma
                     title: title,
                     vidLink: vidLink,
-                    description: description
+                    description: description,
+                    author: 'placeholder'
                 });
      };
 
