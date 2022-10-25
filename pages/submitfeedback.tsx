@@ -55,7 +55,7 @@ const SubmitFeedback: NextPage = () => {
                 <div className='text-black bg-white border-2'>
                     <h3 className='p-2 text-2xl'>{title.length > 0 ? title : 'Title Placeholder'}</h3>
                     <p className='p-2'>Submitted by <span className='underline'>Current User</span></p>
-                    <embed className='p-2' width="560" height="315" src={vidLink.length > 0 ? vidLink : 'https://www.youtube.com/embed/ScMzIvxBSi4'} title="Video Submission" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></embed>
+                    <embed className='p-2' width="560" height="315" src={vidLink.length > 0 ? vidLink : 'https://www.youtube.com/embed/ScMzIvxBSi4'} title="Video Submission" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></embed>
                     <p className='p-2'>{description.length > 0 ? description : 'Type a description for your post, and it will appear here!'}</p>
                 </div>
             </div>
