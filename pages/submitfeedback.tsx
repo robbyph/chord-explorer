@@ -33,7 +33,7 @@ const SubmitFeedback: NextPage = () => {
         </Head>
 
         <main className='grid grid-cols-4'>
-            <h1 className='col-span-4 p-6 text-4xl'>Submit Feedback</h1>
+            <h1 className='col-span-4 p-6 text-4xl'>Submit for Feedback</h1>
             <div className='col-span-2 pl-6'>
                 <label htmlFor='title' className="block text-base font-medium lg:text-xl" >Title</label>
                 <input minLength={3} type='text' onChange={(e)=>{setTitle(e.target.value)}} name='title' value={title} required/>
