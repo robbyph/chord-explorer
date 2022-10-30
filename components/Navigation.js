@@ -12,7 +12,7 @@ const Navigation = ({ currentPage }) => {
 
   return (
     <>
-      <nav className='flex flex-row gap-12 p-4'>
+      <nav className='z-10 flex flex-row gap-12 p-4 text-black'>
         <Link href='/'>
           <a onClick={() => setShow(false)}>Home</a>
         </Link>
@@ -26,7 +26,7 @@ const Navigation = ({ currentPage }) => {
           <a onClick={() => setShow(false)}>Give Feedback</a>
         </Link>
         <Link href='/submitfeedback'>
-          <a onClick={() => setShow(false)}>Submit Feedback</a>
+          <a onClick={() => setShow(false)}>Submit for Feedback</a>
         </Link>
         <Link href='/accountpage'>
           <a onClick={() => setShow(false)}>Account</a>
