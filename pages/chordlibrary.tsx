@@ -14,17 +14,36 @@ const chordlibrary = () => {
       </Head>
       <main>
         <h1 className="col-span-4 p-6 text-4xl">Chord Library</h1>
-        <p className="text-sm p-6">Chord Root</p>
-        <select className="p=6" id="chordDropdown">
-          <option disabled selected>
-            {" "}
-            E, A, C#, etc.
-          </option>
-          <option>Option 1</option>
-          <option>Option 2</option>
-          <option>Option 3</option>
-        </select>
-        <h2 className="col-span-4 p-6 text-4x1">Chords</h2>
+        <div className="flex flex-row">
+            <div className="m-6">
+                <p className="font-bold text-md">Chord Root</p>
+                <select className="mt-2 text-md" id="chordDropdown">
+                  <option value='ab'>
+                    Ab/G# 
+                  </option>
+                  <option value='a'>
+                    A
+                  </option>
+                  <option value='bb'>
+                    Bb/A#
+                  </option>
+                  <option value='b'>
+                    B
+                  </option>
+                  <option value='c'>C</option>
+                  <option value='db'>
+                    Db/C#
+                  </option>
+                  <option value='d'>D</option>
+                  <option value='eb'>Eb/D#</option>
+                  <option value='e'>E</option>
+                  <option value='f'>F</option>
+                  <option value='gb'>F#/Gb</option>
+                  <option value='g'>G</option>
+                </select>
+            </div>
+        </div>
+        <h2 className="col-span-4 p-6 text-xl">Chords</h2>
       </main>
     </div>
   );
