@@ -14,23 +14,26 @@ const chordrecognition = () => {
 
     function loadSound(url: string | URL) {
         context.resume().then(() => {
-            console.log('resumed')
             var request = new XMLHttpRequest();
             request.open('GET', url, true);
             request.responseType = 'arraybuffer';
             // Decode asynchronously
             request.onload = function () {
-                console.log('request')
-                console.log(request.response);
-                context.decodeAudioData(request.response);
-                console.log('audio context')
-                console.log(context)
-                console.log('buffer')
-                console.log(sourceBuffer)
+                context.decodeAudioData(request.response, function (buffer) {
+                    sourceBuffer = buffer;
+                });
             }
             request.send();
-
         })
+    }
+
+    function chordDetection(buffer: AudioBuffer) {
+        loadSound('example.mp3')
+
+        let chords = detectChords(buffer);
+        chords.map((chord: any) => {
+            console.log(chord);
+        });
     }
 
 
@@ -47,7 +50,7 @@ const chordrecognition = () => {
             <main>
                 <h1 className="col-span-4 p-6 text-4xl">Chord Recognition</h1>
                 <h2 className="col-span-4 p-6 text-4x1">Powered by AI</h2>
-                <button onClick={() => { loadSound('example.mp3') }}>Detect</button>
+                <button onClick={() => { chordDetection }}>Detect</button>
             </main>
         </div>
     );
