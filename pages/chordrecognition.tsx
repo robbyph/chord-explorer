@@ -1,20 +1,12 @@
 import React from "react";
 import Head from "next/head";
-import { Chromagram } from "akkorder/src";
+import { detectChords } from "akkorder/src";
+import { C_Major_48 } from "akkorder/__tests__/testSignals";
 
 const chordrecognition = () => {
-    let frameSize = 512;
-    let sampleRate = 44100;
 
-    var c = new Chromagram(frameSize, sampleRate);
-
-    let frame = new Array(frameSize);
-    // !
-    // do something here to fill the frame with audio samples
-    // !
-    //and then call:
-
-    c.processAudioFrame(frame);
+    let chords = detectChords(C_Major_48, 44100);
+    console.log(chords)
 
     return (
         <div>
