@@ -8,23 +8,19 @@ const chordrecognition = () => {
     var sourceBuffer: AudioBuffer;
     var context: AudioContext;
 
-    useEffect(() => {
-        context = new AudioContext();
-    })
-
     function loadSound(url: string | URL) {
-        context.resume().then(() => {
-            var request = new XMLHttpRequest();
-            request.open('GET', url, true);
-            request.responseType = 'arraybuffer';
-            // Decode asynchronously
-            request.onload = function () {
-                context.decodeAudioData(request.response, function (buffer) {
-                    sourceBuffer = buffer;
-                });
-            }
-            request.send();
-        })
+        context = new AudioContext();
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.responseType = 'arraybuffer';
+        // Decode asynchronously
+        request.onload = function () {
+            context.decodeAudioData(request.response, function (buffer) {
+                sourceBuffer = buffer;
+            });
+        }
+        request.send();
+
     }
 
     function chordDetection(buffer: AudioBuffer) {
