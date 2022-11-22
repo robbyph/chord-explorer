@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
-import { detectChords } from "akkorder/src";
-import { C_Major_48 } from "akkorder/__tests__/testSignals";
+import { detectChords } from "../akkorder/src/index";
 
 const chordrecognition = () => {
 
@@ -24,13 +23,12 @@ const chordrecognition = () => {
     }
 
     useEffect(() => {
-        loadSound('exampleE.mp3')
+        loadSound('example2.mp3')
     }, [])
 
     function chordDetection() {
         console.log(sourceBuffer)
-        let chords = detectChords(sourceBuffer, sourceBuffer.sampleRate);
-        console.log(chords)
+        let chords = detectChords(sourceBuffer.getChannelData(0), 44100);
     }
 
 
