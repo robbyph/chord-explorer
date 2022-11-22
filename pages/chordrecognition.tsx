@@ -28,7 +28,8 @@ const chordrecognition = () => {
     }, [])
 
     function chordDetection() {
-        let chords = detectChords(sourceBuffer);
+        console.log(sourceBuffer)
+        let chords = detectChords(sourceBuffer, 44100);
         console.log(chords)
     }
 
