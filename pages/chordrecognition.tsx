@@ -24,12 +24,12 @@ const chordrecognition = () => {
     }
 
     useEffect(() => {
-        loadSound('example.mp3')
+        loadSound('exampleE.mp3')
     }, [])
 
     function chordDetection() {
         console.log(sourceBuffer)
-        let chords = detectChords(sourceBuffer, 44100);
+        let chords = detectChords(sourceBuffer, sourceBuffer.sampleRate);
         console.log(chords)
     }
 
