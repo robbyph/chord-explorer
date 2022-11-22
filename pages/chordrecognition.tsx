@@ -21,17 +21,15 @@ const chordrecognition = () => {
         }
         request.send();
 
-        console.log(request)
-
     }
 
-    function chordDetection() {
+    useEffect(() => {
         loadSound('example.mp3')
+    }, [])
 
+    function chordDetection() {
         let chords = detectChords(sourceBuffer);
-        chords.map((chord: any) => {
-            console.log(chord);
-        });
+        console.log(chords)
     }
 
 
