@@ -21,12 +21,14 @@ const chordrecognition = () => {
         }
         request.send();
 
+        console.log(request)
+
     }
 
-    function chordDetection(buffer: AudioBuffer) {
+    function chordDetection() {
         loadSound('example.mp3')
 
-        let chords = detectChords(buffer);
+        let chords = detectChords(sourceBuffer);
         chords.map((chord: any) => {
             console.log(chord);
         });
@@ -46,7 +48,7 @@ const chordrecognition = () => {
             <main>
                 <h1 className="col-span-4 p-6 text-4xl">Chord Recognition</h1>
                 <h2 className="col-span-4 p-6 text-4x1">Powered by AI</h2>
-                <button onClick={() => { chordDetection }}>Detect</button>
+                <button onClick={() => chordDetection()}>Detect</button>
             </main>
         </div>
     );
