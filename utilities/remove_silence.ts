@@ -34,12 +34,10 @@ export const silenceRemovalAlgorithm = async (channelData: any) => {
     }
     //if there are 20 or more consecutive 'silent' frames then ignore these frames, do not return
     if (_silenceCounter >= 20) {
-      console.log('lg silence');
       //dont append to the output
     } else {
       //append to the output
       output.push([...frame]);
-      console.log('no silence');
     }
   });
   console.log('TCL: result -> result', flattenDeep(output).length);
