@@ -40,16 +40,32 @@ const chordrecognition = () => {
         var uniqueChords: any[] = []
 
         //cull uniques
-        //TODO
+        const hash = ({ rootNote, quality, interval }) =>
+            `${rootNote}:${quality}:${interval}`;
+
+        const counts = chords.reduce((map, item) => {
+            const key = hash(item);
+            return ({
+                ...map,
+                [key]: (map[key] ?? 0) + 1,
+            });
+        }, {});
+
+        uniqueChords = chords.filter((item) => counts[hash(item)] > 1);
 
         //cull duplicates
-        tempChords = chords.filter((value, index, self) =>
+        tempChords = uniqueChords.filter((value, index, self) =>
             index === self.findIndex((t) => (
                 t.rootNote == value.rootNote && t.quality == value.quality && t.interval == value.interval
             ))
         )
 
-        return tempChords;
+        if (tempChords.length < 1) {
+            return chords
+        } else {
+            return tempChords;
+
+        }
     }
 
     function toTextQuality(quality) {
