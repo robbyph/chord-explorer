@@ -24,7 +24,7 @@ const chordrecognition = () => {
     }
 
     useEffect(() => {
-        loadSound('example2.mp3')
+        loadSound('exampleD.mp3')
     }, [])
 
     function chordDetection() {
@@ -71,8 +71,16 @@ const chordrecognition = () => {
                 <h2 className="col-span-4 p-6 text-2xl">Chords</h2>
                 <ul className="list-disc list-inside">
                     {detectedChords.map((chord, i, ogArray) => {
+                        var nextChord = ogArray[i + 1]
+                        var returnChord = true;
+                        if (nextChord != undefined) {
+                            if (chord.rootNote == nextChord.rootNote || chord.quality == nextChord.quality || chord.interval == nextChord.interval) {
+                                returnChord = false;
+                            }
+                        }
+                        console.log(returnChord)
                         return (
-                            <li>{chord.rootNote} {toTextQuality(chord.quality)} {chord.interval != 0 ? chord.interval : ''}</li>
+                            <li key={i}>{chord.rootNote} {toTextQuality(chord.quality)} {chord.interval != 0 ? chord.interval : ''}</li>
                         )
                     })}
                 </ul>
