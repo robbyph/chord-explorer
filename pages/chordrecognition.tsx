@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { detectChords } from "../akkorder/src/index";
+import { silenceRemovalAlgorithm } from "../utilities/remove_silence";
 
 const chordrecognition = () => {
 
@@ -27,10 +28,11 @@ const chordrecognition = () => {
         loadSound('example2.mp3')
     }, [])
 
-    function chordDetection() {
+    async function chordDetection() {
         console.log(sourceBuffer)
         var channelData = Array.from(sourceBuffer.getChannelData(0));
-        let chords = detectChords(channelData, 44100);
+        var channelDataSilenceRemoved = await silenceRemovalAlgorithm(channelData);
+        let chords = detectChords(channelDataSilenceRemoved, 44100);
         setDetectedChords(chords)
     }
 
