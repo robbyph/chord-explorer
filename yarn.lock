@@ -2015,12 +2015,6 @@
     "require-from-string" "^2.0.2"
     "uri-js" "^4.2.2"
 
-"akkorder@github:stackswithans/akkorder":
-  "resolved" "git+ssh://git@github.com/stackswithans/akkorder.git#a33d9a23d323f0b6a15325a5cc3c3943b984f9b3"
-  "version" "1.0.0"
-  dependencies:
-    "fft.js" "^4.0.4"
-
 "ansi-regex@^2.0.0":
   "integrity" "sha512-TIGnTpdo+E3+pCyAluZvtED5p5wCqLdezCyhPZzKPcxvFplEt4i+W7OONCKgeZFT3+y5NZZfOOS/Bdcanm1MYA=="
   "resolved" "https://registry.npmjs.org/ansi-regex/-/ansi-regex-2.1.1.tgz"
@@ -3389,11 +3383,6 @@
   "version" "0.11.4"
   dependencies:
     "websocket-driver" ">=0.5.1"
-
-"fft.js@^4.0.4":
-  "integrity" "sha512-f9c00hphOgeQTlDyavwTtu6RiK8AIFjD6+jvXkNkpeQ7rirK3uFWVpalkoS4LAwbdX7mfZ8aoBfFVQX1Re/8aw=="
-  "resolved" "https://registry.npmjs.org/fft.js/-/fft.js-4.0.4.tgz"
-  "version" "4.0.4"
 
 "file-entry-cache@^6.0.1":
   "integrity" "sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg=="
