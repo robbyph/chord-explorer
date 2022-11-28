@@ -1,34 +1,34 @@
-import { Chromagram } from "akkorder/src/Chromagram";
-import { ChordDetector } from "akkorder/src/ChordDetector";
+import { Chromagram } from './Chromagram';
+import { ChordDetector } from './ChordDetector';
 
 export enum RootNotes {
-    C = "C",
-    CSHARPDFLAT = "C#/Db",
-    D = "D",
-    DSHARPEFLAT = "D#/Eb",
-    E = "E",
-    F = "F",
-    FSHARPGFLAT = "F#/Gb",
-    G = "G",
-    GSHARPAFLAT = "G#/Ab",
-    A = "A",
-    ASHARPBFLAT = "A#/Bb",
-    B = "B",
+  C = 'C',
+  CSHARPDFLAT = 'C#/Db',
+  D = 'D',
+  DSHARPEFLAT = 'D#/Eb',
+  E = 'E',
+  F = 'F',
+  FSHARPGFLAT = 'F#/Gb',
+  G = 'G',
+  GSHARPAFLAT = 'G#/Ab',
+  A = 'A',
+  ASHARPBFLAT = 'A#/Bb',
+  B = 'B',
 }
 
 const notes = [
-    RootNotes.C,
-    RootNotes.CSHARPDFLAT,
-    RootNotes.D,
-    RootNotes.DSHARPEFLAT,
-    RootNotes.E,
-    RootNotes.F,
-    RootNotes.FSHARPGFLAT,
-    RootNotes.G,
-    RootNotes.GSHARPAFLAT,
-    RootNotes.A,
-    RootNotes.ASHARPBFLAT,
-    RootNotes.B,
+  RootNotes.C,
+  RootNotes.CSHARPDFLAT,
+  RootNotes.D,
+  RootNotes.DSHARPEFLAT,
+  RootNotes.E,
+  RootNotes.F,
+  RootNotes.FSHARPGFLAT,
+  RootNotes.G,
+  RootNotes.GSHARPAFLAT,
+  RootNotes.A,
+  RootNotes.ASHARPBFLAT,
+  RootNotes.B,
 ];
 
 type Chord = { rootNote: RootNotes; quality: number; interval: number };
@@ -40,11 +40,11 @@ type Chord = { rootNote: RootNotes; quality: number; interval: number };
       @returns A chord object
 */
 export function prettifyChord(
-    rootNote: number,
-    quality: number,
-    interval: number
+  rootNote: number,
+  quality: number,
+  interval: number
 ): Chord {
-    return { rootNote: notes[rootNote], quality, interval };
+  return { rootNote: notes[rootNote], quality, interval };
 }
 
 /** Performs the chord detection algorithm on the array containing the sound data.
@@ -55,31 +55,27 @@ export function prettifyChord(
       @returns An array of chords 
 */
 export function detectChords(
-    audioBuffer: number[],
-    sampleRate: number
+  audioBuffer: number[],
+  sampleRate: number
 ): Chord[] {
-    let chroma_builder = new Chromagram(sampleRate, sampleRate);
-    let detector = new ChordDetector();
-    let frame = new Array(sampleRate);
-    let chords = [];
-    for (let i = 0; i < audioBuffer.length; i = i + sampleRate) {
-        for (let k = 0; k < sampleRate; k++) {
-            frame[k] = audioBuffer[i + k];
-        }
-        chroma_builder.processAudioFrame(frame);
-        if (chroma_builder.isReady()) {
-            detector.detectChord(chroma_builder.getChromagram());
-            chords.push(
-                prettifyChord(
-                    detector.rootNote,
-                    detector.quality,
-                    detector.intervals
-                )
-            );
-        }
+  let chroma_builder = new Chromagram(sampleRate, sampleRate);
+  let detector = new ChordDetector();
+  let frame = new Array(sampleRate);
+  let chords = [];
+  for (let i = 0; i < audioBuffer.length; i = i + sampleRate) {
+    for (let k = 0; k < sampleRate; k++) {
+      frame[k] = audioBuffer[i + k];
     }
-    console.log(chords)
-    return chords;
+    chroma_builder.processAudioFrame(frame);
+    if (chroma_builder.isReady()) {
+      detector.detectChord(chroma_builder.getChromagram());
+      chords.push(
+        prettifyChord(detector.rootNote, detector.quality, detector.intervals)
+      );
+    }
+  }
+  console.log(chords);
+  return chords;
 }
 
 export { ChordDetector, Chromagram };
