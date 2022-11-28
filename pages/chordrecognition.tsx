@@ -3,7 +3,7 @@ import Head from "next/head";
 import { detectChords } from "../akkorder/src/index";
 import { silenceRemovalAlgorithm } from "../utilities/remove_silence";
 
-const chordrecognition = () => {
+const ChordRecognition = () => {
 
     var sourceBuffer: AudioBuffer;
     var context: AudioContext;
@@ -113,4 +113,4 @@ const chordrecognition = () => {
     );
 };
 
-export default chordrecognition;
+export default ChordRecognition;
