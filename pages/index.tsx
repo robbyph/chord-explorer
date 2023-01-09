@@ -41,16 +41,16 @@ const Home: NextPage = () => {
                         Search for songs to learn based on what chords you are learning, then submit your performance for community based feedback.
                     </p>
 
-                    <div className='flex flex-row gap-4 p-4 pl-2 text-xl font-medium '>
+                    <div className='flex flex-row gap-4 p-4 pl-2 text-xl font-medium'>
                         <Link href="/search">
-                            <a  className='px-4 py-2 bg-[#5B21B6] rounded-md col-span-2'>
+                            <div className='px-4 py-2 bg-[#5B21B6] rounded-md col-span-2 cursor-pointer'>
                                 Search
-                            </a>
+                            </div>
                         </Link>
                         <Link href="/submitfeedback">
-                            <a className='px-4 py-2 bg-[#5B21B6] rounded-md col-span-3'>
+                            <div className='px-4 py-2 bg-[#5B21B6] rounded-md col-span-3 cursor-pointer'>
                                 Get Feedback
-                            </a>
+                            </div>
                         </Link>
                     </div>
                 </div>
