@@ -43,7 +43,7 @@ const Home: NextPage = () => {
 
                     <div className='flex flex-row gap-4 p-4 pl-2 text-xl font-medium '>
                         <Link href="/search">
-                            <a  className='px-4 py-2 bg-[#5B21B6] rounded-md col-span-2'>
+                            <a className='px-4 py-2 bg-[#5B21B6] rounded-md col-span-2'>
                                 Search
                             </a>
                         </Link>
