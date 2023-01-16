@@ -5,7 +5,11 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        HindSiliguri: ['Hind Siliguri', 'sans'],
+      },
+    },
   },
   plugins: [],
   important: true,

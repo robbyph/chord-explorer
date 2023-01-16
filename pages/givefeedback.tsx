@@ -28,7 +28,7 @@ const givefeedback = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <h1 className="col-span-4 p-6 text-4xl">Recent Feedback Submissions</h1>
+                <h1 className="col-span-4 p-6 text-4xl font-semibold font-HindSiliguri">Recent Feedback Submissions</h1>
                 <ul>
                     {error && <strong>Error! <br /> {JSON.stringify(error)}</strong>}
                     {loading && <em>Loading...</em>}
