@@ -37,7 +37,7 @@ const givefeedback = () => {
                             <li key={p.id}>
                                 <h2>{p.data().title}</h2>
                                 <h4><em>From: {p.data().author}</em></h4>
-                                <h4><em>{p.data().created.toDate().toString()}</em></h4>
+                                <h4><em>{p.data().created.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })} {p.data().created.toDate().toLocaleTimeString('en-US')}</em></h4>
 
                             </li>
                         )
