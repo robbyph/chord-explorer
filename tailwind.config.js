@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       fontFamily: {
         HindSiliguri: ['Hind Siliguri', 'sans'],
+        IBMPlexSans: ['IBM Plex Sans', 'sans'],
       },
     },
   },

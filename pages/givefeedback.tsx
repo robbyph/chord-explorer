@@ -36,7 +36,7 @@ const givefeedback = () => {
                         return (
                             <li key={p.id} className='flex flex-row p-4 m-4 ml-6 text-black bg-white border-4 border-gray-600 rounded-lg'>
                                 <div>
-                                    <h2 className="text-2xl">{p.data().title}</h2>
+                                    <h2 className="text-2xl font-medium font-HindSiliguri">{p.data().title}</h2>
                                     <div className="flex flex-row space-x-8">
                                         <h4 className="text-sm"><em>Submitted By: {p.data().author}</em></h4>
                                         <h4 className="text-sm"><em>{p.data().created.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })} {p.data().created.toDate().toLocaleTimeString('en-US')}</em></h4>
