@@ -47,7 +47,7 @@ const givefeedback = () => {
                                     <button className="rounded-lg font-medium font-IBMPlexSans p-2 mt-2 text-lg text-white bg-[#5B21B6]">Give Feedback</button>
                                 </div>
                                 <div className="ml-auto">
-                                    <iframe src={p.data().vidLink + '?autoplay=0&controls=0'} frameborder="0"></iframe>
+                                    <iframe className="h-full" src={p.data().vidLink + '?autoplay=0&controls=0'} frameborder="0" ></iframe>
                                 </div>
                             </li>
                         )
