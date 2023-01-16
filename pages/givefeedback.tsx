@@ -2,16 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "../firebase/firestore";
 import { NextPage } from 'next';
 import { useCollection } from "react-firebase-hooks/firestore";
 
 
-const givefeedback = () => {
+const GiveFeedback = () => {
 
     const [posts, loading, error] = useCollection(
-        collection(db, 'Posts'),
+        query(collection(db, 'Posts'), orderBy('created', 'desc')),
         {
             snapshotListenOptions: { includeMetadataChanges: true },
         }
@@ -42,7 +42,7 @@ const givefeedback = () => {
                                         <h4 className="text-sm"><em>Submitted on {p.data().created.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })} {p.data().created.toDate().toLocaleTimeString('en-US')}</em></h4>
                                     </div>
                                     <br />
-                                    <p className="font-IBMPlexSans">{p.data().description}</p>
+                                    <p className="w-3/4 font-IBMPlexSans">{p.data().description}</p>
                                     <br />
                                     <button className="rounded-lg font-medium font-IBMPlexSans p-2 mt-2 text-lg text-white bg-[#5B21B6]">Give Feedback</button>
                                 </div>
@@ -58,4 +58,4 @@ const givefeedback = () => {
     );
 };
 
-export default givefeedback;
+export default GiveFeedback;
