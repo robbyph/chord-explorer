@@ -36,6 +36,9 @@ const givefeedback = () => {
                         return (
                             <li key={p.id}>
                                 <h2>{p.data().title}</h2>
+                                <h4><em>From: {p.data().author}</em></h4>
+                                <h4><em>{p.data().created.toDate().toString()}</em></h4>
+
                             </li>
                         )
                     })}
