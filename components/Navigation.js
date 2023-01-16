@@ -12,7 +12,7 @@ const Navigation = ({ currentPage }) => {
 
   return (
     <>
-      <nav className='z-10 flex flex-row gap-12 p-4 text-black'>
+      <nav className='z-10 flex flex-row gap-12 p-4 text-black font-IBMPlexSans'>
         <Link href='/'>
           <a onClick={() => setShow(false)}>Home</a>
         </Link>
