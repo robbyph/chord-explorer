@@ -34,7 +34,7 @@ const givefeedback = () => {
                     {loading && <em>Loading...</em>}
                     {posts && posts.docs.map((p) => {
                         return (
-                            <li key={p.id} className='flex flex-row p-4 m-4 ml-6 text-black bg-white  border-4 border-[#808080] rounded-xl'>
+                            <li key={p.id} className='flex flex-row p-4 m-4 ml-6 text-black bg-white'>
                                 <div>
                                     <h2 className="text-2xl font-medium font-HindSiliguri">{p.data().title}</h2>
                                     <div className="text-gray-500 font-IBMPlexSans">
