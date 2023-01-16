@@ -30,9 +30,13 @@ const givefeedback = () => {
             <main>
                 <h1 className="col-span-4 p-6 text-4xl">Recent Feedback Submissions</h1>
                 <ul>
+                    {error && <strong>Error! <br /> {JSON.stringify(error)}</strong>}
+                    {loading && <em>Loading...</em>}
                     {posts && posts.docs.map((p) => {
                         return (
-                            <li key={p.id}>{p.data().title}</li>
+                            <li key={p.id}>
+                                <h2>{p.data().title}</h2>
+                            </li>
                         )
                     })}
                 </ul>
