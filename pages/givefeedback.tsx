@@ -34,11 +34,21 @@ const givefeedback = () => {
                     {loading && <em>Loading...</em>}
                     {posts && posts.docs.map((p) => {
                         return (
-                            <li key={p.id}>
-                                <h2>{p.data().title}</h2>
-                                <h4><em>From: {p.data().author}</em></h4>
-                                <h4><em>{p.data().created.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })} {p.data().created.toDate().toLocaleTimeString('en-US')}</em></h4>
-                                <p>{p.data().description}</p>
+                            <li key={p.id} className='flex flex-row p-4 m-4 ml-6 text-black bg-white border-4 border-gray-600 rounded-lg'>
+                                <div>
+                                    <h2 className="text-2xl">{p.data().title}</h2>
+                                    <div className="flex flex-row space-x-8">
+                                        <h4 className="text-sm"><em>Submitted By: {p.data().author}</em></h4>
+                                        <h4 className="text-sm"><em>{p.data().created.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })} {p.data().created.toDate().toLocaleTimeString('en-US')}</em></h4>
+                                    </div>
+                                    <br />
+                                    <p>{p.data().description}</p>
+                                    <br />
+                                    <button className="rounded-lg font-bold p-2 mt-2 text-white bg-[#5B21B6]">Give Feedback</button>
+                                </div>
+                                <div className="ml-auto">
+                                    <iframe src={p.data().vidLink + '?autoplay=0&controls=0'} frameborder="0"></iframe>
+                                </div>
                             </li>
                         )
                     })}
