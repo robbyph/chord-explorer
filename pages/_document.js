@@ -26,7 +26,7 @@ class MyDocument extends Document {
             rel='stylesheet'
           />
 
-          <link rel='shortcut icon' href='/images/favicon.ico' />
+          <link rel='shortcut icon' href='/favicon.ico' />
           <meta name='apple-mobile-web-app-status-bar' content='#312F2F' />
         </Head>
         <body>
