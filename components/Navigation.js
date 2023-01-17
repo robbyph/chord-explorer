@@ -12,7 +12,7 @@ const Navigation = ({ currentPage }) => {
 
   return (
     <>
-      <nav className='z-10 flex flex-row gap-12 p-4 text-black font-IBMPlexSans'>
+      <nav className='z-10 flex flex-row gap-8 p-4 text-black font-IBMPlexSans'>
         <Link href='/'>
           <a onClick={() => setShow(false)}>Home</a>
         </Link>
@@ -33,6 +33,9 @@ const Navigation = ({ currentPage }) => {
         </Link>
         <Link href='/submitsong'>
           <a onClick={() => setShow(false)}>Submit A Song</a>
+        </Link>
+        <Link href='/chordrecognition'>
+          <a onClick={() => setShow(false)}>Chord Recognition</a>
         </Link>
       </nav>
     </>
