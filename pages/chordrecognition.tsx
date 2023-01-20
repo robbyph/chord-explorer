@@ -100,12 +100,12 @@ const ChordRecognition = () => {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main className="m-2">
-                <h1 className="col-span-4 p-6 text-4xl">Chord Recognition</h1>
-                <h2 className="col-span-4 p-6 text-2xl">Powered by AI</h2>
-                <button className="col-span-4 p-6 py-3 text-xl border " onClick={() => chordDetection()}>Detect Chords</button>
-                <h2 className="col-span-4 p-6 text-2xl">Chords</h2>
-                <ul className="list-disc list-inside">
+            <main className="p-6 m-2">
+                <h1 className="col-span-4 text-4xl font-semibold font-HindSiliguri">Chord Recognition</h1>
+                <h2 className="col-span-4 pb-4 text-2xl font-HindSiliguri">Powered by AI</h2>
+                <button className="col-span-4 px-2 py-2 text-xl border font-IBMPlexSans font-medium bg-white text-[#5B21B6] rounded" onClick={() => chordDetection()}>Detect Chords</button>
+                <h2 className="col-span-4 pt-2 text-2xl font-HindSiliguri">Chords Detected</h2>
+                <ul className="list-disc list-inside font-IBMPlexSans">
                     {detectedChords.map((chord, i) => {
                         return <li key={i}>{chord.rootNote} {toTextQuality(chord.quality)} {chord.interval != 0 ? chord.interval : ''}</li>
                     })}
