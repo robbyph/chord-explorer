@@ -7,9 +7,11 @@ import { NextPage } from 'next';
 
 
 const SubmitFeedback: NextPage = () => {
-    const [description, setDescription] = useState('')
-    const [vidLink, setVidLink] = useState('')
-    const [title, setTitle] = useState('')
+
+    const [description, setDescription] = useState('');
+    const [vidLink, setVidLink] = useState('');
+    const [title, setTitle] = useState('');
+    const [check, setCheck] = useState(false);
 
 
     const handleSubmit = (e) => {
@@ -43,7 +45,7 @@ const SubmitFeedback: NextPage = () => {
                     <div>
                         <label htmlFor='vidLink' className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl" >Video Link</label>
                         <input className='w-full p-1 text-lg font-IBMPlexSans' minLength={3} type='text' onChange={(e) => { setVidLink(e.target.value) }} name='vidLink' value={vidLink} required />
-                        <p className='text-sm text-white'>Testing Link: https://www.youtube.com/embed/8tPnX7OPo0Q</p>
+                        <p className='pt-1 pl-2 text-sm text-white font-IBMPlexSans'>Testing Link: https://www.youtube.com/embed/8tPnX7OPo0Q</p>
                     </div>
 
                     <div>
@@ -51,7 +53,12 @@ const SubmitFeedback: NextPage = () => {
                         <input className='w-full p-1 text-lg font-IBMPlexSans' minLength={3} type='text' onChange={(e) => { setDescription(e.target.value) }} name='description' value={description} required />
                     </div>
 
-                    <input value="Submit" onClick={(e) => { handleSubmit(e) }} className="p-2 m-2 ml-0 bg-white border-2 text-lg rounded cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
+                    <div>
+                        <input type="checkbox" name='check' onChange={(e) => { setCheck(e.target.value) }} value={check} required />
+                        <label htmlFor='check' className="pl-2 text-base text-white font-IBMPlexSans">This video does not contain lewd, inappropriate or adult-only content</label>
+                    </div>
+
+                    <input value="Submit" onClick={(e) => { check ? handleSubmit(e) : 'AHHH' }} className="p-2 m-2 ml-0 bg-white border-2 text-lg rounded cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
                 </div>
                 <div className='col-span-2 px-20'>
                     <h2 className='pb-3 pl-2 text-xl font-medium text-center text-white font-IBMPlexSans'>Submission Preview</h2>
