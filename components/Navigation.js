@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { NavLink } from "react-router-dom";
 
 const Navigation = ({ currentPage }) => {
   const [show, setShow] = useState(false);
@@ -14,34 +13,30 @@ const Navigation = ({ currentPage }) => {
   return (
     <>
       <nav className="z-10 flex flex-row gap-8 p-4 text-black font-IBMPlexSans">
-        <NavLink
-          href="/"
-          className="main-nav"
-          activeClassName="main-nav-active"
-        >
+        <Link href="/">
           <a onClick={() => setShow(false)}>Home</a>
-        </NavLink>
-        <NavLink href="/search">
+        </Link>
+        <Link href="/search">
           <a onClick={() => setShow(false)}>Search</a>
-        </NavLink>
-        <NavLink href="/chordlibrary">
+        </Link>
+        <Link href="/chordlibrary">
           <a onClick={() => setShow(false)}>Chord Library</a>
-        </NavLink>
-        <NavLink href="/givefeedback">
+        </Link>
+        <Link href="/givefeedback">
           <a onClick={() => setShow(false)}>Give Feedback</a>
-        </NavLink>
-        <NavLink href="/submitfeedback">
+        </Link>
+        <Link href="/submitfeedback">
           <a onClick={() => setShow(false)}>Submit for Feedback</a>
-        </NavLink>
-        <NavLink href="/accountpage">
+        </Link>
+        <Link href="/accountpage">
           <a onClick={() => setShow(false)}>Account</a>
-        </NavLink>
-        <NavLink href="/submitsong">
+        </Link>
+        <Link href="/submitsong">
           <a onClick={() => setShow(false)}>Submit A Song</a>
-        </NavLink>
-        <NavLink href="/chordrecognition">
+        </Link>
+        <Link href="/chordrecognition">
           <a onClick={() => setShow(false)}>Chord Recognition</a>
-        </NavLink>
+        </Link>
       </nav>
     </>
   );
