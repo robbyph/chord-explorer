@@ -28,3 +28,7 @@ a {
     background: black;
   }
 }
+
+.main-nav-active {
+  color: tomato;
+}

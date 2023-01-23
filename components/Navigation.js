@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { NavLink } from "react-router-dom";
 
 const Navigation = ({ currentPage }) => {
   const [show, setShow] = useState(false);
@@ -12,31 +13,35 @@ const Navigation = ({ currentPage }) => {
 
   return (
     <>
-      <nav className='z-10 flex flex-row gap-8 p-4 text-black font-IBMPlexSans'>
-        <Link href='/'>
+      <nav className="z-10 flex flex-row gap-8 p-4 text-black font-IBMPlexSans">
+        <NavLink
+          href="/"
+          className="main-nav"
+          activeClassName="main-nav-active"
+        >
           <a onClick={() => setShow(false)}>Home</a>
-        </Link>
-        <Link href='/search'>
+        </NavLink>
+        <NavLink href="/search">
           <a onClick={() => setShow(false)}>Search</a>
-        </Link>
-        <Link href='/chordlibrary'>
+        </NavLink>
+        <NavLink href="/chordlibrary">
           <a onClick={() => setShow(false)}>Chord Library</a>
-        </Link>
-        <Link href='/givefeedback'>
+        </NavLink>
+        <NavLink href="/givefeedback">
           <a onClick={() => setShow(false)}>Give Feedback</a>
-        </Link>
-        <Link href='/submitfeedback'>
+        </NavLink>
+        <NavLink href="/submitfeedback">
           <a onClick={() => setShow(false)}>Submit for Feedback</a>
-        </Link>
-        <Link href='/accountpage'>
+        </NavLink>
+        <NavLink href="/accountpage">
           <a onClick={() => setShow(false)}>Account</a>
-        </Link>
-        <Link href='/submitsong'>
+        </NavLink>
+        <NavLink href="/submitsong">
           <a onClick={() => setShow(false)}>Submit A Song</a>
-        </Link>
-        <Link href='/chordrecognition'>
+        </NavLink>
+        <NavLink href="/chordrecognition">
           <a onClick={() => setShow(false)}>Chord Recognition</a>
-        </Link>
+        </NavLink>
       </nav>
     </>
   );
