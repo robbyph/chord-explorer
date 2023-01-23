@@ -29,6 +29,7 @@ a {
   }
 }
 
-.main-nav-active {
+.navItem {
   font-weight: bold;
+  color: green;
 }
