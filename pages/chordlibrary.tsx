@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 
 const chordlibrary = () => {
+    
+    const [ChordSel, setOption] = useState("A");
+    console.log(ChordSel)
     return (
+
+        
         <div>
             <Head>
                 <title>Chord Explorer</title>
@@ -17,21 +22,42 @@ const chordlibrary = () => {
                 <div className="flex flex-row">
                     <div className="p-6">
                         <p className="mb-2 text-base font-IBMPlexSans">Chord Root</p>
-                        <select className="p-2 " id="chordDropdown">
-                            <option disabled selected>
-                                {" "}
-                                E, A, C#, etc.
-                            </option>
-                            <option>Option 1</option>
-                            <option>Option 2</option>
-                            <option>Option 3</option>
+                        <select onChange={(e) => {setOption(e.target.value)}} value = {ChordSel} className="p-2 " id="chordDropdown">
+                            <option value = "A"> A </option>
+                            <option value ="A#"> A# </option>
+                            <option value = "B"> B </option>
+                            <option value = "C"> C </option>
+                            <option value ="C#"> C# </option>
+                            <option value = "D"> D </option>
+                            <option value ="D#"> D# </option>
+                            <option value = "E"> E </option>
+                            <option value = "F"> F </option>
+                            <option value ="F#"> F# </option>
+                            <option value = "G"> G </option>
+                            <option value ="G#"> G# </option>
                         </select>
                     </div>
                 </div>
                 <div className="p-6">
-                    <h2 className="col-span-4 text-3xl font-medium font-HindSiliguri">Songs Containing </h2>
+                    <h2 className="col-span-4 text-3xl font-medium font-HindSiliguri">ChordS</h2>
+                    <div>
+                        <p>{ChordSel}</p>
+                    </div>
                 </div>
             </main>
+
+            {/* This div will house the css grid and its items */}
+            {/* setting the number of coluns and rows, rows are auto set with this config */}
+            <div className="grid gap-x-4 gap-y-12 grid-cols-4 grid-flow-row">
+                <div>
+                    <img className ="test image" src="/favicon.ico"></img>
+                </div>
+                <div><img className ="test image" src="/favicon.ico"></img></div>
+                <div>03</div>
+                <div>04</div>
+                <div><img className ="test image" src="/favicon.ico"></img></div>
+                <div>Text<img className ="test image" src="/favicon.ico"></img></div>
+            </div>
         </div>
     );
 };
