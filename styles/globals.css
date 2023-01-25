@@ -8,6 +8,32 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  overflow: hidden;
+}
+
+.indexh2 {
+  margin-left: 56px;
+  margin-top: -175px;
+  width: 550px;
+  position: absolute;
+  font-family: -semibold, -HindSiliguri;
+  font-size: 50px;
+  position: center;
+  font-weight: bold;
+}
+
+.indexp {
+  font-family: -IBMPlexSans;
+  margin-left: 55px;
+  width: 550px;
+  font-size: 29px;
+  font-weight: 500px;
+}
+
+.indexbut {
+  margin-top: 30px;
+  font-size: 25px;
+  font-weight: bold;
 }
 
 a {
