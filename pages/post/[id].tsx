@@ -8,7 +8,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 
 const PostPage = (props) => {
     const [comments, loading, error] = useCollection(
-        query(collection(db, 'Comments'), where('parentPost', '==', props.id, orderBy('created', 'desc'),)),
+        query(collection(db, 'Comments'), where('parentPost', '==', props.id)),
         {
             snapshotListenOptions: { includeMetadataChanges: true },
         }
@@ -45,17 +45,21 @@ const PostPage = (props) => {
                     <ul>
                         {error && <strong>Error! <br /> {JSON.stringify(error)} {console.log(comments)} </strong>}
                         {loading && <em>Loading...</em>}
-                        {comments && comments.docs.map((p) => {
+                        {comments && comments.docs.map((c) => {
+                            console.log(c)
                             return (
-                                <div id='comment' className='w-10/12 p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
-                                    <p id='comment-content' className='pb-6'>This is content! This is content! This is content! This is content! This is content! This is content! This is content! This is content! This is content!This is content! This is content! This is content!</p>
+                                <div id='comment' key={c.id} className='w-10/12 p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
+                                    <p id='comment-content' className='pb-6'>{c.data().comment}</p>
 
                                     <div className='flex flex-row items-end space-x-4 font-HindSiliguri'>
                                         <div className='mr-auto space-x-4'>
                                             <button className='p-2 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>Helpful</button>
                                             <button className='p-2 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>Unhelpful</button>
                                         </div>
-                                        <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <span className='underline'>Chuck Shuldiner</span></h4>
+                                        <div>
+                                            <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <span className='underline'>{c.data().author}</span></h4>
+                                            <h4 id='comment-author' className='pb-0 text-sm font-medium font-HindSiliguri'>Posted <em>{new Date(props.post.created).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{new Date(props.post.created).toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
+                                        </div>
                                     </div>
                                 </div>
                             )
