@@ -7,18 +7,18 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 
 const PostPage = (props) => {
     return (
-        <>
-            <div id='header'>
-                <h1>{props.post.title}</h1>
-                <h2>From {props.post.author}</h2>
-                <h2>Post created on {new Date(props.post.created).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })} at {new Date(props.post.created).toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })} </h2>
+        <div className='flex flex-col items-center w-1/2 mx-auto mt-10 space-y-6' id='page'>
+            <div id='header' className='flex flex-col items-center text-center '>
+                <h1 className='text-4xl font-medium font-HindSiliguri'>{props.post.title}</h1>
+                <h2 className='font-IBMPlexSans'>From <span className='underline'>{props.post.author}</span></h2>
+                <h2 className='font-IBMPlexSans'>Submitted on <em>{new Date(props.post.created).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{new Date(props.post.created).toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em> </h2>
             </div>
 
-            <div id='body'>
+            <div id='body' className='flex flex-col justify-center space-x-4 space-y-2 lg:space-y-0 lg:flex-row'>
+                <p className=''>{props.post.description}</p>
                 <iframe loading="lazy" className="h-full" src={props.post.vidLink + '?autoplay=0&controls=0'}></iframe>
-                <p>{props.post.description}</p>
             </div>
-        </>
+        </div>
     )
 }
 
