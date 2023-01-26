@@ -7,7 +7,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 
 const PostPage = (props) => {
     return (
-        <div>{props.postTitle}</div>
+        <div>{props.post.title}</div>
     )
 }
 
@@ -16,8 +16,15 @@ const getDocumentData = async (id: string) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-        return (docSnap.data())
+        var returnDoc = {
+            title: docSnap.data().title,
+            author: docSnap.data().author,
+            description: docSnap.data().description,
+            vidLink: docSnap.data().vidLink,
+            created: JSON.parse(JSON.stringify(docSnap.data().created.toDate()))
+        }
+        console.log(returnDoc)
+        return (returnDoc)
     } else {
         // doc.data() will be undefined in this case
         console.log("Error 4001");
@@ -30,7 +37,6 @@ const getCollectionData = async () => {
     querySnapshot.forEach((doc) => {
         collect.push({ params: { id: doc.id } })
     });
-    console.log('collection data!! ', collect)
     return collect
 }
 
@@ -38,11 +44,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const postData = await getDocumentData(context.params?.id);
     return {
         props: {
-            postTitle: postData.title,
-            postAuthor: postData.author,
-            postDescription: postData.description,
-            postVidLink: postData.vidLink
-
+            post: postData
         },
     };
 };
