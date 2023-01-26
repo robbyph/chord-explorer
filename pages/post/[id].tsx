@@ -7,7 +7,18 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 
 const PostPage = (props) => {
     return (
-        <div>{props.post.title}</div>
+        <>
+            <div id='header'>
+                <h1>{props.post.title}</h1>
+                <h2>From {props.post.author}</h2>
+                <h2>Post created on {new Date(props.post.created).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })} at {new Date(props.post.created).toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })} </h2>
+            </div>
+
+            <div id='body'>
+                <iframe loading="lazy" className="h-full" src={props.post.vidLink + '?autoplay=0&controls=0'}></iframe>
+                <p>{props.post.description}</p>
+            </div>
+        </>
     )
 }
 
