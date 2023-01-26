@@ -19,16 +19,17 @@ const PostPage = (props) => {
                     <iframe loading="lazy" className="h-full" src={props.post.vidLink + '?autoplay=0&controls=0'}></iframe>
                 </div>
             </div>
-            <div id='comments' className='grid justify-center grid-cols-3 px-4'>
-                <div id='leftCol' className='justify-center'>
+            <div id='comments' className='grid justify-center grid-cols-12 px-4'>
+                <div id='leftCol' className='justify-center col-span-5 text-center'>
                     <h2 className='text-3xl pb-[.37rem] font-semibold text-center font-HindSiliguri'>Leave Feedback</h2>
                     <hr className="border-[1.5px] justify-center rounded-full mx-auto w-[30rem]"></hr>
+                    <textarea type="text" rows={14} className='justify-center w-10/12 mx-auto mt-4 ' />
                 </div>
-                <div id='rightCol' className='justify-center col-span-2'>
+                <div id='rightCol' className='justify-center col-span-7'>
                     <h2 className='text-3xl pb-[.37rem] font-semibold text-center font-HindSiliguri'>Read Feedback</h2>
                     <hr className="border-[1.5px] justify-center rounded-full mx-auto w-[30rem]"></hr>
                     <div id='comments section' className='flex flex-col items-center'>
-                        <div id='comment' className='p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans lg:w-7/12'>
+                        <div id='comment' className='w-10/12 p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
                             <p id='comment-content' className='pb-6'>This is content! This is content! This is content! This is content! This is content! This is content! This is content! This is content! This is content!This is content! This is content! This is content!</p>
 
                             <div className='flex flex-row items-end space-x-4 font-HindSiliguri'>
