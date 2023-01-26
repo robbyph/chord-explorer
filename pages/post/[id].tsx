@@ -28,13 +28,15 @@ const PostPage = (props) => {
                     <h2 className='text-3xl pb-[.37rem] font-semibold text-center font-HindSiliguri'>Read Feedback</h2>
                     <hr className="border-[1.5px] justify-center rounded-full mx-auto w-[30rem]"></hr>
                     <div id='comments section' className='flex flex-col items-center'>
-                        <div id='comment' className='p-4 mt-4 text-black bg-white font-IBMPlexSans lg:w-7/12'>
+                        <div id='comment' className='p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans lg:w-7/12'>
                             <p id='comment-content' className='pb-6'>This is content! This is content! This is content! This is content! This is content! This is content! This is content! This is content! This is content!This is content! This is content! This is content!</p>
 
-                            <div className='flex flex-row items-end space-x-4'>
-                                <button className='p-2 border-2 border-black rounded-lg'>Helpful</button>
-                                <button className='p-2 border-2 border-black rounded-lg'>Unhelpful</button>
-                                <h4 id='comment-author' className='pt-4 pb-0 pl-48 text-lg font-medium'>From <span className='underline'>Chuck Shuldiner</span></h4>
+                            <div className='flex flex-row items-end space-x-4 font-HindSiliguri'>
+                                <div className='mr-auto space-x-4'>
+                                    <button className='p-2 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>Helpful</button>
+                                    <button className='p-2 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>Unhelpful</button>
+                                </div>
+                                <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <span className='underline'>Chuck Shuldiner</span></h4>
                             </div>
                         </div>
                     </div>
