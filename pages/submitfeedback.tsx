@@ -50,7 +50,7 @@ const SubmitFeedback: NextPage = () => {
 
                     <div>
                         <label htmlFor='description' className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">Description</label>
-                        <input className='w-full p-1 text-lg font-IBMPlexSans' minLength={20} type='text' onChange={(e) => { setDescription(e.target.value) }} name='description' value={description} required />
+                        <textarea className='w-full p-1 text-lg h-80 font-IBMPlexSans' minLength={25} onChange={(e) => { setDescription(e.target.value) }} name='description' value={description} required />
                     </div>
 
                     <div>
