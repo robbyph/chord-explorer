@@ -16,7 +16,8 @@ const PostPage = (props) => {
                 </div>
                 <div id='body' className='flex flex-col justify-center pb-16 space-x-4 space-y-2 lg:space-y-0 lg:flex-row'>
                     <p className=''>{props.post.description}</p>
-                    <iframe loading="lazy" className="h-full" src={props.post.vidLink + '?autoplay=0&controls=0'}></iframe>
+                    <iframe loading="lazy" className="h-60" src={props.post.vidLink + '?autoplay=0&controls=0'}></iframe>
+
                 </div>
             </div>
             <div id='comments' className='grid justify-center grid-cols-12 px-4 pb-8'>
