@@ -14,7 +14,7 @@ const PostPage = (props) => {
                     <h3 className='font-IBMPlexSans'>From <span className='underline'>{props.post.author}</span></h3>
                     <h3 className='font-IBMPlexSans'>Submitted on <em>{new Date(props.post.created).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{new Date(props.post.created).toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em> </h3>
                 </div>
-                <div id='body' className='flex flex-col justify-center pb-16 space-x-4 space-y-2 lg:space-y-0 lg:flex-row'>
+                <div id='body' className='flex flex-col justify-center pb-16 space-x-16 space-y-2 lg:space-y-0 lg:flex-row'>
                     <p className=''>{props.post.description}</p>
                     <iframe loading="lazy" className="h-60" src={props.post.vidLink + '?autoplay=0&controls=0'}></iframe>
 
@@ -24,7 +24,11 @@ const PostPage = (props) => {
                 <div id='leftCol' className='justify-center col-span-5 text-center'>
                     <h2 className='text-3xl pb-[.37rem] font-semibold text-center font-HindSiliguri'>Leave Feedback</h2>
                     <hr className="border-[1.5px] justify-center rounded-full mx-auto w-[30rem]"></hr>
-                    <textarea type="text" rows={14} className='justify-center w-10/12 mx-auto mt-4 ' />
+                    <div className='flex flex-col pl-6 pr-6 space-y-2 '>
+                        <textarea type="text" rows={14} className='justify-center w-10/12 mx-auto mt-4 mb-4' />
+                        <input value="Submit" onClick={(e) => { check ? handleSubmit(e) : 'AHHH' }} className="p-2 m-2 ml-auto mr-14 w-1/4 bg-white border-2 text-lg rounded cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
+                    </div>
+
                 </div>
                 <div id='rightCol' className='justify-center col-span-7'>
                     <h2 className='text-3xl pb-[.37rem] font-semibold text-center font-HindSiliguri'>Read Feedback</h2>
@@ -44,7 +48,7 @@ const PostPage = (props) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
 
     )
 }
