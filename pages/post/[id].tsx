@@ -19,7 +19,7 @@ const PostPage = (props) => {
                     <iframe loading="lazy" className="h-full" src={props.post.vidLink + '?autoplay=0&controls=0'}></iframe>
                 </div>
             </div>
-            <div id='comments' className='grid justify-center grid-cols-12 px-4'>
+            <div id='comments' className='grid justify-center grid-cols-12 px-4 pb-8'>
                 <div id='leftCol' className='justify-center col-span-5 text-center'>
                     <h2 className='text-3xl pb-[.37rem] font-semibold text-center font-HindSiliguri'>Leave Feedback</h2>
                     <hr className="border-[1.5px] justify-center rounded-full mx-auto w-[30rem]"></hr>
