@@ -26,6 +26,8 @@ const SubmitFeedback: NextPage = () => {
         });
     };
 
+    console.log(description)
+
     return (
         <div>
             <Head>
@@ -50,7 +52,7 @@ const SubmitFeedback: NextPage = () => {
 
                     <div>
                         <label htmlFor='description' className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">Description</label>
-                        <textarea className='w-full p-1 text-lg h-80 font-IBMPlexSans' minLength={25} onChange={(e) => { setDescription(e.target.value) }} name='description' value={description} required />
+                        <textarea className='w-full p-1 min-h-[23rem] font-IBMPlexSans' minLength={25} onChange={(e) => { setDescription(e.target.value) }} name='description' value={description} required />
                     </div>
 
                     <div>
@@ -61,12 +63,14 @@ const SubmitFeedback: NextPage = () => {
                     <input value="Submit" onClick={(e) => { check ? handleSubmit(e) : 'AHHH' }} className="p-2 m-2 ml-0 bg-white border-2 text-lg rounded cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
                 </div>
                 <div className='col-span-2 px-20'>
-                    <h2 className='pb-3 pl-2 text-xl font-medium text-center text-white font-IBMPlexSans'>Submission Preview</h2>
-                    <div className='flex flex-col items-center text-black bg-white'>
-                        <h3 className='p-2 pb-0 text-2xl font-medium font-HindSiliguri'>{title.length > 0 ? title : 'Title Placeholder'}</h3>
-                        <p className='p-2 pt-1 text-sm font-IBMPlexSans text-[#808080]'>Submitted by <span className='underline'>Current User</span></p>
-                        <embed className='p-2' width="560" height="315" src={vidLink.length > 0 ? vidLink : 'https://www.youtube.com/embed/ScMzIvxBSi4'} title="Video Submission" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></embed>
-                        <p className='p-2 pb-6 font-IBMPlexSans'>{description.length > 0 ? description : 'Type a description for your post, and it will appear here!'}</p>
+                    <h2 className='block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl'>Submission Preview</h2>
+                    <div className='flex flex-col text-black bg-white'>
+                        <div className='flex flex-col items-center'>
+                            <h3 className='p-2 pb-0 text-2xl font-medium font-HindSiliguri'>{title.length > 0 ? title : 'Title Placeholder'}</h3>
+                            <p className='p-2 pt-1 text-sm font-IBMPlexSans text-[#808080]'>Submitted by <span className='underline'>Current User</span></p>
+                            <embed className='p-2' width="560" height="315" src={vidLink.length > 0 ? vidLink : 'https://www.youtube.com/embed/ScMzIvxBSi4'} title="Video Submission" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></embed>
+                        </div>
+                        <pre className='p-2 pb-6 pl-0 ml-14 font-IBMPlexSans'>{description.length > 0 ? description : 'Type a description for your post, and it will appear here!'}</pre>
                     </div>
                 </div>
             </main>
