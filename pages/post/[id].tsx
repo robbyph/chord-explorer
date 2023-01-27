@@ -13,7 +13,7 @@ import { CensorType } from '@2toad/profanity/dist/models';
 const PostPage = (props) => {
     const [newComment, setNewComment] = useState('');
     const [comments, loading, error] = useCollection(
-        query(collection(db, 'Comments'), where('parentPost', '==', props.id)),
+        query(collection(db, 'Comments'), where('parentPost', '==', props.id), orderBy('created', 'desc')),
         {
             snapshotListenOptions: { includeMetadataChanges: true },
         }
