@@ -1,7 +1,7 @@
 //@ts-nocheck
 
 import React from 'react'
-import { doc, getDoc, collection, getDocs, query, orderBy, where, addDoc, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, query, orderBy, where, addDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from '../../firebase/firestore'
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useCollection } from 'react-firebase-hooks/firestore';
@@ -30,6 +30,25 @@ const PostPage = (props) => {
         });
     };
 
+    const handleUpvote = (c) => {
+        const upvoteRef = doc(db, 'Comments', c.id)
+        const upvoteCount = c.data().helpfulCount + 1;
+
+        return updateDoc(upvoteRef, {
+            updated: serverTimestamp(),
+            helpfulCount: upvoteCount,
+        });
+    };
+
+    const handleDownvote = (c) => {
+        const downvoteRef = doc(db, 'Comments', c.id)
+        const downvoteCount = c.data().unhelpfulCount + 1;
+
+        return updateDoc(downvoteRef, {
+            updated: serverTimestamp(),
+            unhelpfulCount: downvoteCount,
+        });
+    };
 
 
     return (
@@ -68,8 +87,8 @@ const PostPage = (props) => {
 
                                     <div className='flex flex-row items-end space-x-4 font-HindSiliguri'>
                                         <div className='mr-auto space-x-4'>
-                                            <button className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().helpfulCount} | Helpful</button>
-                                            <button className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().helpfulCount} | Unhelpful</button>
+                                            <button onClick={() => handleUpvote(c)} className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().helpfulCount} | Helpful</button>
+                                            <button onClick={() => handleDownvote(c)} className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().unhelpfulCount} | Unhelpful</button>
                                         </div>
                                         <div>
                                             <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <span className='underline'>{c.data().author}</span></h4>
