@@ -31,6 +31,7 @@ const PostPage = (props) => {
     };
 
 
+
     return (
         <div id='page'>
             <div className='flex flex-col items-center w-1/2 mx-auto mt-10 space-y-6' >
@@ -42,7 +43,6 @@ const PostPage = (props) => {
                 <div id='body' className='flex flex-col justify-center pb-16 space-x-16 space-y-2 lg:space-y-0 lg:flex-row'>
                     <p className=''>{props.post.description}</p>
                     <iframe loading="lazy" className="h-60" src={props.post.vidLink + '?autoplay=0&controls=0'}></iframe>
-
                 </div>
             </div>
             <div id='comments' className='grid justify-center grid-cols-12 px-4 pb-8'>
@@ -59,10 +59,9 @@ const PostPage = (props) => {
                     <h2 className='text-3xl pb-[.37rem] font-semibold text-center font-HindSiliguri'>Read Feedback</h2>
                     <hr className="border-[1.5px] justify-center rounded-full mx-auto w-[30rem]"></hr>
                     <ul>
-                        {error && <strong>Error! <br /> {JSON.stringify(error)} {console.log(comments)} </strong>}
+                        {error && <strong>Error! <br /> {JSON.stringify(error)} </strong>}
                         {loading && <em>Loading...</em>}
                         {comments && comments.docs.map((c) => {
-                            console.log(c)
                             return (
                                 <div id='comment' key={c.id} className='w-10/12 p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
                                     <p id='comment-content' className='pb-6'>{c.data().comment}</p>
@@ -74,7 +73,7 @@ const PostPage = (props) => {
                                         </div>
                                         <div>
                                             <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <span className='underline'>{c.data().author}</span></h4>
-                                            <h4 id='comment-author' className='pb-0 text-sm font-medium font-HindSiliguri'>Posted <em>{new Date(props.post.created).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{new Date(props.post.created).toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
+                                            <h4 id='comment-author' className='pb-0 text-sm font-medium font-HindSiliguri'>Posted <em>{c.data().created.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{c.data().created.toDate().toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -94,6 +93,7 @@ const PostPage = (props) => {
 const getDocumentData = async (id: string) => {
     const docRef = doc(db, 'Posts', id);
     const docSnap = await getDoc(docRef);
+
 
     if (docSnap.exists()) {
         var returnDoc = {
