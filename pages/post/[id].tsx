@@ -7,6 +7,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useState } from 'react';
 import { Profanity, ProfanityOptions } from '@2toad/profanity';
+import { CensorType } from '@2toad/profanity/dist/models';
 
 
 const PostPage = (props) => {
@@ -92,7 +93,7 @@ const PostPage = (props) => {
                         {comments && comments.docs.map((c) => {
                             return (
                                 <div id='comment' key={c.id} className='w-10/12 p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
-                                    <p id='comment-content' className='pb-6'>{profanity.censor(c.data().comment)}</p>
+                                    <p id='comment-content' className='pb-6'>{profanity.censor(c.data().comment, CensorType.AllVowels)}</p>
 
                                     <div className='flex flex-row items-end space-x-4 font-HindSiliguri'>
                                         <div className='mr-auto space-x-4'>
