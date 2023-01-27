@@ -1,18 +1,34 @@
 //@ts-nocheck
 
 import React from 'react'
-import { doc, getDoc, collection, getDocs, query, orderBy, where } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, query, orderBy, where, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from '../../firebase/firestore'
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useCollection } from 'react-firebase-hooks/firestore';
+import { useState } from 'react';
 
 const PostPage = (props) => {
+    const [newComment, setNewComment] = useState('');
     const [comments, loading, error] = useCollection(
         query(collection(db, 'Comments'), where('parentPost', '==', props.id)),
         {
             snapshotListenOptions: { includeMetadataChanges: true },
         }
     );
+
+    const handleSubmit = (e) => {
+        const CommentsRef = collection(db, 'Comments')
+
+        return addDoc(CommentsRef, {
+            created: serverTimestamp(),
+            //fields for the data to be sent to, make sure to separate each with a comma
+            comment: newComment,
+            author: 'Current User',
+            helpfulCount: 0,
+            unhelpfulCount: 0,
+            parentPost: props.id
+        });
+    };
 
 
     return (
@@ -34,8 +50,8 @@ const PostPage = (props) => {
                     <h2 className='text-3xl pb-[.37rem] font-semibold text-center font-HindSiliguri'>Leave Feedback</h2>
                     <hr className="border-[1.5px] justify-center rounded-full mx-auto w-[30rem]"></hr>
                     <div className='flex flex-col pl-6 pr-6 space-y-2 '>
-                        <textarea type="text" rows={14} className='justify-center w-10/12 mx-auto mt-4 mb-4' />
-                        <input value="Submit" onClick={(e) => { check ? handleSubmit(e) : 'AHHH' }} className="p-2 m-2 ml-auto mr-14 w-1/4 bg-white border-2 text-lg rounded cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
+                        <textarea type="text" onChange={(e) => { setNewComment(e.target.value) }} rows={14} className='justify-center w-10/12 mx-auto mt-4 mb-4' />
+                        <input value="Submit" onClick={(e) => { handleSubmit(e); setNewComment('') }} className="p-2 m-2 ml-auto mr-14 w-1/4 bg-white border-2 text-lg rounded cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
                     </div>
 
                 </div>
