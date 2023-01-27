@@ -6,6 +6,8 @@ import { db } from '../../firebase/firestore'
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useState } from 'react';
+import { Profanity, ProfanityOptions } from '@2toad/profanity';
+
 
 const PostPage = (props) => {
     const [newComment, setNewComment] = useState('');
@@ -50,6 +52,13 @@ const PostPage = (props) => {
         });
     };
 
+    const options = new ProfanityOptions();
+    options.wholeWord = false;
+    options.grawlix = '*****';
+    options.grawlixChar = '$';
+
+    const profanity = new Profanity(options);
+
 
     return (
         <div id='page'>
@@ -83,7 +92,7 @@ const PostPage = (props) => {
                         {comments && comments.docs.map((c) => {
                             return (
                                 <div id='comment' key={c.id} className='w-10/12 p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
-                                    <p id='comment-content' className='pb-6'>{c.data().comment}</p>
+                                    <p id='comment-content' className='pb-6'>{profanity.censor(c.data().comment)}</p>
 
                                     <div className='flex flex-row items-end space-x-4 font-HindSiliguri'>
                                         <div className='mr-auto space-x-4'>
@@ -92,7 +101,7 @@ const PostPage = (props) => {
                                         </div>
                                         <div>
                                             <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <span className='underline'>{c.data().author}</span></h4>
-                                            <h4 id='comment-author' className='pb-0 text-sm font-medium font-HindSiliguri'>Posted <em>{c.data().created.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{c.data().created.toDate().toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
+                                            <h4 id='comment-author' className='pb-0 text-sm font-medium font-HindSiliguri'>Posted <em>{c.data().created?.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{c.data().created?.toDate().toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
                                         </div>
                                     </div>
                                 </div>
