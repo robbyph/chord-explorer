@@ -68,8 +68,8 @@ const PostPage = (props) => {
 
                                     <div className='flex flex-row items-end space-x-4 font-HindSiliguri'>
                                         <div className='mr-auto space-x-4'>
-                                            <button className='p-2 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>Helpful</button>
-                                            <button className='p-2 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>Unhelpful</button>
+                                            <button className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().helpfulCount} | Helpful</button>
+                                            <button className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().helpfulCount} | Unhelpful</button>
                                         </div>
                                         <div>
                                             <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <span className='underline'>{c.data().author}</span></h4>
@@ -86,7 +86,6 @@ const PostPage = (props) => {
                 </div>
             </div>
         </div >
-
     )
 }
 
