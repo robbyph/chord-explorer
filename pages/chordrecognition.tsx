@@ -107,6 +107,8 @@ const ChordRecognition = () => {
             await loadSound(createObjectURL).then(() => {
                 chordDetection();
             });
+            setSubmittedIndicator(false)
+
         }
     }
 
@@ -117,7 +119,7 @@ const ChordRecognition = () => {
             setFile(i);
             setCreateObjectURL(URL.createObjectURL(i));
             setSubmitWarning(false)
-            setSubmittedIndicator(false)
+            setSubmittedIndicator(true)
         }
     };
 
