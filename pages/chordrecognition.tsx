@@ -38,6 +38,7 @@ const ChordRecognition = () => {
         console.log(sourceBuffer)
         if (sourceBuffer === undefined) {
             setRecognitionWarning(true)
+            setSubmitWarning(false)
         } else {
             var channelData = Array.from(sourceBuffer.getChannelData(0));
             var channelDataSilenceRemoved = await silenceRemovalAlgorithm(channelData);
@@ -99,6 +100,7 @@ const ChordRecognition = () => {
     }
 
     const uploadToServer = async () => {
+        setRecognitionWarning(false)
         if (file === null) {
             setSubmitWarning(true)
         } else {
@@ -107,8 +109,7 @@ const ChordRecognition = () => {
             const response = await fetch("/api/file", {
                 method: "POST",
                 body
-            }).then(loadSound(createObjectURL));
-            //setRecognitionWarning(false)
+            }).then(loadSound(createObjectURL))
             //setSubmittedIndicator(true)
         }
     };
