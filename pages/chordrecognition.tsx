@@ -14,9 +14,13 @@ const ChordRecognition = () => {
     const hiddenFileInput = useRef(null);
     const [file, setFile] = useState(null)
     const [createObjectURL, setCreateObjectURL] = useState(null);
+    const [recognitionWarning, setRecognitionWarning] = useState(false)
+    const [submitWarning, setSubmitWarning] = useState(false)
+    const [submittedIndicator, setSubmittedIndicator] = useState(false)
 
 
-    function loadSound(url: string | URL) {
+
+    async function loadSound(url: string | URL) {
         context = new AudioContext();
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
@@ -25,18 +29,21 @@ const ChordRecognition = () => {
         request.onload = function () {
             context.decodeAudioData(request.response, function (buffer) {
                 sourceBuffer = buffer;
-                console.log('buffer', sourceBuffer)
             });
         }
         request.send();
-
     }
 
     async function chordDetection() {
-        var channelData = Array.from(sourceBuffer.getChannelData(0));
-        var channelDataSilenceRemoved = await silenceRemovalAlgorithm(channelData);
-        let chords = detectChords(channelDataSilenceRemoved, 44100);
-        setDetectedChords(chordFiltering(chords))
+        console.log(sourceBuffer)
+        if (sourceBuffer === undefined) {
+            setRecognitionWarning(true)
+        } else {
+            var channelData = Array.from(sourceBuffer.getChannelData(0));
+            var channelDataSilenceRemoved = await silenceRemovalAlgorithm(channelData);
+            let chords = detectChords(channelDataSilenceRemoved, 44100);
+            setDetectedChords(chordFiltering(chords))
+        }
     }
 
     function chordFiltering(chords: any[]) {
@@ -91,14 +98,19 @@ const ChordRecognition = () => {
         }
     }
 
-    const uploadToServer = async (event) => {
-        const body = new FormData();
-        body.append("file", file);
-        const response = await fetch("/api/file", {
-            method: "POST",
-            body
-        }).then(loadSound(createObjectURL));
-
+    const uploadToServer = async () => {
+        if (file === null) {
+            setSubmitWarning(true)
+        } else {
+            const body = new FormData();
+            body.append("file", file);
+            const response = await fetch("/api/file", {
+                method: "POST",
+                body
+            }).then(loadSound(createObjectURL));
+            //setRecognitionWarning(false)
+            //setSubmittedIndicator(true)
+        }
     };
 
     const uploadToClient = (event) => {
@@ -107,6 +119,8 @@ const ChordRecognition = () => {
 
             setFile(i);
             setCreateObjectURL(URL.createObjectURL(i));
+            setSubmitWarning(false)
+            setSubmittedIndicator(false)
         }
     };
 
@@ -126,7 +140,10 @@ const ChordRecognition = () => {
                 <h2 className="col-span-4 pb-4 text-2xl font-HindSiliguri">Powered by AI</h2>
                 <div className="col-span-4 p-2 pl-0 m-2 mb-8 ml-0 ">
                     <h2 className="col-span-4 pt-2 mb-2 text-2xl font-HindSiliguri">Upload an MP3 or WAV Audio File</h2>
-                    <input type="file" name="myImage" className="mb-2" onChange={uploadToClient} /> <br />
+                    {submitWarning ? <p className="font-bold text-red-500">Please select an audio file before hitting upload...</p> : ''}
+                    {recognitionWarning ? <p className="font-bold text-red-500">Please upload an audio file before generating chord data...</p> : ''}
+                    {submittedIndicator ? <p className="font-bold text-white">Uploaded!</p> : ''}
+                    <input type="file" name="myImage" className="my-2" onChange={uploadToClient} /> <br />
                     <button
                         className="p-2 border active:text-purple-600 active:bg-white"
                         type="submit"
