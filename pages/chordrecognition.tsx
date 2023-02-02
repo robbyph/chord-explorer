@@ -1,15 +1,18 @@
 //@ts-nocheck
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Head from "next/head";
 import { detectChords } from "../akkorder/src/index";
 import { silenceRemovalAlgorithm } from "../utilities/remove_silence";
+
 
 const ChordRecognition = () => {
 
     var sourceBuffer: AudioBuffer;
     var context: AudioContext;
     const [detectedChords, setDetectedChords] = useState([]);
+    const hiddenFileInput = useRef(null);
+
 
     function loadSound(url: string | URL) {
         context = new AudioContext();
@@ -89,6 +92,10 @@ const ChordRecognition = () => {
         }
     }
 
+    function uploadFile() {
+
+    }
+
 
     return (
         <div>
@@ -103,6 +110,27 @@ const ChordRecognition = () => {
             <main className="p-6 m-2">
                 <h1 className="col-span-4 text-4xl font-semibold font-HindSiliguri">Chord Recognition</h1>
                 <h2 className="col-span-4 pb-4 text-2xl font-HindSiliguri">Powered by AI</h2>
+                <button
+                    className="p-2 mb-4 border active:text-purple-600 active:bg-white"
+                    onClick={() => {
+                        hiddenFileInput.current.click();
+                    }}
+                >
+                    <label htmlFor="fileUpload">
+                        <span className="screenreader" hidden>
+                            Upload an mp3 file
+                        </span>
+                    </label>
+                    <input
+                        id="fileUpload"
+                        type="file"
+                        ref={hiddenFileInput}
+                        accept=".mp3"
+                        onChange={uploadFile}
+                        hidden
+                    />
+                    Upload an mp3 file
+                </button> <br />
                 <button className="col-span-4 px-2 py-2 text-xl border font-IBMPlexSans font-medium bg-white text-[#5B21B6] rounded" onClick={() => chordDetection()}>Detect Chords</button>
                 <h2 className="col-span-4 pt-2 text-2xl font-HindSiliguri">Chords Detected</h2>
                 <ul className="list-disc list-inside font-IBMPlexSans">
