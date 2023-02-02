@@ -12,6 +12,8 @@ const ChordRecognition = () => {
     var context: AudioContext;
     const [detectedChords, setDetectedChords] = useState([]);
     const hiddenFileInput = useRef(null);
+    const [file, setFile] = useState(null)
+    const [createObjectURL, setCreateObjectURL] = useState(null);
 
 
     function loadSound(url: string | URL) {
@@ -23,15 +25,12 @@ const ChordRecognition = () => {
         request.onload = function () {
             context.decodeAudioData(request.response, function (buffer) {
                 sourceBuffer = buffer;
+                console.log('buffer', sourceBuffer)
             });
         }
         request.send();
 
     }
-
-    useEffect(() => {
-        loadSound('example2.mp3')
-    }, [])
 
     async function chordDetection() {
         var channelData = Array.from(sourceBuffer.getChannelData(0));
@@ -92,9 +91,24 @@ const ChordRecognition = () => {
         }
     }
 
-    function uploadFile() {
+    const uploadToServer = async (event) => {
+        const body = new FormData();
+        body.append("file", file);
+        const response = await fetch("/api/file", {
+            method: "POST",
+            body
+        }).then(loadSound(createObjectURL));
 
-    }
+    };
+
+    const uploadToClient = (event) => {
+        if (event.target.files && event.target.files[0]) {
+            const i = event.target.files[0];
+
+            setFile(i);
+            setCreateObjectURL(URL.createObjectURL(i));
+        }
+    };
 
 
     return (
@@ -110,26 +124,13 @@ const ChordRecognition = () => {
             <main className="p-6 m-2">
                 <h1 className="col-span-4 text-4xl font-semibold font-HindSiliguri">Chord Recognition</h1>
                 <h2 className="col-span-4 pb-4 text-2xl font-HindSiliguri">Powered by AI</h2>
+                <input type="file" name="myImage" onChange={uploadToClient} />
                 <button
                     className="p-2 mb-4 border active:text-purple-600 active:bg-white"
-                    onClick={() => {
-                        hiddenFileInput.current.click();
-                    }}
+                    type="submit"
+                    onClick={uploadToServer}
                 >
-                    <label htmlFor="fileUpload">
-                        <span className="screenreader" hidden>
-                            Upload an mp3 file
-                        </span>
-                    </label>
-                    <input
-                        id="fileUpload"
-                        type="file"
-                        ref={hiddenFileInput}
-                        accept=".mp3"
-                        onChange={uploadFile}
-                        hidden
-                    />
-                    Upload an mp3 file
+                    Send to server
                 </button> <br />
                 <button className="col-span-4 px-2 py-2 text-xl border font-IBMPlexSans font-medium bg-white text-[#5B21B6] rounded" onClick={() => chordDetection()}>Detect Chords</button>
                 <h2 className="col-span-4 pt-2 text-2xl font-HindSiliguri">Chords Detected</h2>
