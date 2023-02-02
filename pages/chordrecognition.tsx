@@ -124,14 +124,17 @@ const ChordRecognition = () => {
             <main className="p-6 m-2">
                 <h1 className="col-span-4 text-4xl font-semibold font-HindSiliguri">Chord Recognition</h1>
                 <h2 className="col-span-4 pb-4 text-2xl font-HindSiliguri">Powered by AI</h2>
-                <input type="file" name="myImage" onChange={uploadToClient} />
-                <button
-                    className="p-2 mb-4 border active:text-purple-600 active:bg-white"
-                    type="submit"
-                    onClick={uploadToServer}
-                >
-                    Send to server
-                </button> <br />
+                <div className="col-span-4 p-2 pl-0 m-2 mb-8 ml-0 ">
+                    <h2 className="col-span-4 pt-2 mb-2 text-2xl font-HindSiliguri">Upload an MP3 or WAV Audio File</h2>
+                    <input type="file" name="myImage" className="mb-2" onChange={uploadToClient} /> <br />
+                    <button
+                        className="p-2 border active:text-purple-600 active:bg-white"
+                        type="submit"
+                        onClick={uploadToServer}
+                    >
+                        Upload File
+                    </button>
+                </div>
                 <button className="col-span-4 px-2 py-2 text-xl border font-IBMPlexSans font-medium bg-white text-[#5B21B6] rounded" onClick={() => chordDetection()}>Detect Chords</button>
                 <h2 className="col-span-4 pt-2 text-2xl font-HindSiliguri">Chords Detected</h2>
                 <ul className="list-disc list-inside font-IBMPlexSans">
