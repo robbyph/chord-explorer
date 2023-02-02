@@ -1,6 +1,6 @@
 //@ts-nocheck
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import { detectChords } from "../akkorder/src/index";
 import { silenceRemovalAlgorithm } from "../utilities/remove_silence";
@@ -11,7 +11,6 @@ const ChordRecognition = () => {
     var sourceBuffer: AudioBuffer;
     var context: AudioContext;
     const [detectedChords, setDetectedChords] = useState([]);
-    const hiddenFileInput = useRef(null);
     const [file, setFile] = useState(null)
     const [createObjectURL, setCreateObjectURL] = useState(null);
     const [recognitionWarning, setRecognitionWarning] = useState(false)
@@ -22,16 +21,11 @@ const ChordRecognition = () => {
 
     async function loadSound(url: string | URL) {
         context = new AudioContext();
-        var request = new XMLHttpRequest();
-        request.open('GET', url, true);
-        request.responseType = 'arraybuffer';
-        // Decode asynchronously
-        request.onload = function () {
-            context.decodeAudioData(request.response, function (buffer) {
-                sourceBuffer = buffer;
-            });
-        }
-        request.send();
+        const response = await fetch(url);
+        const arrayBuffer = await response.arrayBuffer();
+        await context.decodeAudioData(arrayBuffer, function (buffer) {
+            sourceBuffer = buffer;
+        });
     }
 
     async function chordDetection() {
@@ -104,15 +98,17 @@ const ChordRecognition = () => {
         if (file === null) {
             setSubmitWarning(true)
         } else {
-            const body = new FormData();
-            body.append("file", file);
-            const response = await fetch("/api/file", {
+            const body = new FormData()
+            body.append("file", file)
+            await fetch("/api/file", {
                 method: "POST",
                 body
-            }).then(loadSound(createObjectURL))
-            //setSubmittedIndicator(true)
+            })
+            await loadSound(createObjectURL).then(() => {
+                chordDetection();
+            });
         }
-    };
+    }
 
     const uploadToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
@@ -141,19 +137,13 @@ const ChordRecognition = () => {
                 <h2 className="col-span-4 pb-4 text-2xl font-HindSiliguri">Powered by AI</h2>
                 <div className="col-span-4 p-2 pl-0 m-2 mb-8 ml-0 ">
                     <h2 className="col-span-4 pt-2 mb-2 text-2xl font-HindSiliguri">Upload an MP3 or WAV Audio File</h2>
-                    {submitWarning ? <p className="font-bold text-red-500">Please select an audio file before hitting upload...</p> : ''}
+                    {submitWarning ? <p className="font-bold text-red-500"> Please upload an audio file before generating chord data...</p> : ''}
                     {recognitionWarning ? <p className="font-bold text-red-500">Please upload an audio file before generating chord data...</p> : ''}
                     {submittedIndicator ? <p className="font-bold text-white">Uploaded!</p> : ''}
                     <input type="file" name="myImage" className="my-2" onChange={uploadToClient} /> <br />
-                    <button
-                        className="p-2 border active:text-purple-600 active:bg-white"
-                        type="submit"
-                        onClick={uploadToServer}
-                    >
-                        Upload File
-                    </button>
+
                 </div>
-                <button className="col-span-4 px-2 py-2 text-xl border font-IBMPlexSans font-medium bg-white text-[#5B21B6] rounded" onClick={() => chordDetection()}>Detect Chords</button>
+                <button className="col-span-4 px-2 py-2 text-xl border font-IBMPlexSans font-medium bg-white text-[#5B21B6] rounded" onClick={() => uploadToServer()}>Detect Chords</button>
                 <h2 className="col-span-4 pt-2 text-2xl font-HindSiliguri">Chords Detected</h2>
                 <ul className="list-disc list-inside font-IBMPlexSans">
                     {detectedChords.map((chord, i) => {
