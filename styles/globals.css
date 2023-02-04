@@ -12,28 +12,34 @@ body {
 }
 
 .indexh2 {
-  margin-left: 56px;
-  margin-top: -175px;
-  width: 550px;
+  margin-left: 30px;
+  margin-top: -200px;
+  width: 100%;
   position: absolute;
   font-family: -semibold, -HindSiliguri;
-  font-size: 50px;
+  font-size: 40px;
   position: center;
   font-weight: bold;
+  overflow-y: auto;
 }
 
 .indexp {
   font-family: -IBMPlexSans;
-  margin-left: 55px;
-  width: 550px;
-  font-size: 29px;
+  margin-left: 20px;
+  width: 34%;
+  font-size: 25px;
   font-weight: 500px;
+  margin-top: -50px;
 }
 
 .indexbut {
-  margin-top: 30px;
-  font-size: 25px;
+  margin-top: 20px;
+  margin-left: -10px;
   font-weight: bold;
+}
+
+.button1 {
+  margin: 30px;
 }
 
 a {
