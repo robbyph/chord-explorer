@@ -9,9 +9,9 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@headlessui/react": "^1.7.3",
         "@babel/preset-typescript": "^7.18.6",
         "@headlessui/react": "^1.7.3",
+        "@tombatossals/react-chords": "^0.2.10",
         "audio-buffer-utils": "^5.1.2",
         "audio-decode": "^1.4.0",
         "audiobuffer-to-wav": "^1.0.0",
@@ -27,16 +27,6 @@
         "react-dom": "^17.0.2",
         "react-firebase-hooks": "^5.0.3",
         "react-firebaseui": "^6.0.0"
-    },
-    "devDependencies": {
-        "node-lame": "^1.2.0",
-        "ogg.js": "^0.1.0",
-        "opus.js": "^0.1.1",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "react-firebase-hooks": "^5.0.3",
-        "react-firebaseui": "^6.0.0",
-        "webpack": "^5.75.0"
     },
     "devDependencies": {
         "@babel/core": "^7.20.12",

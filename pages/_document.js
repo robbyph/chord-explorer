@@ -27,11 +27,6 @@ class MyDocument extends Document {
           />
 
           <link rel='shortcut icon' href='/favicon.ico' />
-          <link type="text/css" rel="stylesheet" href="http://jtab.tardate.com/css/jtab-helper.css"/>
-
-          <script src="http://jtab.tardate.com/javascripts/jquery.js" type="text/javascript"></script>
-          <script src="http://jtab.tardate.com/javascripts/raphael.js" type="text/javascript"></script>
-          <script src="http://jtab.tardate.com/javascripts/jtab.js" type="text/javascript"></script>
           <meta name='apple-mobile-web-app-status-bar' content='#312F2F' />
         </Head>
         <body>
