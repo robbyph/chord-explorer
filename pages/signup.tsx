@@ -23,7 +23,7 @@ const SignupPage = () => {
     const onSubmit = async (data: SignupType) => {
         try {
             await signUp(data.email, data.password);
-            router.push("/dashboard");
+            router.push("/accountpage");
         } catch (error: any) {
             console.log(error.message);
         }
