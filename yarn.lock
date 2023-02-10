@@ -1408,10 +1408,10 @@
     protobufjs "^7.0.0"
     yargs "^16.2.0"
 
-"@headlessui/react@^1.7.3":
-  version "1.7.7"
-  resolved "https://registry.npmjs.org/@headlessui/react/-/react-1.7.7.tgz"
-  integrity sha512-BqDOd/tB9u2tA0T3Z0fn18ktw+KbVwMnkxxsGPIH2hzssrQhKB5n/6StZOyvLYP/FsYtvuXfi9I0YowKPv2c1w==
+"@headlessui/react@^1.7.10":
+  version "1.7.10"
+  resolved "https://registry.npmjs.org/@headlessui/react/-/react-1.7.10.tgz"
+  integrity sha512-1m66h/5eayTEZVT2PI13/2PG3EVC7a9XalmUtVSC8X76pcyKYMuyX1XAL2RUtCr8WhoMa/KrDEyoeU5v+kSQOw==
   dependencies:
     client-only "^0.0.1"
 

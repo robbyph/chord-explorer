@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
+import { Menu } from '@headlessui/react';
 
 const Navigation = ({ currentPage }) => {
   const [show, setShow] = useState(false);
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
   const [username, setUsername] = useState('Account');
 
   useEffect(() => {
@@ -21,7 +22,16 @@ const Navigation = ({ currentPage }) => {
         setUsername(user.username);
       }
     }
-  }, [user]);
+  }, [user, currentPage]);
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      router.push('/login');
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <>
@@ -41,9 +51,33 @@ const Navigation = ({ currentPage }) => {
         <Link href='/submitfeedback'>
           <a onClick={() => setShow(false)}>Submit for Feedback</a>
         </Link>
-        <Link href='/accountpage'>
-          <a onClick={() => setShow(false)}>{username}</a>
-        </Link>
+        <Menu as='div'>
+          <Menu.Button>{username}▼</Menu.Button>
+          <Menu.Items className='flex-col divide-y'>
+            <Menu.Item>
+              {({ active }) => (
+                <Link href='/accountpage'>
+                  <a
+                    className={`${active && 'bg-blue-500'}`}
+                    onClick={() => setShow(false)}
+                  >
+                    {username}
+                  </a>
+                </Link>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <a
+                  className={`${active && 'bg-blue-500'}`}
+                  onClick={handleLogout}
+                >
+                  Log Out
+                </a>
+              )}
+            </Menu.Item>
+          </Menu.Items>
+        </Menu>
         <Link href='/submitsong'>
           <a onClick={() => setShow(false)}>Submit A Song</a>
         </Link>
