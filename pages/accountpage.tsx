@@ -8,7 +8,7 @@ import { db } from "../firebase/firestore";
 import Link from "next/link";
 
 
-const accountpage = () => {
+const AccountPage = () => {
     const { user } = useAuth();
     const [account, loading, error] = useCollection(
         query(collection(db, 'Users'), where('userUID', '==', user.uid)),
@@ -106,4 +106,4 @@ const accountpage = () => {
     );
 };
 
-export default accountpage;
+export default AccountPage;
