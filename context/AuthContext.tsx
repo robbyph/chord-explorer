@@ -16,7 +16,6 @@ interface UserType {
     bio: string | null;
     comments: Array<Object> | null;
     posts: Array<Object> | null;
-
 }
 
 const AuthContext = createContext({});
@@ -58,14 +57,12 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
         if (comments) {
             commentData = comments.docs
-            console.log(commentData)
         } else {
             commentData = []
         }
 
-        if (posts != null && posts != undefined && !postsLoading && !postsError) {
+        if (posts) {
             postsData = posts.docs
-            console.log(postsData)
         } else {
             postsData = []
         }
@@ -99,7 +96,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     };
 
     const logOut = async () => {
-        setUser({ email: null, uid: null, username: null, bio: null });
+        setUser({ email: null, uid: null, username: null, bio: null, comments: null, posts: null });
         await signOut(auth);
     };
 

@@ -14,7 +14,6 @@ const Navigation = ({ currentPage }) => {
   }, [currentPage]);
 
   useEffect(() => {
-    console.log(user);
     if (user.username != undefined && user.username != null) {
       if (user.username.length > 14) {
         setUsername(user.username.substring(0, 14) + '...');

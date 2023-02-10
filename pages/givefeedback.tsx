@@ -18,6 +18,14 @@ const GiveFeedback = () => {
         }
     );
 
+    const getUsername = (userUID) => {
+        const q = query(collection(db, 'Users'), where('userUID', '==', userUID))
+        console.log(q)
+        const docSnap = getDocs(q);
+        console.log(docSnap)
+        //return docSnap[0].data().username
+    }
+
     return (
         <div>
             <Head>
@@ -39,7 +47,7 @@ const GiveFeedback = () => {
                                 <div>
                                     <h2 className="text-2xl font-medium font-HindSiliguri">{p.data().title}</h2>
                                     <div className="text-gray-500 font-IBMPlexSans">
-                                        <h4 className="text-sm text-[#808080] underline">Submitted by {p.data().author.charAt(0).toUpperCase()}{p.data().author.slice(1)} </h4> {/* Makes the first letter uppercase */}
+                                        <h4 className="text-sm text-[#808080] underline">Submitted by {p.data().author} </h4>
                                         <h4 className="text-sm"><em>Submitted on {p.data().created.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })} {p.data().created.toDate().toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
                                     </div>
                                     <br />
