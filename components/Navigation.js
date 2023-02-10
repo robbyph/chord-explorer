@@ -54,7 +54,7 @@ const Navigation = ({ currentPage }) => {
         </Link>
         <Menu as='div'>
           <Menu.Button>{username}▼</Menu.Button>
-          <Menu.Items className='flex flex-col divide-y'>
+          <Menu.Items className='absolute flex flex-col divide-y'>
             <Menu.Item className='flex-col'>
               {({ active }) => (
                 <Link href='/accountpage'>
