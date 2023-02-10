@@ -10,27 +10,8 @@ import Link from "next/link";
 
 const AccountPage = () => {
     const { user } = useAuth();
-    const [account, loading, error] = useCollection(
-        query(collection(db, 'Users'), where('userUID', '==', user.uid)),
-        {
-            snapshotListenOptions: { includeMetadataChanges: true },
-        }
-    );
-    const [comments, commentsLoading, commentsError] = useCollection(
-        query(collection(db, 'Comments'), where('author', '==', user.uid), orderBy('created', 'desc')),
-        {
-            snapshotListenOptions: { includeMetadataChanges: true },
-        }
-    );
 
-    const [posts, postsLoading, postsError] = useCollection(
-        query(collection(db, 'Posts'), where('author', '==', user.uid), orderBy('created', 'desc')),
-        {
-            snapshotListenOptions: { includeMetadataChanges: true },
-        }
-    );
 
-    console.log(user.uid)
 
     return (
         <ProtectedRoute>
@@ -43,22 +24,18 @@ const AccountPage = () => {
                     />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
-                {error && <strong className="p-6 text-2xl">Error! <br /> {JSON.stringify(error)} </strong>}
-                {loading && <em className="p-6 text-2xl">Loading...</em>}
-                {account &&
+                {user &&
                     <main>
-                        <h1 className="p-6 pb-1 text-4xl font-semibold font-HindSiliguri">{account.docs[0].data().username}</h1>
-                        <span className="p-6 font-IBMPlexSans"><em>{account.docs[0].data().email}</em></span>
+                        <h1 className="p-6 pb-1 text-4xl font-semibold font-HindSiliguri">{user.username}</h1>
+                        <span className="p-6 font-IBMPlexSans"><em>{user.email}</em></span>
                         <div>
                             <h2 className="p-6 pb-2 text-2xl font-semibold font-HindSiliguri">Bio</h2>
-                            <p className="p-6 pt-0 font-IBMPlexSans">{account.docs[0].data().bio}</p>
+                            <p className="p-6 pt-0 font-IBMPlexSans">{user.bio}</p>
                         </div>
                         <div className="grid grid-cols-2 p-6 font-IBMPlexSans">
                             <div>
                                 <h2 className="text-2xl font-semibold font-HindSiliguri">User Posts</h2>
-                                {postsError && <strong>Error! <br /> {JSON.stringify(postsError)}</strong>}
-                                {postsLoading && <em>Loading...</em>}
-                                {posts && posts.docs.map((p) => {
+                                {user.posts?.map((p: { id: React.Key | null | undefined; data: () => { (): any; new(): any; title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; created: { (): any; new(): any; toDate: { (): { (): any; new(): any; toLocaleDateString: { (arg0: string, arg1: { weekday: string; year: string; month: string; day: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; toLocaleTimeString: { (arg0: string, arg1: { hour: string; minute: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; }; new(): any; }; }; description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }; }) => {
                                     return (
                                         <li key={p.id} className='flex flex-row p-4 m-4 ml-0 text-black bg-white'>
                                             <div>
@@ -77,9 +54,7 @@ const AccountPage = () => {
                             </div>
                             <div>
                                 <h2 className="text-2xl font-semibold font-HindSiliguri">User Comments</h2>
-                                {commentsError && <strong className="p-6 text-2xl">Error! <br /> {JSON.stringify(commentsError)} </strong>}
-                                {commentsLoading && <em className="p-6 text-2xl">Loading...</em>}
-                                {comments && comments.docs.map((c) => {
+                                {user.comments?.map((c: { id: React.Key | null | undefined; data: () => { (): any; new(): any; comment: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; helpfulCount: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; unhelpfulCount: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; parentPost: any; created: { (): any; new(): any; toDate: { (): { (): any; new(): any; toLocaleDateString: { (arg0: string, arg1: { weekday: string; year: string; month: string; day: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; toLocaleTimeString: { (arg0: string, arg1: { hour: string; minute: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; }; new(): any; }; }; }; }) => {
                                     return (
                                         <div id='comment' key={c.id} className='w-10/12 p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
                                             <p id='comment-content' className='pb-6'>{c.data().comment}</p>
