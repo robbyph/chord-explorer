@@ -10,15 +10,6 @@ import Link from 'next/link'
 
 const Home: NextPage = () => {
 
-    const [value, loading, error] = useCollection(
-        collection(db, 'Users'),
-        {
-            snapshotListenOptions: { includeMetadataChanges: true },
-        }
-    );
-
-
-
     return (
         <div>
             <Head>

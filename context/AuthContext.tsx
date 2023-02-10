@@ -21,7 +21,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setUser({
                     email: user.email,
