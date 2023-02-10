@@ -24,7 +24,7 @@ const accountpage = () => {
     );
 
     const [posts, postsLoading, postsError] = useCollection(
-        query(collection(db, 'Comments'), where('author', '==', user.uid), orderBy('created', 'desc')),
+        query(collection(db, 'Posts'), where('author', '==', user.uid), orderBy('created', 'desc')),
         {
             snapshotListenOptions: { includeMetadataChanges: true },
         }
@@ -55,32 +55,28 @@ const accountpage = () => {
                         </div>
                         <div className="grid grid-cols-2 p-6 font-IBMPlexSans">
                             <div>
-                                <h2 className="text-2xl font-semibold font-HindSiliguri">Posts</h2>
+                                <h2 className="text-2xl font-semibold font-HindSiliguri">User Posts</h2>
                                 {postsError && <strong>Error! <br /> {JSON.stringify(postsError)}</strong>}
                                 {postsLoading && <em>Loading...</em>}
                                 {posts && posts.docs.map((p) => {
                                     return (
-                                        <li key={p.id} className='flex flex-row p-4 m-4 ml-6 text-black bg-white'>
+                                        <li key={p.id} className='flex flex-row p-4 m-4 ml-0 text-black bg-white'>
                                             <div>
                                                 <h2 className="text-2xl font-medium font-HindSiliguri">{p.data().title}</h2>
                                                 <div className="text-gray-500 font-IBMPlexSans">
-                                                    <h4 className="text-sm text-[#808080] underline">Submitted by {p.data().author.charAt(0).toUpperCase()}{p.data().author.slice(1)} </h4> {/* Makes the first letter uppercase */}
                                                     <h4 className="text-sm"><em>Submitted on {p.data().created.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })} {p.data().created.toDate().toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
                                                 </div>
                                                 <br />
                                                 <p className="w-3/4 font-IBMPlexSans">{p.data().description}</p>
                                                 <br />
-                                                <button className="rounded-lg font-medium font-IBMPlexSans p-2 mt-2 text-lg text-white bg-[#5B21B6]"><Link className='-m-2' href={`/post/${p.id}`}>Give Feedback</Link></button>
-                                            </div>
-                                            <div className="ml-auto">
-                                                <iframe loading="lazy" className="h-full" src={p.data().vidLink + '?autoplay=0&controls=0'}></iframe>
+                                                <button className="rounded-lg font-medium font-IBMPlexSans p-2 mt-2 text-lg text-white bg-[#5B21B6]"><Link className='-m-2' href={`/post/${p.id}`}>View</Link></button>
                                             </div>
                                         </li>
                                     )
                                 })}
                             </div>
                             <div>
-                                <h2 className="text-2xl font-semibold font-HindSiliguri">Comments</h2>
+                                <h2 className="text-2xl font-semibold font-HindSiliguri">User Comments</h2>
                                 {commentsError && <strong className="p-6 text-2xl">Error! <br /> {JSON.stringify(commentsError)} </strong>}
                                 {commentsLoading && <em className="p-6 text-2xl">Loading...</em>}
                                 {comments && comments.docs.map((c) => {
@@ -90,11 +86,11 @@ const accountpage = () => {
 
                                             <div className='flex flex-row items-end space-x-4 font-HindSiliguri'>
                                                 <div className='mr-auto space-x-4'>
-                                                    <button className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().helpfulCount} | Helpful</button>
-                                                    <button className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().unhelpfulCount} | Unhelpful</button>
+                                                    <button disabled className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().helpfulCount} | Helpful</button>
+                                                    <button disabled className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().unhelpfulCount} | Unhelpful</button>
                                                 </div>
                                                 <div>
-                                                    <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <span className='underline'>{c.data().author}</span></h4>
+                                                    <button className="underline"><Link href={`/post/${c.data().parentPost}`}>View Parent Post</Link></button>
                                                     <h4 id='comment-author' className='pb-0 text-sm font-medium font-HindSiliguri'>Posted <em>{c.data().created?.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{c.data().created?.toDate().toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
                                                 </div>
                                             </div>
