@@ -49,7 +49,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         var commentData: QueryDocumentSnapshot<DocumentData>[]
         var postsData: QueryDocumentSnapshot<DocumentData>[]
 
-        if (account && account != undefined && account != null) {
+        if (account && account.docs[0] && account != undefined && account != null) {
+            console.log(account.docs[0])
             acctData = account.docs[0].data()
         } else {
             acctData = { username: 'Account', bio: 'null' }
