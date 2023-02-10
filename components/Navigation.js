@@ -1,14 +1,28 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useAuth } from '../context/AuthContext';
 
 const Navigation = ({ currentPage }) => {
   const [show, setShow] = useState(false);
+  const { user } = useAuth();
+  const [username, setUsername] = useState('Account');
 
   useEffect(() => {
     if (show) {
       setShow(false);
     }
   }, [currentPage]);
+
+  useEffect(() => {
+    console.log(user);
+    if (user.username != undefined && user.username != null) {
+      if (user.username.length > 14) {
+        setUsername(user.username.substring(0, 14) + '...');
+      } else {
+        setUsername(user.username);
+      }
+    }
+  }, [user]);
 
   return (
     <>
@@ -29,7 +43,7 @@ const Navigation = ({ currentPage }) => {
           <a onClick={() => setShow(false)}>Submit for Feedback</a>
         </Link>
         <Link href='/accountpage'>
-          <a onClick={() => setShow(false)}>Account</a>
+          <a onClick={() => setShow(false)}>{username}</a>
         </Link>
         <Link href='/submitsong'>
           <a onClick={() => setShow(false)}>Submit A Song</a>
