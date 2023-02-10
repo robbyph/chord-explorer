@@ -26,6 +26,7 @@ const Navigation = ({ currentPage }) => {
 
   const handleLogout = async () => {
     try {
+      setUsername('Account');
       await logOut();
       router.push('/login');
     } catch (error) {
@@ -53,27 +54,29 @@ const Navigation = ({ currentPage }) => {
         </Link>
         <Menu as='div'>
           <Menu.Button>{username}▼</Menu.Button>
-          <Menu.Items className='flex-col divide-y'>
-            <Menu.Item>
+          <Menu.Items className='flex flex-col divide-y'>
+            <Menu.Item className='flex-col'>
               {({ active }) => (
                 <Link href='/accountpage'>
                   <a
-                    className={`${active && 'bg-blue-500'}`}
+                    className={`${active && 'bg-blue-500 font-HindSiliguri'}`}
                     onClick={() => setShow(false)}
                   >
-                    {username}
+                    View Account
                   </a>
                 </Link>
               )}
             </Menu.Item>
-            <Menu.Item>
+            <Menu.Item className='flex-col'>
               {({ active }) => (
-                <a
-                  className={`${active && 'bg-blue-500'}`}
-                  onClick={handleLogout}
-                >
-                  Log Out
-                </a>
+                <Link href='/'>
+                  <a
+                    onClick={handleLogout}
+                    className={`${active && 'bg-blue-500'}`}
+                  >
+                    Log Out
+                  </a>
+                </Link>
               )}
             </Menu.Item>
           </Menu.Items>
