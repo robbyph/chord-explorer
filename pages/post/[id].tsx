@@ -20,8 +20,9 @@ const PostPage = (props) => {
     );
 
     const handleSubmit = (e) => {
-
-        var tempComment = profanity.censor(newComment)
+        e.preventDefault();
+        var tempComment = profanity.censor(newComment);
+        console.log(tempComment);
 
         if (newComment != tempComment) {
             console.log('no lol')
@@ -29,7 +30,6 @@ const PostPage = (props) => {
         } else {
             const CommentsRef = collection(db, 'Comments')
             var commentToSend = [...newComment]
-            setNewComment('')
 
             return addDoc(CommentsRef, {
                 created: serverTimestamp(),
@@ -92,7 +92,7 @@ const PostPage = (props) => {
                     <h2 className='text-3xl pb-[.37rem] font-semibold text-center font-HindSiliguri'>Leave Feedback</h2>
                     <hr className="border-[1.5px] justify-center rounded-full mx-auto w-[30rem]"></hr>
                     <div className='flex flex-col pl-6 pr-6 space-y-2 '>
-                        <textarea type="text" onChange={(e) => { setNewComment(e.target.value) }} rows={14} className='justify-center w-10/12 p-2 mx-auto mt-4 mb-4 text-lg' placeholder="Leave some feedback!" />
+                        <textarea type="text" value={newComment} onChange={(e) => { setNewComment(e.target.value) }} rows={14} className='justify-center w-10/12 p-2 mx-auto mt-4 mb-4 text-lg' placeholder="Leave some feedback!" />
                         <input value="Submit" onClick={(e) => { handleSubmit(e); setNewComment('') }} className="p-2 m-2 ml-auto mr-14 w-1/4 bg-white border-2 text-lg rounded cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
                     </div>
 
