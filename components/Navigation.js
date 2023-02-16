@@ -52,31 +52,38 @@ const Navigation = ({ currentPage }) => {
         <Link href='/submitfeedback'>
           <a onClick={() => setShow(false)}>Submit for Feedback</a>
         </Link>
-        <Menu as='div'>
-          <Menu.Button>{username}▼</Menu.Button>
-          <Menu.Items className='absolute flex flex-col divide-y'>
+        <Menu as='div' className='hover:animate-bounceslowonce'>
+          <Menu.Button>
+            {username}
+            <span className='text-xs'> ▼</span>
+          </Menu.Button>
+          <Menu.Items className='absolute flex flex-col border-2 divide-y divide-white border-neutral-500 bg-neutral-200 '>
             <Menu.Item className='flex-col'>
               {({ active }) => (
-                <Link href='/accountpage'>
-                  <a
-                    className={`${active && 'bg-blue-500 font-HindSiliguri'}`}
-                    onClick={() => setShow(false)}
-                  >
-                    View Account
-                  </a>
-                </Link>
+                <div className='px-2 py-1 hover:bg-neutral-500 hover:text-white'>
+                  <Link href='/accountpage'>
+                    <a
+                      className={`${active && 'font-HindSiliguri'}`}
+                      onClick={() => setShow(false)}
+                    >
+                      View Account
+                    </a>
+                  </Link>
+                </div>
               )}
             </Menu.Item>
             <Menu.Item className='flex-col'>
               {({ active }) => (
-                <Link href='/'>
-                  <a
-                    onClick={handleLogout}
-                    className={`${active && 'bg-blue-500'}`}
-                  >
-                    Log Out
-                  </a>
-                </Link>
+                <div className='px-2 py-1 hover:bg-neutral-500 hover:text-white'>
+                  <Link href='/'>
+                    <a
+                      onClick={handleLogout}
+                      className={`${active && 'font-HindSiliguri'}`}
+                    >
+                      Log Out
+                    </a>
+                  </Link>
+                </div>
               )}
             </Menu.Item>
           </Menu.Items>
