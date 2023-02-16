@@ -53,7 +53,7 @@ const GiveFeedback = () => {
                                     <br />
                                     <p className="w-3/4 font-IBMPlexSans">{p.data().description}</p>
                                     <br />
-                                    <button className="rounded-lg font-medium font-IBMPlexSans p-2 mt-2 text-lg text-white bg-[#5B21B6]"><Link className='-m-2' href={`/post/${p.id}`}>Give Feedback</Link></button>
+                                    <button className="font-medium font-IBMPlexSans p-2 mt-2 text-lg text-white bg-[#5B21B6]"><Link className='-m-2' href={`/post/${p.id}`}>Give Feedback</Link></button>
                                 </div>
                                 <div className="ml-auto">
                                     <iframe loading="lazy" className="h-full" src={p.data().vidLink + '?autoplay=0&controls=0'}></iframe>
