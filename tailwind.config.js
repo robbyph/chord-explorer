@@ -11,12 +11,19 @@ module.exports = {
         IBMPlexSans: ['IBM Plex Sans', 'sans'],
       },
       animation: {
-        bounceslowonce: 'bounceslowonce .1s ease-in-out .5',
+        bounceslowonce: 'bounceslowonce .1s ease-out .5',
+        slideup: 'slideup .7s ease-in-out 1',
       },
       keyframes: {
         bounceslowonce: {
           '0%, 100%': { transform: 'rotate(-2deg)' },
           '50%': { transform: 'rotate(2deg)' },
+        },
+        slideup: {
+          '0%': { transform: 'translateY(-5rem)' },
+          '80%': { transform: 'translateY(0)' },
+          '90%': { transform: 'translateY(-.1rem)' },
+          '100%': { transform: 'translateY(0)' },
         },
       },
     },

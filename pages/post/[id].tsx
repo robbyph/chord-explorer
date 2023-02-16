@@ -8,10 +8,13 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { useState } from 'react';
 import { Profanity, ProfanityOptions } from '@2toad/profanity';
 import { CensorType } from '@2toad/profanity/dist/models';
+import Alert from '../../components/Alert'
+
 
 
 const PostPage = (props) => {
     const [newComment, setNewComment] = useState('');
+    const [showAlert, setShowAlert] = useState(false)
     const [comments, loading, error] = useCollection(
         query(collection(db, 'Comments'), where('parentPost', '==', props.id), orderBy('created', 'desc')),
         {
@@ -22,14 +25,14 @@ const PostPage = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         var tempComment = profanity.censor(newComment);
-        console.log(tempComment);
 
         if (newComment != tempComment) {
-            console.log('no lol')
-            //need alert popup
+            setShowAlert(true)
         } else {
+            setShowAlert(false)
             const CommentsRef = collection(db, 'Comments')
-            var commentToSend = [...newComment]
+            var commentToSend = newComment
+            setNewComment('')
 
             return addDoc(CommentsRef, {
                 created: serverTimestamp(),
@@ -43,8 +46,6 @@ const PostPage = (props) => {
 
 
     }
-
-
 
     const handleUpvote = (c) => {
         const upvoteRef = doc(db, 'Comments', c.id)
@@ -74,8 +75,10 @@ const PostPage = (props) => {
 
     const profanity = new Profanity(options);
 
+
     return (
         <div id='page'>
+            {showAlert && <Alert message="⚠️ Profanity Warning! ⚠️" setShow={setShowAlert} />}
             <div className='flex flex-col items-center w-1/2 mx-auto mt-10 space-y-6' >
                 <div id='header' className='flex flex-col items-center pb-6 text-center'>
                     <h1 className='pb-1 text-4xl font-medium font-HindSiliguri'>{props.post.title}</h1>
@@ -93,7 +96,7 @@ const PostPage = (props) => {
                     <hr className="border-[1.5px] justify-center rounded-full mx-auto w-[30rem]"></hr>
                     <div className='flex flex-col pl-6 pr-6 space-y-2 '>
                         <textarea type="text" value={newComment} onChange={(e) => { setNewComment(e.target.value) }} rows={14} className='justify-center w-10/12 p-2 mx-auto mt-4 mb-4 text-lg' placeholder="Leave some feedback!" />
-                        <input value="Submit" onClick={(e) => { handleSubmit(e); setNewComment('') }} className="p-2 m-2 ml-auto mr-14 w-1/4 bg-white border-2 text-lg rounded cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
+                        <input value="Submit" onClick={(e) => { handleSubmit(e); }} className="p-2 m-2 ml-auto mr-14 w-1/4 bg-white border-2 text-lg rounded cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
                     </div>
 
                 </div>
