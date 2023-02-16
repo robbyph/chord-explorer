@@ -4,7 +4,8 @@ import Head from 'next/head'
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase/firestore";
 import { NextPage } from 'next';
-
+import { useAuth } from '../context/AuthContext';
+import SignInPrompt from '../components/SignInPrompt'
 
 const SubmitFeedback: NextPage = () => {
 
@@ -12,18 +13,28 @@ const SubmitFeedback: NextPage = () => {
     const [vidLink, setVidLink] = useState('');
     const [title, setTitle] = useState('');
     const [check, setCheck] = useState(false);
+    const { user } = useAuth();
+    const [showSignInPrompt, setShowSignInPrompt] = useState(false)
 
+    console.log(user.uid)
 
     const handleSubmit = (e) => {
-        const PostsRef = collection(db, 'Posts')
-        return addDoc(PostsRef, {
-            created: serverTimestamp(),
-            //fields for the data to be sent to, make sure to separate each with a comma
-            title: title,
-            vidLink: vidLink,
-            description: description,
-            author: 'placeholder'
-        });
+        if (user.uid === null) {
+
+            setShowSignInPrompt(true)
+        } else {
+            setShowSignInPrompt(false)
+            const PostsRef = collection(db, 'Posts')
+            return addDoc(PostsRef, {
+                created: serverTimestamp(),
+                //fields for the data to be sent to, make sure to separate each with a comma
+                title: title,
+                vidLink: vidLink,
+                description: description,
+                author: 'placeholder'
+            });
+
+        }
     };
 
     console.log(description)
@@ -37,6 +48,8 @@ const SubmitFeedback: NextPage = () => {
             </Head>
 
             <main className='grid grid-cols-4 '>
+                {showSignInPrompt && <SignInPrompt setShow={setShowSignInPrompt} />}
+
                 <h1 className='col-span-4 p-6 text-4xl font-semibold text-white font-HindSiliguri'>Submit for Feedback</h1>
                 <div className='col-span-2 pl-6 pr-6 space-y-2'>
                     <div>

@@ -10,12 +10,10 @@ import { Profanity, ProfanityOptions } from '@2toad/profanity';
 import { CensorType } from '@2toad/profanity/dist/models';
 import Alert from '../../components/Alert'
 import { useAuth } from '../../context/AuthContext';
-import { useRouter } from 'next/dist/client/router';
 import SignInPrompt from '../../components/SignInPrompt'
 
 
 const PostPage = (props) => {
-    const router = useRouter()
     const { user } = useAuth();
 
     const [newComment, setNewComment] = useState('');
