@@ -7,7 +7,7 @@ const Alert = ({ message, setShow }) => {
 
   return (
     <div
-      className={`text-black font-bold xl:left-1/3 bg-amber-300 mt-4 xl:ml-24 top-0 z-10 fixed animate-slideup font-IBMPlexSans rounded-md`}
+      className={`text-black font-bold xl:left-1/3 bg-amber-300 mt-4 xl:ml-24 top-0 z-10 fixed animate-slideup font-IBMPlexSans shadow-2xl`}
       css={{
         bottom: 0,
         left: 0,

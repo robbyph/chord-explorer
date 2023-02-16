@@ -9,12 +9,18 @@ import { useState } from 'react';
 import { Profanity, ProfanityOptions } from '@2toad/profanity';
 import { CensorType } from '@2toad/profanity/dist/models';
 import Alert from '../../components/Alert'
-
+import { useAuth } from '../../context/AuthContext';
+import { useRouter } from 'next/dist/client/router';
+import SignInPrompt from '../../components/SignInPrompt'
 
 
 const PostPage = (props) => {
+    const router = useRouter()
+    const { user } = useAuth();
+
     const [newComment, setNewComment] = useState('');
     const [showAlert, setShowAlert] = useState(false)
+    const [showSignInPrompt, setShowSignInPrompt] = useState(false)
     const [comments, loading, error] = useCollection(
         query(collection(db, 'Comments'), where('parentPost', '==', props.id), orderBy('created', 'desc')),
         {
@@ -26,8 +32,11 @@ const PostPage = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         var tempComment = profanity.censor(newComment);
+        console.log(user)
 
-        if (newComment != tempComment) {
+        if (user.uid === null) {
+            setShowSignInPrompt(true)
+        } else if (newComment != tempComment) {
             setShowAlert(true)
         } else {
             setShowAlert(false)
@@ -80,6 +89,7 @@ const PostPage = (props) => {
     return (
         <div id='page'>
             {showAlert && <Alert message="⚠️ Profanity Warning! ⚠️" setShow={setShowAlert} />}
+            {showSignInPrompt && <SignInPrompt setShow={setShowSignInPrompt} />}
             <div className='flex flex-col items-center w-1/2 mx-auto mt-10 space-y-6' >
                 <div id='header' className='flex flex-col items-center pb-6 text-center'>
                     <h1 className='pb-1 text-4xl font-medium font-HindSiliguri'>{props.post.title}</h1>
