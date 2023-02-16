@@ -16,14 +16,14 @@ const Navigation = ({ currentPage }) => {
         <Link href="/">
           {currentPage === "/" ? (
             <a
-              className="w-full px-3 py-3 font-bold no-underline transition-shad text-navPurple lg:w-auto lg:p-0 lg:border-none"
+              className="w-full px-3 py-3 font-bold no-underline transition-shad lg:w-auto lg:p-0 lg:border-none"
               onClick={() => setShow(false)} // would like to set as active class but it throws an error, for now hovering works. going to change stuff soon...
             >
               Home
             </a>
           ) : (
             <a
-              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 text-navGreen hover:font-semibold lg:border-none"
+              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 hover:font-bold lg:border-none"
               onClick={() => setShow(false)}
             >
               Home
@@ -33,14 +33,14 @@ const Navigation = ({ currentPage }) => {
         <Link href="/search">
           {currentPage === "/search" ? (
             <a
-              className="w-full px-3 py-3 font-bold no-underline transition-shad text-navPurple lg:w-auto lg:p-0 lg:border-none"
+              className="w-full px-3 py-3 font-bold no-underline transition-shad lg:w-auto lg:p-0 lg:border-none"
               onClick={() => setShow(false)}
             >
               Search
             </a>
           ) : (
             <a
-              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 text-navGreen hover:font-semibold lg:border-none"
+              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 hover:font-bold lg:border-none"
               onClick={() => setShow(false)}
             >
               Search
@@ -50,14 +50,14 @@ const Navigation = ({ currentPage }) => {
         <Link href="/chordlibrary">
           {currentPage === "/chordlibrary" ? (
             <a
-              className="w-full px-3 py-3 font-bold no-underline transition-shad text-navPurple lg:w-auto lg:p-0 lg:border-none"
+              className="w-full px-3 py-3 font-bold no-underline transition-shad lg:w-auto lg:p-0 lg:border-none"
               onClick={() => setShow(false)}
             >
               Chord Library
             </a>
           ) : (
             <a
-              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 text-navGreen hover:font-semibold lg:border-none"
+              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 hover:font-bold lg:border-none"
               onClick={() => setShow(false)}
             >
               Chord Library
@@ -67,14 +67,14 @@ const Navigation = ({ currentPage }) => {
         <Link href="/givefeedback">
           {currentPage === "/givefeedback" ? (
             <a
-              className="w-full px-3 py-3 font-bold no-underline transition-shad text-navPurple lg:w-auto lg:p-0 lg:border-none"
+              className="w-full px-3 py-3 font-bold no-underline transition-shad lg:w-auto lg:p-0 lg:border-none"
               onClick={() => setShow(false)}
             >
               Give Feedback
             </a>
           ) : (
             <a
-              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 text-navGreen hover:font-semibold lg:border-none"
+              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 hover:font-bold lg:border-none"
               onClick={() => setShow(false)}
             >
               Give Feedback
@@ -84,14 +84,14 @@ const Navigation = ({ currentPage }) => {
         <Link href="/submitfeedback">
           {currentPage === "/submitfeedback" ? (
             <a
-              className="w-full px-3 py-3 font-bold no-underline transition-shad text-navPurple lg:w-auto lg:p-0 lg:border-none"
+              className="w-full px-3 py-3 font-bold no-underline transition-shad lg:w-auto lg:p-0 lg:border-none"
               onClick={() => setShow(false)}
             >
               Submit Feedback
             </a>
           ) : (
             <a
-              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 text-navGreen hover:font-semibold lg:border-none"
+              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 hover:font-bold lg:border-none"
               onClick={() => setShow(false)}
             >
               Submit Feedback
@@ -101,14 +101,14 @@ const Navigation = ({ currentPage }) => {
         <Link href="/accountpage">
           {currentPage === "/accountpage" ? (
             <a
-              className="w-full px-3 py-3 font-bold no-underline transition-shad text-navPurple lg:w-auto lg:p-0 lg:border-none"
+              className="w-full px-3 py-3 font-bold no-underline transition-shad lg:w-auto lg:p-0 lg:border-none"
               onClick={() => setShow(false)}
             >
               Account
             </a>
           ) : (
             <a
-              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 text-navGreen hover:font-semibold lg:border-none"
+              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 hover:font-bold lg:border-none"
               onClick={() => setShow(false)}
             >
               Account
@@ -118,14 +118,14 @@ const Navigation = ({ currentPage }) => {
         <Link href="/submitsong">
           {currentPage === "/submitsong" ? (
             <a
-              className="w-full px-3 py-3 font-bold no-underline transition-shad text-navPurple lg:w-auto lg:p-0 lg:border-none"
+              className="w-full px-3 py-3 font-bold no-underline transition-shad lg:w-auto lg:p-0 lg:border-none"
               onClick={() => setShow(false)}
             >
               Submit A Song
             </a>
           ) : (
             <a
-              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 text-navGreen hover:font-semibold lg:border-none"
+              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 hover:font-bold lg:border-none"
               onClick={() => setShow(false)}
             >
               Submit A Song
@@ -135,14 +135,14 @@ const Navigation = ({ currentPage }) => {
         <Link href="/chordrecognition">
           {currentPage === "/chordrecognition" ? (
             <a
-              className="w-full px-3 py-3 font-bold no-underline transition-shad text-navPurple lg:w-auto lg:p-0 lg:border-none"
+              className="w-full px-3 py-3 font-bold no-underline transition-shad lg:w-auto lg:p-0 lg:border-none"
               onClick={() => setShow(false)}
             >
               Chord Recognition
             </a>
           ) : (
             <a
-              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 text-navGreen hover:font-semibold lg:border-none"
+              className="w-full px-3 py-3 no-underline transition-shad lg:w-auto lg:p-0 hover:font-bold lg:border-none"
               onClick={() => setShow(false)}
             >
               Chord Recognition
