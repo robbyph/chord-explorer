@@ -20,18 +20,27 @@ const PostPage = (props) => {
     );
 
     const handleSubmit = (e) => {
-        const CommentsRef = collection(db, 'Comments')
 
-        return addDoc(CommentsRef, {
-            created: serverTimestamp(),
-            //fields for the data to be sent to, make sure to separate each with a comma
-            comment: newComment,
-            author: 'Current User',
-            helpfulCount: 0,
-            unhelpfulCount: 0,
-            parentPost: props.id
-        });
-    };
+        var tempComment = profanity.censor(newComment)
+
+        if (newComment != tempComment) {
+            console.log('no lol')
+        } else {
+            const CommentsRef = collection(db, 'Comments')
+
+            return addDoc(CommentsRef, {
+                created: serverTimestamp(),
+                //fields for the data to be sent to, make sure to separate each with a comma
+                comment: newComment,
+                author: 'Current User',
+                helpfulCount: 0,
+                unhelpfulCount: 0,
+                parentPost: props.id
+            });
+        };
+    }
+
+
 
     const handleUpvote = (c) => {
         const upvoteRef = doc(db, 'Comments', c.id)
@@ -60,7 +69,6 @@ const PostPage = (props) => {
     options.grawlixChar = '*';
 
     const profanity = new Profanity(options);
-
 
     return (
         <div id='page'>
@@ -94,7 +102,7 @@ const PostPage = (props) => {
                         {comments && comments.docs.map((c) => {
                             return (
                                 <div id='comment' key={c.id} className='w-10/12 p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
-                                    <p id='comment-content' className='pb-6'>{profanity.censor(c.data().comment, CensorType.Word)}</p>
+                                    <p id='comment-content' className='pb-6'>{c.data().comment}</p>
 
                                     <div className='flex flex-row items-end space-x-4 font-HindSiliguri'>
                                         <div className='mr-auto space-x-4'>
