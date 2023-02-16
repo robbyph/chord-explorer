@@ -22,6 +22,7 @@ const PostPage = (props) => {
         }
     );
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
         var tempComment = profanity.censor(newComment);
@@ -37,7 +38,7 @@ const PostPage = (props) => {
             return addDoc(CommentsRef, {
                 created: serverTimestamp(),
                 comment: commentToSend,
-                author: 'Current User',
+                author: props.post.author,
                 helpfulCount: 0,
                 unhelpfulCount: 0,
                 parentPost: props.id
