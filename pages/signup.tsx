@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -90,6 +91,7 @@ const SignupPage = () => {
                     </div>
                 </form>
             </FormProvider>
+            <Link href='/login'><a className="underline">Already have an account? Login here!</a ></Link>
         </div>
     );
 };
