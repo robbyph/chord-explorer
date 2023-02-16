@@ -60,7 +60,7 @@ const SubmitFeedback: NextPage = () => {
                         <label htmlFor='check' className="pl-2 text-base text-white font-IBMPlexSans">This video does not contain lewd, inappropriate or adult-only content</label>
                     </div>
 
-                    <input value="Submit" onClick={(e) => { check ? handleSubmit(e) : 'AHHH' }} className="p-2 m-2 ml-0 bg-white border-2 text-lg rounded cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
+                    <input value="Submit" onClick={(e) => { check ? handleSubmit(e) : 'AHHH' }} className="p-2 m-2 ml-0 bg-white border-2 text-lg  cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
                 </div>
                 <div className='col-span-2 px-20'>
                     <h2 className='block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl'>Submission Preview</h2>

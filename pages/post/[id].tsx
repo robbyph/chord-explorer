@@ -105,13 +105,13 @@ const PostPage = (props) => {
                 <div id='leftCol' className='justify-center col-span-5 text-center'>
                     <h2 className='text-3xl pb-[.37rem] font-semibold text-center font-HindSiliguri'>Leave Feedback</h2>
                     <hr className="border-[1.5px] justify-center rounded-full mx-auto w-[30rem]"></hr>
-                    <div className='flex flex-col pl-6 pr-6 space-y-2 '>
-                        <textarea type="text" value={newComment} onChange={(e) => { setNewComment(e.target.value) }} rows={14} className='justify-center w-10/12 p-2 mx-auto mt-4 mb-4 text-lg' placeholder="Leave some feedback!" />
-                        <input value="Submit" onClick={(e) => { handleSubmit(e); }} className="p-2 m-2 ml-auto mr-14 w-1/4 bg-white border-2 text-lg rounded cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
+                    <div className='flex flex-col pl-6 pr-12 space-y-2 '>
+                        <textarea type="text" value={newComment} onChange={(e) => { setNewComment(e.target.value) }} rows={14} className='justify-center p-2 mt-4 mb-4 text-lg' placeholder="Leave some feedback!" />
+                        <input value="Submit" onClick={(e) => { handleSubmit(e); }} className="p-2 m-2 ml-auto mr-14 w-1/4 bg-white border-2 text-lg  cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
                     </div>
 
                 </div>
-                <div id='rightCol' className='justify-center col-span-7'>
+                <div id='rightCol' className='justify-center col-span-7 pr-16 mr-0'>
                     <h2 className='text-3xl pb-[.37rem] font-semibold text-center font-HindSiliguri'>Read Feedback</h2>
                     <hr className="border-[1.5px] justify-center rounded-full mx-auto w-[30rem]"></hr>
                     <ul>
@@ -119,13 +119,13 @@ const PostPage = (props) => {
                         {loading && <em>Loading...</em>}
                         {comments && comments.docs.map((c) => {
                             return (
-                                <div id='comment' key={c.id} className='w-10/12 p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
+                                <div id='comment' key={c.id} className='p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
                                     <p id='comment-content' className='pb-6'>{c.data().comment}</p>
 
                                     <div className='flex flex-row items-end space-x-4 font-HindSiliguri'>
                                         <div className='mr-auto space-x-4'>
-                                            <button onClick={() => handleUpvote(c)} className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().helpfulCount} | Helpful</button>
-                                            <button onClick={() => handleDownvote(c)} className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().unhelpfulCount} | Unhelpful</button>
+                                            <button onClick={() => handleUpvote(c)} className='px-2 py-1 font-medium text-black transition bg-purple-200 border border-purple-400 shadow-md active:-translate-y-1'>{c.data().helpfulCount} | Helpful</button>
+                                            <button onClick={() => handleDownvote(c)} className='px-2 py-1 font-medium text-black bg-purple-200 border border-purple-400 shadow-md active:-translate-y-1'>{c.data().unhelpfulCount} | Unhelpful</button>
                                         </div>
                                         <div>
                                             <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <span className='underline'>{c.data().author}</span></h4>

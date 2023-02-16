@@ -46,7 +46,7 @@ const AccountPage = () => {
                                                 <br />
                                                 <p className="w-3/4 font-IBMPlexSans">{p.data().description}</p>
                                                 <br />
-                                                <button className="rounded-lg font-medium font-IBMPlexSans p-2 mt-2 text-lg text-white bg-[#5B21B6]"><Link className='-m-2' href={`/post/${p.id}`}>View</Link></button>
+                                                <button className="px-4 font-medium font-IBMPlexSans p-2 mt-2 text-lg text-white bg-[#5B21B6]"><Link className='-m-2' href={`/post/${p.id}`}>View</Link></button>
                                             </div>
                                         </li>
                                     )
@@ -61,8 +61,8 @@ const AccountPage = () => {
 
                                             <div className='flex flex-row items-end space-x-4 font-HindSiliguri'>
                                                 <div className='mr-auto space-x-4'>
-                                                    <button disabled className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().helpfulCount} | Helpful</button>
-                                                    <button disabled className='p-1 font-semibold bg-purple-200 border-2 border-purple-800 rounded-lg text-neutral-900'>{c.data().unhelpfulCount} | Unhelpful</button>
+                                                    <button disabled className='px-2 py-1 font-medium text-black bg-purple-200 border border-purple-400 shadow-md'>{c.data().helpfulCount} | Helpful</button>
+                                                    <button disabled className='px-2 py-1 font-medium text-black bg-purple-200 border border-purple-400 shadow-md'>{c.data().unhelpfulCount} | Unhelpful</button>
                                                 </div>
                                                 <div>
                                                     <button className="underline"><Link href={`/post/${c.data().parentPost}`}>View Parent Post</Link></button>

@@ -82,10 +82,10 @@ const Navigation = ({ currentPage }) => {
             {username}
             <span className='text-xs'> ▼</span>
           </Menu.Button>
-          <Menu.Items className='absolute flex flex-col border-2 divide-y divide-white border-neutral-500 bg-neutral-200'>
+          <Menu.Items className='absolute flex flex-col bg-purple-200 border-2 border-purple-500 divide-y divide-white'>
             <Menu.Item className='flex-col'>
               {({ active }) => (
-                <div className='px-2 py-1 hover:bg-neutral-500 hover:text-white'>
+                <div className='px-2 py-1 hover:bg-purple-600 hover:text-white'>
                   <Link href='/accountpage'>
                     <a
                       className={`${active && 'font-HindSiliguri'}`}
@@ -99,7 +99,7 @@ const Navigation = ({ currentPage }) => {
             </Menu.Item>
             <Menu.Item className='flex-col'>
               {({ active }) => (
-                <div className='px-2 py-1 hover:bg-neutral-500 hover:text-white'>
+                <div className='px-2 py-1 hover:bg-purple-600 hover:text-white'>
                   <Link href='/'>
                     <a
                       onClick={handleLogout}

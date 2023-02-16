@@ -45,7 +45,7 @@ const SignupPage = () => {
                         <input
                             type="email"
                             {...register("email", { required: "Email is required" })}
-                            className={`border border-solid rounded-lg ring:0 focus:ring-0 focus:outline-none  text-normal py-3 h-12 px-6 text-lg w-full flex items-center`}
+                            className={`border border-solid  ring:0 focus:ring-0 focus:outline-none  text-normal py-3 h-12 px-6 text-lg w-full flex items-center`}
                         />
                         {errors.email && <p className="pt-1 pl-2 text-red-400">{errors.email.message}</p>}
                     </div>
@@ -59,7 +59,7 @@ const SignupPage = () => {
                         <input
                             type="password"
                             {...register("password", { required: "Password is required" })}
-                            className={`border border-solid rounded-lg ring:0 focus:ring-0 focus:outline-none   text-normal py-3 h-12 px-6 text-lg w-full flex items-center`}
+                            className={`border border-solid  ring:0 focus:ring-0 focus:outline-none   text-normal py-3 h-12 px-6 text-lg w-full flex items-center`}
                         />
                         {errors.password && <p className="pt-1 pl-2 text-red-400">{errors.password.message}</p>}
                     </div>
@@ -75,7 +75,7 @@ const SignupPage = () => {
                             {...register("password_confirm", {
                                 required: "Verify your password",
                             })}
-                            className={`border border-solid rounded-lg ring:0 focus:ring-0 focus:outline-none  text-normal py-3 h-12 px-6 text-lg w-full flex items-center`}
+                            className={`border border-solid  ring:0 focus:ring-0 focus:outline-none  text-normal py-3 h-12 px-6 text-lg w-full flex items-center`}
                         />
                         {errors.password_confirm && (
                             <p className="pt-1 pl-2 text-red-400">{errors.password_confirm.message}</p>
@@ -84,7 +84,7 @@ const SignupPage = () => {
                     <div className="flex justify-center pt-8">
                         <button
                             type="submit"
-                            className={`h-12 text-center w-2/3 bg-white text-black border-2 rounded-md hover:shadow-lg hover:bg-purple-600 hover:text-white text-lg transition`}
+                            className={`h-12 text-center w-2/3 bg-white text-black border-2  hover:shadow-lg hover:bg-purple-600 hover:text-white text-lg transition`}
                         >
                             <p className="p-0 m-0 font-normal capitalize font-IBMPlexSans">submit</p>
                         </button>

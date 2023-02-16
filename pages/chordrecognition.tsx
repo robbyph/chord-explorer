@@ -145,7 +145,7 @@ const ChordRecognition = () => {
                     <input type="file" name="myImage" className="my-2" onChange={uploadToClient} /> <br />
                 </div>
                 <h2 className="col-span-4 pt-2 mb-2 text-2xl font-HindSiliguri">Then, let the AI do the rest</h2>
-                <button className="col-span-4 px-2 py-2 text-xl border font-IBMPlexSans font-medium bg-white text-[#5B21B6] rounded" onClick={() => uploadToServer()}>Detect Chords</button>
+                <button className="col-span-4 px-2 py-2 text-xl border font-IBMPlexSans font-medium bg-white text-[#5B21B6] " onClick={() => uploadToServer()}>Detect Chords</button>
                 <h3 className="col-span-4 pt-2 text-xl underline font-HindSiliguri">Chords Detected</h3>
                 <ul className="list-disc list-inside font-IBMPlexSans">
                     {detectedChords.map((chord, i) => {

@@ -8,7 +8,7 @@ const SignInPrompt = ({ setShow }) => {
 
   return (
     <div
-      className={`text-black  xl:left-1/3 bg-purple-200 mt-4 xl:ml-18 top-0 z-10 fixed animate-slideup font-IBMPlexSans px-2 pb-4 shadow-md shadow-neutral-800`}
+      className={`text-black xl:left-1/3 bg-purple-200 mt-4 xl:ml-18 top-0 z-10 fixed animate-slideup font-IBMPlexSans px-2 pb-4 shadow-md shadow-neutral-800`}
       css={{
         bottom: 0,
         left: 0,

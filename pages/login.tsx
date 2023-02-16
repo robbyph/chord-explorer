@@ -44,7 +44,7 @@ const LoginPage = () => {
                         <input
                             type="email"
                             {...register("email", { required: "Email is required" })}
-                            className={`border border-solid rounded-lg ring:0 focus:ring-0 focus:outline-none  text-normal py-3 h-12 px-6 text-lg w-full flex items-center`}
+                            className={`border border-solid ring:0 focus:ring-0 focus:outline-none  text-normal py-3 h-12 px-6 text-lg w-full flex items-center`}
                         />
                         {errors.email && <p className="pt-1 pl-2 text-red-400">{errors.email.message}</p>}
                     </div>
@@ -58,7 +58,7 @@ const LoginPage = () => {
                         <input
                             type="password"
                             {...register("password", { required: "Password is required" })}
-                            className={`border border-solid rounded-lg ring:0 focus:ring-0 focus:outline-none  text-normal py-3 h-12 px-6 text-lg w-full flex items-center`}
+                            className={`border border-solid  ring:0 focus:ring-0 focus:outline-none  text-normal py-3 h-12 px-6 text-lg w-full flex items-center`}
                         />
                         {errors.password && <p className="pt-1 pl-2 text-red-400">{errors.password.message}</p>}
                     </div>
@@ -66,7 +66,7 @@ const LoginPage = () => {
                     <div className="flex justify-center pt-8">
                         <button
                             type="submit"
-                            className={`h-12 text-center w-2/3 bg-white text-black hover:text-white border-2 rounded-md hover:shadow-lg hover:bg-purple-600 text-lg transition`}
+                            className={`h-12 text-center w-2/3 bg-white text-black hover:text-white border-2 hover:shadow-lg hover:bg-purple-600 text-lg transition`}
                         >
                             <p className="font-normal capitalize font-IBMPlexSans">submit</p>
                         </button>
