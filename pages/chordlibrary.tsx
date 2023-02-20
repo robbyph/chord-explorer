@@ -24,16 +24,43 @@ const chordlibrary = () => {
             }
         }
         const lite = false // defaults to false if omitted
+
         return (
             <Chord
                 chord={chord}
                 instrument={instrument}
                 lite={lite}
             />
+
         )
     }
     
+    const MyChord2 = () => {
+        const chord2 = {
+            frets: [2, 4, 3, 3, 4, 1],
+            fingers: [1, 2, 4, 3, 1, 4],
+            barres: [3],
+            capo: false,
+        }
+        const instrument2 = {
+            strings: 6,
+            fretsOnChord: 4,
+            name: 'Guitar',
+            keys: [],
+            tunings: {
+                standard: ['E', 'A', 'D', 'G', 'B', 'E']
+            }
+        }
+        const lite2 = false // defaults to false if omitted
+        return (
+            <Chord
+                chord={chord2}
+                instrument={instrument2}
+                lite={lite2}
+            />
 
+        )
+    }
 
     const [ChordSel, setOption] = useState("A");
     console.log(ChordSel)
@@ -80,13 +107,14 @@ const chordlibrary = () => {
 
             {/* This div will house the css grid and its items */}
             {/* setting the number of coluns and rows, rows are auto set with this config */}
-            <div id="SVG" className="grid gap-x-4 gap-y-12 grid-cols-4 grid-flow-row">
+            <div id="SVG" className="grid gap-x-12 gap-y-12 grid-cols-4 grid-flow-row">
                 <div>
                     <img className ="test image" src="/favicon.ico"></img>
                 </div>
-                <div><img className ="test image" src="/favicon.ico"></img></div>
-                <div><img className ="test image" src="/favicon.ico"></img></div>
-                <div><MyChord /></div>
+                <div className="bg-white text-black">AAAAAAAAAAAAAAAAAAAAAAAAAA<MyChord2/></div>
+                <div className="bg-[#fafafa] text-black">AAAAAAAAAAAAAAAAAAAAAAAAAA<MyChord2/></div>
+                {/*the class name sets the background to a white and the color of the A to black*/}
+                <div className="bg-[#fafafa] text-black">AAAAAAAAAAAAAAAAAAAAAAAAAA <MyChord /></div>
                 <div><img className ="test image" src="/favicon.ico"></img></div>
                 <div>Text<img className ="test image" src="/favicon.ico"></img></div>
             </div>
