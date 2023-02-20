@@ -13,7 +13,6 @@ const Layout = ({ children }) => {
         </div>
         <div className="min-[60px]:max-[1450px]:visible min-[1451px]:hidden flex items-center pb-6 pt-6 flex-row relative h-fit w-full before:p-0 before:m-0 overflow-hidden before:absolute before:bg-white before:top-[-550px] before:bottom-0 before:left-[-40%] before:right-[-20%]">
           <HamburgerMenu />
-          <Header></Header>
           <Links />
         </div>
         <main>{children}</main>

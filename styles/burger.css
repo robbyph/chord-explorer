@@ -61,6 +61,8 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 /* Styling of overlay */
 .bm-overlay {
+  height: auto;
+  width: auto;
   background: rgba(0, 0, 0, 0.3);
 }
 /* styling next link component so that will be a column list of links*/

@@ -5,7 +5,8 @@ const HamburgerMenu = () => (
     <Menu
       customBurgerIcon={<HamburgerIcon />}
       width={"auto"}
-      className="left-0 top-12"
+      className="right-0 top-0"
+      right
     >
       <Links />
     </Menu>
