@@ -33,8 +33,26 @@ export const Links = () => (
     <Link href="/">
       <a className="font-bold p-4">Home</a>
     </Link>
-    <Link href="/about">
-      <a className="font-bold p-4">About</a>
+    <Link href="/search">
+      <a className="font-bold p-4">Search</a>
+    </Link>
+    <Link href="/chordlibrary">
+      <a className="font-bold p-4">Chord Library</a>
+    </Link>
+    <Link href="/givefeedback">
+      <a className="font-bold p-4">Give Feedback</a>
+    </Link>
+    <Link href="/submitfeedback">
+      <a className="font-bold p-4">Submit Feedback</a>
+    </Link>
+    <Link href="/accountpage">
+      <a className="font-bold p-4">Account</a>
+    </Link>
+    <Link href="/submitsong">
+      <a className="font-bold p-4">Submit A Song</a>
+    </Link>
+    <Link href="/chordrecognition">
+      <a className="font-bold p-4">Chord Recognition</a>
     </Link>
   </>
 );
