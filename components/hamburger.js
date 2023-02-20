@@ -15,7 +15,7 @@ const HamburgerMenu = () => (
 const HamburgerIcon = () => (
   <div className="p-1/2">
     <svg
-      className="w-8 h-8 text-purple-500"
+      className="w-8 h-8 text-gray-500"
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"

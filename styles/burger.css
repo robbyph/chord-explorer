@@ -24,10 +24,10 @@
 
 /* Color/shape of close button cross */
 .bm-cross {
-  background: #bdc3c7;
+  background: #000000;
 }
 
-/*
+/*F
 Sidebar wrapper styles
 Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
 */
@@ -38,7 +38,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 /* General sidebar styles */
 .bm-menu {
-  background: #373a47;
+  background: #ffffff;
   padding: 0.3rem 0.3rem 0;
   font-size: 1.15em;
 }
@@ -50,7 +50,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 /* Wrapper for item list */
 .bm-item-list {
-  color: #b8b7ad;
+  color: #000000;
   padding: 0.8em;
 }
 
