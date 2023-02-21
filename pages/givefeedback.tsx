@@ -37,7 +37,7 @@ const GiveFeedback = () => {
             </strong>
           )}
           {loading && <em>Loading...</em>}
-          {posts &&
+          {posts?.docs &&
             posts.docs.map((p) => {
               return (
                 <li
@@ -52,8 +52,7 @@ const GiveFeedback = () => {
                       <h4 className="text-sm text-[#808080] underline">
                         Submitted by {p.data().author.charAt(0).toUpperCase()}
                         {p.data().author.slice(1)}{" "}
-                      </h4>{" "}
-                      {/* Makes the first letter uppercase */}
+                      </h4>
                       <h4 className="text-sm">
                         <em>
                           Submitted on{" "}
@@ -88,17 +87,32 @@ const GiveFeedback = () => {
                     </button>
                   </div>
                   <div className="ml-auto">
-                    <iframe
-                      className="h-full"
-                      width="560"
-                      height="315"
-                      src={p.data().vidLink + "?autoplay=0&controls=0"}
-                      srcDoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1><img src=https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg alt='Video Submission'><span>▶</span></a>"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                      title="Video Submission"
-                    ></iframe>
+                    {p.data().vidLink && (
+                      <iframe
+                        className="hl-full"
+                        width="560"
+                        height="315"
+                        srcDoc={
+                          '<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href="https://www.youtube.com/embed/' +
+                          p
+                            .data()
+                            .vidLink.match(
+                              /(?:\/embed\/|v=)([\w-]{11})(?:\S+)?/
+                            )[1] +
+                          '"><img src="https://i.ytimg.com/vi/' +
+                          p
+                            .data()
+                            .vidLink.match(
+                              /(?:\/embed\/|v=)([\w-]{11})(?:\S+)?/
+                            )[1] +
+                          '/hqdefault.jpg" alt="Video Submission"><span>▶</span></a>'
+                        }
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        title="Video Submission"
+                      />
+                    )}
                   </div>
                 </li>
               );

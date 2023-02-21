@@ -4,23 +4,46 @@ import Head from "next/head";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase/firestore";
 import { NextPage } from "next";
+import GiveFeedback from "./givefeedback";
 
 const SubmitFeedback: NextPage = () => {
   const [description, setDescription] = useState("");
   const [vidLink, setVidLink] = useState("");
+  const [vidId, setVidId] = useState("");
   const [title, setTitle] = useState("");
   const [check, setCheck] = useState(false);
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     const PostsRef = collection(db, "Posts");
-    return addDoc(PostsRef, {
-      created: serverTimestamp(),
-      //fields for the data to be sent to, make sure to separate each with a comma
-      title: title,
-      vidLink: vidLink,
-      description: description,
-      author: "placeholder",
-    });
+    if (vidLink.includes("/watch?v=")) {
+      setVidId(vidLink.split("/watch?v=").pop());
+    } else if (vidLink.includes("/embed/")) {
+      setVidId(vidLink.split("/embed").pop());
+    } else {
+      setVidLink("");
+    }
+    addDoc(PostsRef, {
+      title,
+      vidLink,
+      vidId,
+      description,
+      createdOn: serverTimestamp(),
+      upVotes: 0,
+      downVotes: 0,
+      tags: [],
+      comments: [],
+    })
+      .then(() => {
+        console.log("Document successfully written!");
+        setTitle("");
+        setVidLink("");
+        setVidId("");
+        setDescription("");
+      })
+      .catch((error) => {
+        console.error("Error writing document: ", error);
+      });
   };
 
   return (
@@ -71,15 +94,27 @@ const SubmitFeedback: NextPage = () => {
               minLength={3}
               type="text"
               onChange={(e) => {
-                setVidLink(e.target.value);
+                const vidLink = e.target.value;
+                let vidId = "";
+
+                if (vidLink.includes("/embed/")) {
+                  vidId = vidLink.split("/embed/")[1];
+                } else {
+                  vidId = vidLink.split("/watch?v=").pop();
+                }
+
+                setVidLink(vidLink);
+                setVidId(vidId);
               }}
               name="vidLink"
               value={vidLink}
               required
             />
+
             <p className="pt-1 pl-2 text-sm text-white font-IBMPlexSans">
               Testing Link: https://www.youtube.com/embed/8tPnX7OPo0Q
             </p>
+            <input type="text" name="vidId" value={vidId} readOnly />
           </div>
 
           <div>
@@ -90,8 +125,8 @@ const SubmitFeedback: NextPage = () => {
               Description
             </label>
             <textarea
-              className="w-full p-1 min-h-[23rem] font-IBMPlexSans"
-              minLength={25}
+              className="w-full p-1 text-lg font-IBMPlexSans"
+              minLength={3}
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
@@ -129,6 +164,7 @@ const SubmitFeedback: NextPage = () => {
             type="submit"
           />
         </div>
+
         <div className="col-span-2 px-20">
           <h2 className="lock pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-x">
             Submission Preview
@@ -141,15 +177,16 @@ const SubmitFeedback: NextPage = () => {
               Submitted by <span className="underline">Current User</span>
             </p>
             <iframe
-              className="p-2"
+              className="mx-auto"
               width="560"
               height="315"
-              src={
-                vidLink.length > 0
-                  ? vidLink
-                  : "https://www.youtube.com/embed/ScMzIvxBSi4"
+              srcDoc={
+                '<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href="https://www.youtube.com/embed/' +
+                vidId +
+                '"><img src="https://i.ytimg.com/vi/' +
+                vidId +
+                '/hqdefault.jpg" alt="Video Submission"><span>▶</span></a>'
               }
-              srcDoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1><img src=https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg alt='Video Submission'><span>▶</span></a>"
               frameBorder="0"
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
