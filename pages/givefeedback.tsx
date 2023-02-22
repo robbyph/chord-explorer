@@ -50,8 +50,7 @@ const GiveFeedback = () => {
                     </h2>
                     <div className="text-gray-500 font-IBMPlexSans">
                       <h4 className="text-sm text-[#808080] underline">
-                        Submitted by {p.data().author.charAt(0).toUpperCase()}
-                        {p.data().author.slice(1)}{" "}
+                        Submitted by {p.data().author}
                       </h4>
                       <h4 className="text-sm">
                         <em>

@@ -28,11 +28,8 @@ const SubmitFeedback: NextPage = () => {
       vidLink,
       vidId,
       description,
-      createdOn: serverTimestamp(),
-      upVotes: 0,
-      downVotes: 0,
-      tags: [],
-      comments: [],
+      created: serverTimestamp(),
+      author: "placeholder",
     })
       .then(() => {
         console.log("Document successfully written!");
