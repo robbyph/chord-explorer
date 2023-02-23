@@ -8,6 +8,7 @@ interface SignupType {
     email: string;
     password: string;
     password_confirm: string;
+    username: string;
 }
 const SignupPage = () => {
     const methods = useForm<SignupType>({ mode: "onBlur" });
@@ -23,7 +24,7 @@ const SignupPage = () => {
 
     const onSubmit = async (data: SignupType) => {
         try {
-            await signUp(data.email, data.password);
+            await signUp(data.email, data.password, data.username);
             router.push("/accountpage");
         } catch (error: any) {
             console.log(error.message);
@@ -35,6 +36,20 @@ const SignupPage = () => {
             <h2 className="px-12 mt-8 text-4xl font-semibold text-center text-white font-HindSiliguri">Sign Up</h2>
             <FormProvider {...methods}>
                 <form action="" className="px-4 pb-12 mx-auto font-IBMPlexSans" onSubmit={handleSubmit(onSubmit)}>
+                    <div className="mt-8">
+                        <div className="flex items-center justify-between">
+                            <label htmlFor="" className="block mb-3 text-xl font-semibold text-white font-IBMPlexSans">
+                                Username
+                            </label>
+                        </div>
+
+                        <input
+                            type="text"
+                            {...register("username", { required: "Username is required" })}
+                            className={`border border-solid  ring:0 focus:ring-0 focus:outline-none  text-normal py-3 h-12 px-6 text-lg w-full flex items-center`}
+                        />
+                        {errors.username && <p className="pt-1 pl-2 text-red-400">{errors.username.message}</p>}
+                    </div>
                     <div className="mt-8">
                         <div className="flex items-center justify-between">
                             <label htmlFor="" className="block mb-3 text-xl font-semibold text-white font-IBMPlexSans">
