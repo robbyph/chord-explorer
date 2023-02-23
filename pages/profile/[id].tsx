@@ -33,7 +33,7 @@ const PostPage = (props) => {
     );
 
 
-    console.log(comments)
+    console.log(props.profile.userUID)
 
     return (
         <div id='page'>
@@ -118,7 +118,7 @@ const getDocumentData = async (id: string) => {
             comments: docSnap.data().comments,
             email: docSnap.data().email,
             posts: docSnap.data().posts,
-            userUID: docSnap.data().userUID,
+            userUID: id,
             username: docSnap.data().username
         }
         return (returnDoc)
