@@ -49,7 +49,6 @@ const PostPage = (props) => {
                 {user &&
                     <main>
                         <h1 className="p-6 pb-1 text-4xl font-semibold font-HindSiliguri">{props.profile.username}</h1>
-                        <span className="p-6 font-IBMPlexSans"><em>{props.profile.email}</em></span>
                         <div>
                             <h2 className="p-6 pb-2 text-2xl font-semibold font-HindSiliguri">Bio</h2>
                             <p className="p-6 pt-0 font-IBMPlexSans">{props.profile.bio}</p>
