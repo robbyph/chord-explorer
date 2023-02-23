@@ -11,8 +11,6 @@ import Link from "next/link";
 const AccountPage = () => {
     const { user } = useAuth();
 
-
-
     return (
         <ProtectedRoute>
             <div>
