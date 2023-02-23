@@ -91,7 +91,7 @@ const PostPage = (props) => {
             <div className='flex flex-col items-center w-1/2 mx-auto mt-10 space-y-6' >
                 <div id='header' className='flex flex-col items-center pb-6 text-center'>
                     <h1 className='pb-1 text-4xl font-medium font-HindSiliguri'>{props.post.title}</h1>
-                    <h3 className='font-IBMPlexSans'>From <span className='underline'>{props.post.author}</span></h3>
+                    <h3 className='font-IBMPlexSans'>From <a href={`/profile/${props.post.author}`} className="underline">{props.post.author}</a></h3>
                     <h3 className='font-IBMPlexSans'>Submitted on <em>{new Date(props.post.created).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{new Date(props.post.created).toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em> </h3>
                 </div>
                 <div id='body' className='flex flex-col justify-center pb-16 space-x-16 space-y-2 lg:space-y-0 lg:flex-row'>
