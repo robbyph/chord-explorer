@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import ProtectedRoute from "../components/ProtectedRoute";
 import { useAuth } from "../context/AuthContext";
-import { collection, orderBy, query, where } from "firebase/firestore";
+import { collection, doc, orderBy, query, where } from "firebase/firestore";
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 import { db } from "../firebase/firestore";
 import Link from "next/link";
@@ -10,6 +10,35 @@ import Link from "next/link";
 
 const AccountPage = () => {
     const { user } = useAuth();
+
+    var UID;
+
+    if (user != null) {
+        UID = user.uid
+    } else {
+        UID = 'nUOyi6OFOFgXNTUKs8twjIhmVmy2'
+    }
+
+    const [account, accountLoading, accountError] = useDocument(
+        doc(db, 'Users', UID),
+        {
+            snapshotListenOptions: { includeMetadataChanges: true },
+        }
+    );
+    const [comments, commentsLoading, commentsError] = useCollection(
+        query(collection(db, 'Comments'), where('author', '==', UID), orderBy('created', 'desc')),
+        {
+            snapshotListenOptions: { includeMetadataChanges: true },
+        }
+    );
+    const [posts, postsLoading, postsError] = useCollection(
+        query(collection(db, 'Posts'), where('author', '==', UID), orderBy('created', 'desc')),
+        {
+            snapshotListenOptions: { includeMetadataChanges: true },
+        }
+    );
+
+    console.log(UID)
 
     return (
         <ProtectedRoute>
@@ -22,18 +51,18 @@ const AccountPage = () => {
                     />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
-                {user &&
+                {user && account &&
                     <main>
-                        <h1 className="p-6 pb-1 text-4xl font-semibold font-HindSiliguri">{user.username}</h1>
+                        <h1 className="p-6 pb-1 text-4xl font-semibold font-HindSiliguri">{account.data().username}</h1>
                         <span className="p-6 font-IBMPlexSans"><em>{user.email}</em></span>
                         <div>
                             <h2 className="p-6 pb-2 text-2xl font-semibold font-HindSiliguri">Bio</h2>
-                            <p className="p-6 pt-0 font-IBMPlexSans">{user.bio}</p>
+                            <p className="p-6 pt-0 font-IBMPlexSans">{account.data().bio}</p>
                         </div>
                         <div className="grid grid-cols-2 p-6 font-IBMPlexSans">
                             <div>
                                 <h2 className="text-2xl font-semibold font-HindSiliguri">User Posts</h2>
-                                {user.posts?.map((p: { id: React.Key | null | undefined; data: () => { (): any; new(): any; title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; created: { (): any; new(): any; toDate: { (): { (): any; new(): any; toLocaleDateString: { (arg0: string, arg1: { weekday: string; year: string; month: string; day: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; toLocaleTimeString: { (arg0: string, arg1: { hour: string; minute: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; }; new(): any; }; }; description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }; }) => {
+                                {posts?.docs.map((p: { id: React.Key | null | undefined; data: () => { (): any; new(): any; title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; created: { (): any; new(): any; toDate: { (): { (): any; new(): any; toLocaleDateString: { (arg0: string, arg1: { weekday: string; year: string; month: string; day: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; toLocaleTimeString: { (arg0: string, arg1: { hour: string; minute: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; }; new(): any; }; }; description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }; }) => {
                                     return (
                                         <li key={p.id} className='flex flex-row p-4 m-4 ml-0 text-black bg-white'>
                                             <div>
@@ -52,7 +81,7 @@ const AccountPage = () => {
                             </div>
                             <div>
                                 <h2 className="text-2xl font-semibold font-HindSiliguri">User Comments</h2>
-                                {user.comments?.map((c: { id: React.Key | null | undefined; data: () => { (): any; new(): any; comment: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; helpfulCount: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; unhelpfulCount: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; parentPost: any; created: { (): any; new(): any; toDate: { (): { (): any; new(): any; toLocaleDateString: { (arg0: string, arg1: { weekday: string; year: string; month: string; day: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; toLocaleTimeString: { (arg0: string, arg1: { hour: string; minute: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; }; new(): any; }; }; }; }) => {
+                                {comments?.docs.map((c: { id: React.Key | null | undefined; data: () => { (): any; new(): any; comment: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; helpfulCount: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; unhelpfulCount: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; parentPost: any; created: { (): any; new(): any; toDate: { (): { (): any; new(): any; toLocaleDateString: { (arg0: string, arg1: { weekday: string; year: string; month: string; day: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; toLocaleTimeString: { (arg0: string, arg1: { hour: string; minute: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; }; new(): any; }; }; }; }) => {
                                     return (
                                         <div id='comment' key={c.id} className='w-10/12 p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
                                             <p id='comment-content' className='pb-6'>{c.data().comment}</p>
