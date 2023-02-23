@@ -21,8 +21,21 @@ const GiveFeedback = () => {
         const docRef = doc(db, "Users", id);
         const docSnap = await getDoc(docRef);
         var username = await docSnap.data().username
-        return defer(() => username)
+        return username
     }
+
+    const [usernames, setUsernames] = useState([]);
+    const [loadingUsernames, setLoadingUsernames] = useState(true);
+
+    useEffect(() => {
+        if (posts) {
+            const authorPromises = posts.docs.map((p) => getUsername(p.data().author));
+            Promise.all(authorPromises).then((unames) => {
+                setUsernames(unames);
+                setLoadingUsernames(false);
+            });
+        }
+    }, [posts]);
 
     return (
         <div>
@@ -39,9 +52,9 @@ const GiveFeedback = () => {
                 <ul>
                     {error && <strong>Error! <br /> {JSON.stringify(error)}</strong>}
                     {loading && <em>Loading...</em>}
-                    {posts && posts.docs.map((p) => {
+                    {posts && usernames && posts.docs.map((p, i) => {
                         //var myUsername = String.toString(getUsername(p.data().author))
-                        var myUsername = 'jeff'
+                        var myUsername = usernames[i]
                         return (
                             <li key={p.id} className='flex flex-row p-4 m-4 ml-6 text-black bg-white'>
                                 <div>
