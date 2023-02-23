@@ -17,6 +17,13 @@ const GiveFeedback = () => {
         }
     );
 
+    const getUsername = async (id) => {
+        const docRef = doc(db, "Users", id);
+        const docSnap = await getDoc(docRef);
+        var username = await docSnap.data().username
+        return defer(() => username)
+    }
+
     return (
         <div>
             <Head>
