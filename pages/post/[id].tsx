@@ -11,6 +11,7 @@ import { CensorType } from '@2toad/profanity/dist/models';
 import Alert from '../../components/Alert'
 import { useAuth } from '../../context/AuthContext';
 import SignInPrompt from '../../components/SignInPrompt'
+import Link from 'next/link';
 
 
 const PostPage = (props) => {
@@ -91,7 +92,7 @@ const PostPage = (props) => {
             <div className='flex flex-col items-center w-1/2 mx-auto mt-10 space-y-6' >
                 <div id='header' className='flex flex-col items-center pb-6 text-center'>
                     <h1 className='pb-1 text-4xl font-medium font-HindSiliguri'>{props.post.title}</h1>
-                    <h3 className='font-IBMPlexSans'>From <a href={`/profile/${props.post.author}`} className="underline">{props.post.author}</a></h3>
+                    <h3 className='font-IBMPlexSans'>From <Link href={`/profile/${props.post.author}`}><a className="underline">{props.post.author}</a></Link></h3>
                     <h3 className='font-IBMPlexSans'>Submitted on <em>{new Date(props.post.created).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{new Date(props.post.created).toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em> </h3>
                 </div>
                 <div id='body' className='flex flex-col justify-center pb-16 space-x-16 space-y-2 lg:space-y-0 lg:flex-row'>
@@ -126,7 +127,7 @@ const PostPage = (props) => {
                                             <button onClick={() => handleDownvote(c)} className='px-2 py-1 font-medium text-black bg-purple-200 border border-purple-400 shadow-md active:-translate-y-1'>{c.data().unhelpfulCount} | Unhelpful</button>
                                         </div>
                                         <div>
-                                            <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <span className='underline'>{c.data().author}</span></h4>
+                                            <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <Link href={`/profile/${props.post.author}`}><a className="underline">{props.post.author}</a></Link></h4>
                                             <h4 id='comment-author' className='pb-0 text-sm font-medium font-HindSiliguri'>Posted <em>{c.data().created?.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{c.data().created?.toDate().toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
                                         </div>
                                     </div>
