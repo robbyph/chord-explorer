@@ -51,18 +51,18 @@ const AccountPage = () => {
                     />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
-                {user && account &&
+                {user && account && account.data &&
                     <main>
-                        <h1 className="p-6 pb-1 text-4xl font-semibold font-HindSiliguri">{account.data().username}</h1>
+                        <h1 className="p-6 pb-1 text-4xl font-semibold font-HindSiliguri">{account.data()?.username}</h1>
                         <span className="p-6 font-IBMPlexSans"><em>{user.email}</em></span>
                         <div>
                             <h2 className="p-6 pb-2 text-2xl font-semibold font-HindSiliguri">Bio</h2>
-                            <p className="p-6 pt-0 font-IBMPlexSans">{account.data().bio}</p>
+                            <p className="p-6 pt-0 font-IBMPlexSans">{account.data()?.bio}</p>
                         </div>
                         <div className="grid grid-cols-2 p-6 font-IBMPlexSans">
                             <div>
                                 <h2 className="text-2xl font-semibold font-HindSiliguri">User Posts</h2>
-                                {posts?.docs.map((p: { id: React.Key | null | undefined; data: () => { (): any; new(): any; title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; created: { (): any; new(): any; toDate: { (): { (): any; new(): any; toLocaleDateString: { (arg0: string, arg1: { weekday: string; year: string; month: string; day: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; toLocaleTimeString: { (arg0: string, arg1: { hour: string; minute: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; }; new(): any; }; }; description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }; }) => {
+                                {posts?.docs.map((p) => {
                                     return (
                                         <li key={p.id} className='flex flex-row p-4 m-4 ml-0 text-black bg-white'>
                                             <div>
