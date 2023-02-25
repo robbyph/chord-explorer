@@ -122,7 +122,7 @@ const SubmitFeedback: NextPage = () => {
               Description
             </label>
             <textarea
-              className="w-full p-1 text-lg font-IBMPlexSans"
+              className="w-full p-1 min-h-[23rem] font-IBMPlexSans"
               minLength={3}
               onChange={(e) => {
                 setDescription(e.target.value);
@@ -163,7 +163,7 @@ const SubmitFeedback: NextPage = () => {
         </div>
 
         <div className="col-span-2 px-20">
-          <h2 className="lock pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-x">
+          <h2 className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
             Submission Preview
           </h2>
           <div className="flex flex-col items-center text-black bg-white">
