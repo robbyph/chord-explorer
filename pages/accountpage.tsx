@@ -57,7 +57,7 @@ const AccountPage = () => {
                         <span className="p-6 font-IBMPlexSans"><em>{user.email}</em></span>
                         <div>
                             <h2 className="p-6 pb-2 text-2xl font-semibold font-HindSiliguri">Bio</h2>
-                            <p className="p-6 pt-0 font-IBMPlexSans">{account.data()?.bio}</p>
+                            <p contenteditable="true" className="w-1/2 p-6 pt-0 pl-0 ml-6 font-IBMPlexSans">{account.data()?.bio.length > 0 ? account.data()?.bio : '✏️ Click here to create your bio...'}</p>
                         </div>
                         <div className="grid grid-cols-2 p-6 font-IBMPlexSans">
                             <div>
