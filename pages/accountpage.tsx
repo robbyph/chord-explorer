@@ -10,15 +10,15 @@ import Link from "next/link";
 
 const AccountPage = () => {
     const { user } = useAuth();
-
     var UID;
 
-    if (user != null) {
+    if (user.uid) {
         UID = user.uid
     } else {
         UID = 'nUOyi6OFOFgXNTUKs8twjIhmVmy2'
     }
 
+    
     const [account, accountLoading, accountError] = useDocument(
         doc(db, 'Users', UID),
         {
@@ -38,7 +38,7 @@ const AccountPage = () => {
         }
     );
 
-    console.log(UID)
+    
 
     return (
         <ProtectedRoute>
