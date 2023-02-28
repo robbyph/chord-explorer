@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
+import Alert from "../components/Alert";
+
 
 interface SignupType {
     email: string;
@@ -10,8 +12,13 @@ interface SignupType {
     password_confirm: string;
     username: string;
 }
+
 const SignupPage = () => {
     const methods = useForm<SignupType>({ mode: "onBlur" });
+    const [showAlert, setShowAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState('')
+
+
 
     const {
         register,
@@ -27,12 +34,16 @@ const SignupPage = () => {
             await signUp(data.email, data.password, data.username);
             router.push("/accountpage");
         } catch (error: any) {
-            console.log(error.message);
+            if (error.code == "auth/email-already-in-use") { setAlertMessage("A user with this email already exists. Try to log in.") }
+            else if (error.code == "auth/weak-password") { setAlertMessage("Password too weak. Strengthen it by increasing its length or complexity.") }
+            else { setAlertMessage(error.message) }
+            setShowAlert(true)
         }
     };
 
     return (
         <div className="container w-1/3 mx-auto mt-12 sign-up-form">
+            {showAlert && <Alert message={alertMessage} setShow={setShowAlert} />}
             <h2 className="px-12 mt-8 text-4xl font-semibold text-center text-white font-HindSiliguri">Sign Up</h2>
             <FormProvider {...methods}>
                 <form action="" className="px-4 pb-12 mx-auto font-IBMPlexSans" onSubmit={handleSubmit(onSubmit)}>

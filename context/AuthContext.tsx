@@ -9,6 +9,7 @@ import { auth, db } from "../firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, doc, DocumentData, getDocs, orderBy, query, QueryDocumentSnapshot, setDoc, where } from "firebase/firestore";
 
+
 interface UserType {
     email: string | null;
     uid: string | null;
@@ -17,6 +18,7 @@ interface UserType {
 const AuthContext = createContext({});
 
 export const useAuth = () => useContext<any>(AuthContext);
+
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<UserType>({ email: null, uid: null });
@@ -51,10 +53,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
                 posts: []
             });
         }).catch((error) => {
-            console.log(error.code)
-            if (error.code == "auth/email-already-in-use") { console.log("User already exists. Try to log in") }
-            else if (error.code == "auth/weak-password") { console.log("Password too weak. Strengthen it by increasing its length or complexity.") }
-
+            throw error
         })
         //then, we create a database object, with the same uid, for their other data
     };
