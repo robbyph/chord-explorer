@@ -30,12 +30,17 @@ const SignupPage = () => {
     const router = useRouter();
 
     const onSubmit = async (data: SignupType) => {
+
         try {
+            if (data.password != data.password_confirm) {
+                throw { code: 'password/no-match' };
+            }
             await signUp(data.email, data.password, data.username);
             router.push("/accountpage");
         } catch (error: any) {
             if (error.code == "auth/email-already-in-use") { setAlertMessage("A user with this email already exists. Try to log in.") }
             else if (error.code == "auth/weak-password") { setAlertMessage("Password too weak. Strengthen it by increasing its length or complexity.") }
+            else if (error.code == "password/no-match") { setAlertMessage("Both password fields must match!") }
             else { setAlertMessage(error.message) }
             setShowAlert(true)
         }
