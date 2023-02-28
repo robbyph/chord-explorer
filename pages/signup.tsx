@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import Alert from "../components/Alert";
+import { Profanity } from "@2toad/profanity";
 
 
 interface SignupType {
@@ -17,7 +18,7 @@ const SignupPage = () => {
     const methods = useForm<SignupType>({ mode: "onBlur" });
     const [showAlert, setShowAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState('')
-
+    const profanity = new Profanity()
 
 
     const {
@@ -35,12 +36,16 @@ const SignupPage = () => {
             if (data.password != data.password_confirm) {
                 throw { code: 'password/no-match' };
             }
+            if (profanity.censor(data.username) != data.username) {
+                throw { code: 'username/profanity-warning' };
+            }
             await signUp(data.email, data.password, data.username);
             router.push("/accountpage");
         } catch (error: any) {
             if (error.code == "auth/email-already-in-use") { setAlertMessage("A user with this email already exists. Try to log in.") }
             else if (error.code == "auth/weak-password") { setAlertMessage("Password too weak. Strengthen it by increasing its length or complexity.") }
             else if (error.code == "password/no-match") { setAlertMessage("Both password fields must match!") }
+            else if (error.code == "username/profanity-warning") { setAlertMessage("Warning! Profanity found in username.") }
             else { setAlertMessage(error.message) }
             setShowAlert(true)
         }
