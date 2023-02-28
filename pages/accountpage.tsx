@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import ProtectedRoute from "../components/ProtectedRoute";
 import { useAuth } from "../context/AuthContext";
-import { collection, doc, orderBy, query, where } from "firebase/firestore";
+import { updateDoc, collection, doc, orderBy, query, where } from "firebase/firestore";
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 import { db } from "../firebase/firestore";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import Link from "next/link";
 
 const AccountPage = () => {
     const { user } = useAuth();
-    var UID;
+    var UID: unknown;
 
     if (user.uid) {
         UID = user.uid
@@ -38,6 +38,15 @@ const AccountPage = () => {
         }
     );
 
+    const updateBio = async (incomingText: string | null) => {
+        const docRef = doc(db, "Users", user.uid);
+
+        // Set the "capital" field of the city 'DC'
+        await updateDoc(docRef, {
+        bio: incomingText
+        });
+    }
+
     
 
     return (
@@ -57,7 +66,7 @@ const AccountPage = () => {
                         <span className="p-6 font-IBMPlexSans"><em>{user.email}</em></span>
                         <div>
                             <h2 className="p-6 pb-2 text-2xl font-semibold font-HindSiliguri">Bio</h2>
-                            <p contenteditable="true" className="w-1/2 p-6 pt-0 pl-0 ml-6 font-IBMPlexSans">{account.data()?.bio.length > 0 ? account.data()?.bio : '✏️ Click here to create your bio...'}</p>
+                            <p placeholder="" contentEditable="true" onInputCapture={e => updateBio(e.currentTarget.textContent)} className="w-1/2 p-6 pt-0 pl-0 ml-6 font-IBMPlexSans">{account.data()?.bio.length > 0 ? account.data()?.bio : '✏️ Click here to create your bio...'}</p>
                         </div>
                         <div className="grid grid-cols-2 p-6 font-IBMPlexSans">
                             <div>
