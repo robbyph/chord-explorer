@@ -10,6 +10,8 @@ import { useDocument } from 'react-firebase-hooks/firestore';
 import Alert from "../components/Alert";
 import { Profanity } from "@2toad/profanity";
 import { FormProvider, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+
 
 interface PostType {
     title: string;
@@ -17,6 +19,8 @@ interface PostType {
     description: string;
     check: boolean;
 }
+
+
 
 const SubmitFeedback: NextPage = () => {
 
@@ -31,6 +35,7 @@ const SubmitFeedback: NextPage = () => {
     const profanity = new Profanity()
     const methods = useForm<PostType>({ mode: "onBlur" });
 
+    const router = useRouter();
 
 
     var UID;
@@ -58,24 +63,25 @@ const SubmitFeedback: NextPage = () => {
     const onSubmit = async (data: SignupType) => {
         if (user.uid === null) {
             setShowSignInPrompt(true)
-        } else if (data.title != profanity.censor(title)) {
+        } else if (data.title != profanity.censor(data.title)) {
+            console.log(profanity.censor(title))
             setAlertMessage('Profanity Warning! Profanity in Title.')
             setShowAlert(true)
-        } else if (data.description != profanity.censor(description)) {
+        } else if (data.description != profanity.censor(data.description)) {
             setAlertMessage('Profanity Warning! Profanity in Description.')
             setShowAlert(true)
         } else {
             setShowSignInPrompt(false)
             const PostsRef = collection(db, 'Posts')
-            return addDoc(PostsRef, {
+            await addDoc(PostsRef, {
                 created: serverTimestamp(),
                 //fields for the data to be sent to, make sure to separate each with a comma
-                title: title,
-                vidLink: vidLink,
-                description: description,
+                title: data.title,
+                vidLink: data.vidLink,
+                description: data.description,
                 author: account.data()?.username
             });
-
+            router.push("/accountpage");
         }
     };
 
@@ -107,6 +113,8 @@ const SubmitFeedback: NextPage = () => {
                                     {...register("title", { required: "Title is required" })}
                                     className={`w-full p-1 text-lg font-IBMPlexSans`}
                                     minLength={6}
+                                    value={title}
+                                    onChange={e => setTitle(e.target.value)}
                                 />
                                 {errors.title && <p className="pt-1 pl-2 text-red-400">{errors.title.message}</p>}
                             </div>
@@ -123,6 +131,8 @@ const SubmitFeedback: NextPage = () => {
                                     type="string"
                                     {...register("vidLink", { required: "Video Link is required" })}
                                     className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                    value={vidLink}
+                                    onChange={e => setVidLink(e.target.value)}
                                 />
                                 <p className='pt-1 pl-2 text-sm text-white font-IBMPlexSans'>Testing Link: https://www.youtube.com/embed/8tPnX7OPo0Q</p>
                                 {errors.vidLink && <p className="pt-1 pl-2 text-red-400">{errors.vidLink.message}</p>}
@@ -140,6 +150,8 @@ const SubmitFeedback: NextPage = () => {
                                     {...register("description", { required: "Description is required" })}
                                     className={`w-full min-h-[12rem] p-1 text-lg font-IBMPlexSans`}
                                     minLength={25}
+                                    value={description}
+                                    onChange={e => setDescription(e.target.value)}
                                 />
                                 {errors.description && <p className="pt-1 pl-2 text-red-400">{errors.description.message}</p>}
                             </div>
@@ -150,6 +162,8 @@ const SubmitFeedback: NextPage = () => {
                                     type="checkbox"
                                     {...register("check", { required: "Confirmation is required" })}
                                     className={`p-1 text-lg font-IBMPlexSans`}
+                                    value={check}
+                                    onChange={e => setCheck(e.target.value)}
                                 /> This video does not contain lewd, inappropriate or adult-only content
                                 {errors.check && <p className="pt-1 pl-2 text-red-400">{errors.check.message}</p>}
                             </div>
