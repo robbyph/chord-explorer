@@ -10,7 +10,7 @@ import Link from "next/link";
 
 const AccountPage = () => {
     const { user } = useAuth();
-    var UID: unknown;
+    var UID;
 
     if (user.uid) {
         UID = user.uid
@@ -18,7 +18,7 @@ const AccountPage = () => {
         UID = 'nUOyi6OFOFgXNTUKs8twjIhmVmy2'
     }
 
-    
+
     const [account, accountLoading, accountError] = useDocument(
         doc(db, 'Users', UID),
         {
@@ -41,13 +41,12 @@ const AccountPage = () => {
     const updateBio = async (incomingText: string | null) => {
         const docRef = doc(db, "Users", user.uid);
 
-        // Set the "capital" field of the city 'DC'
         await updateDoc(docRef, {
-        bio: incomingText
+            bio: incomingText
         });
     }
 
-    
+
 
     return (
         <ProtectedRoute>
