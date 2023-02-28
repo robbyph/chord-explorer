@@ -9,7 +9,14 @@ import SignInPrompt from '../components/SignInPrompt'
 import { useDocument } from 'react-firebase-hooks/firestore';
 import Alert from "../components/Alert";
 import { Profanity } from "@2toad/profanity";
+import { FormProvider, useForm } from "react-hook-form";
 
+interface PostType {
+    title: string;
+    vidLink: string;
+    description: string;
+    check: boolean;
+}
 
 const SubmitFeedback: NextPage = () => {
 
@@ -22,6 +29,8 @@ const SubmitFeedback: NextPage = () => {
     const [showAlert, setShowAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState('')
     const profanity = new Profanity()
+    const methods = useForm<PostType>({ mode: "onBlur" });
+
 
 
     var UID;
@@ -32,6 +41,13 @@ const SubmitFeedback: NextPage = () => {
     }
 
 
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = methods;
+
+
     const [account, accountLoading, accountError] = useDocument(
         doc(db, 'Users', UID),
         {
@@ -39,13 +55,13 @@ const SubmitFeedback: NextPage = () => {
         }
     );
 
-    const handleSubmit = (e) => {
+    const onSubmit = async (data: SignupType) => {
         if (user.uid === null) {
             setShowSignInPrompt(true)
-        } else if (title != profanity.censor(title)) {
+        } else if (data.title != profanity.censor(title)) {
             setAlertMessage('Profanity Warning! Profanity in Title.')
             setShowAlert(true)
-        } else if (description != profanity.censor(description)) {
+        } else if (data.description != profanity.censor(description)) {
             setAlertMessage('Profanity Warning! Profanity in Description.')
             setShowAlert(true)
         } else {
@@ -63,8 +79,6 @@ const SubmitFeedback: NextPage = () => {
         }
     };
 
-    console.log(description)
-
     return (
         <div>
             <Head>
@@ -79,28 +93,77 @@ const SubmitFeedback: NextPage = () => {
 
                 <h1 className='col-span-4 p-6 text-4xl font-semibold text-white font-HindSiliguri'>Submit for Feedback</h1>
                 <div className='col-span-2 pl-6 pr-6 space-y-2'>
-                    <div>
-                        <label htmlFor='title' className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl" >Title</label>
-                        <input className='w-full p-1 text-lg font-IBMPlexSans' minLength={3} type='text' onChange={(e) => { setTitle(e.target.value) }} name='title' value={title} required />
-                    </div>
+                    <FormProvider {...methods}>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <div className='font-IBMPlexSans'>
+                                <div className="flex items-center justify-between">
+                                    <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                        Title
+                                    </label>
+                                </div>
 
-                    <div>
-                        <label htmlFor='vidLink' className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl" >Video Link</label>
-                        <input className='w-full p-1 text-lg font-IBMPlexSans' minLength={3} type='text' onChange={(e) => { setVidLink(e.target.value) }} name='vidLink' value={vidLink} required />
-                        <p className='pt-1 pl-2 text-sm text-white font-IBMPlexSans'>Testing Link: https://www.youtube.com/embed/8tPnX7OPo0Q</p>
-                    </div>
+                                <input
+                                    type="text"
+                                    {...register("title", { required: "Title is required" })}
+                                    className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                    minLength={6}
+                                />
+                                {errors.title && <p className="pt-1 pl-2 text-red-400">{errors.title.message}</p>}
+                            </div>
 
-                    <div>
-                        <label htmlFor='description' className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">Description</label>
-                        <textarea className='w-full p-1 min-h-[23rem] font-IBMPlexSans' minLength={25} onChange={(e) => { setDescription(e.target.value) }} name='description' value={description} required />
-                    </div>
+                            <div className="mt-8">
+                                <div className="flex items-center justify-between">
+                                    <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                        Video Link
+                                    </label>
 
-                    <div>
-                        <input type="checkbox" name='check' onChange={(e) => { setCheck(e.target.value) }} value={check} required />
-                        <label htmlFor='check' className="pl-2 text-base text-white font-IBMPlexSans">This video does not contain lewd, inappropriate or adult-only content</label>
-                    </div>
+                                </div>
 
-                    <input value="Submit" onClick={(e) => { check ? handleSubmit(e) : 'AHHH' }} className="p-2 m-2 ml-0 bg-white border-2 text-lg  cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
+                                <input
+                                    type="string"
+                                    {...register("vidLink", { required: "Video Link is required" })}
+                                    className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                />
+                                <p className='pt-1 pl-2 text-sm text-white font-IBMPlexSans'>Testing Link: https://www.youtube.com/embed/8tPnX7OPo0Q</p>
+                                {errors.vidLink && <p className="pt-1 pl-2 text-red-400">{errors.vidLink.message}</p>}
+                            </div>
+
+                            <div className="mt-8">
+                                <div className="flex items-center justify-between">
+                                    <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                        Description
+                                    </label>
+
+                                </div>
+
+                                <textarea
+                                    {...register("description", { required: "Description is required" })}
+                                    className={`w-full min-h-[12rem] p-1 text-lg font-IBMPlexSans`}
+                                    minLength={25}
+                                />
+                                {errors.description && <p className="pt-1 pl-2 text-red-400">{errors.description.message}</p>}
+                            </div>
+
+                            <div className="mt-8">
+
+                                <input
+                                    type="checkbox"
+                                    {...register("check", { required: "Confirmation is required" })}
+                                    className={`p-1 text-lg font-IBMPlexSans`}
+                                /> This video does not contain lewd, inappropriate or adult-only content
+                                {errors.check && <p className="pt-1 pl-2 text-red-400">{errors.check.message}</p>}
+                            </div>
+
+                            <div className="flex justify-center pt-8">
+                                <button
+                                    type="submit"
+                                    className={`p-2 m-2 ml-0 bg-white border-2 text-lg  cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium`}
+                                >
+                                    <p className="">Submit</p>
+                                </button>
+                            </div>
+                        </form>
+                    </FormProvider>
                 </div>
                 <div className='col-span-2 px-20'>
                     <h2 className='block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl'>Submission Preview</h2>

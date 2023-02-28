@@ -31,7 +31,6 @@ const SignupPage = () => {
     const router = useRouter();
 
     const onSubmit = async (data: SignupType) => {
-
         try {
             if (data.password != data.password_confirm) {
                 throw { code: 'password/no-match' };
