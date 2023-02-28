@@ -79,9 +79,9 @@ const SubmitFeedback: NextPage = () => {
                 title: data.title,
                 vidLink: data.vidLink,
                 description: data.description,
-                author: account.data()?.username
-            });
-            router.push("/accountpage");
+                author: account.id
+            }).then(function (docRef) { router.push(`/post/${docRef.id}`) })
+
         }
     };
 
