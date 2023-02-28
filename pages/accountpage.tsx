@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import ProtectedRoute from "../components/ProtectedRoute";
 import { useAuth } from "../context/AuthContext";
@@ -11,6 +11,7 @@ import Link from "next/link";
 const AccountPage = () => {
     const { user } = useAuth();
     var UID;
+    const [editableElement, setEditableElement] = useState<HTMLElement | null>(null);
 
     if (user.uid) {
         UID = user.uid
@@ -38,13 +39,15 @@ const AccountPage = () => {
         }
     );
 
-    const updateBio = async (incomingText: string | null) => {
+    const updateBio = async () => {
         const docRef = doc(db, "Users", user.uid);
+        const incomingText = editableElement?.innerHTML.replace(/(<br>)+/g, '');
 
         await updateDoc(docRef, {
             bio: incomingText
         });
     }
+
 
 
 
@@ -65,8 +68,16 @@ const AccountPage = () => {
                         <span className="p-6 font-IBMPlexSans"><em>{user.email}</em></span>
                         <div>
                             <h2 className="p-6 pb-2 text-2xl font-semibold font-HindSiliguri">Bio</h2>
-                            <p placeholder="" contentEditable="true" onInputCapture={e => updateBio(e.currentTarget.textContent)} className="w-1/2 p-6 pt-0 pl-0 ml-6 font-IBMPlexSans">{account.data()?.bio.length > 0 ? account.data()?.bio : '✏️ Click here to create your bio...'}</p>
-                        </div>
+                            <p
+                                ref={el => setEditableElement(el)}
+                                contentEditable="true"
+                                onBlur={updateBio}
+                                className="w-1/2 p-6 pt-0 pl-0 ml-6 font-IBMPlexSans"
+                            >
+                                {account.data()?.bio.length > 0
+                                    ? account.data()?.bio
+                                    : '✏️ Type here to start your bio! '}
+                            </p>                        </div>
                         <div className="grid grid-cols-2 p-6 font-IBMPlexSans">
                             <div>
                                 <h2 className="text-2xl font-semibold font-HindSiliguri">User Posts</h2>

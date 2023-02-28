@@ -46,7 +46,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
                 acctActive: true,
                 email: email,
                 username: username,
-                bio: "This user hasn't created their bio yet...",
+                bio: "",
                 comments: [],
                 posts: []
             });
