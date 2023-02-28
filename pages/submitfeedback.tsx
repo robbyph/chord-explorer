@@ -1,11 +1,12 @@
 //@ts-nocheck
 import React, { useState } from 'react'
 import Head from 'next/head'
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, doc, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase/firestore";
 import { NextPage } from 'next';
 import { useAuth } from '../context/AuthContext';
 import SignInPrompt from '../components/SignInPrompt'
+import { useDocument } from 'react-firebase-hooks/firestore';
 
 const SubmitFeedback: NextPage = () => {
 
@@ -16,7 +17,19 @@ const SubmitFeedback: NextPage = () => {
     const { user } = useAuth();
     const [showSignInPrompt, setShowSignInPrompt] = useState(false)
 
-    console.log(user.uid)
+    var UID;
+    if (user.uid) {
+        UID = user.uid
+    } else {
+        UID = 'null'
+    }
+
+    const [account, accountLoading, accountError] = useDocument(
+        doc(db, 'Users', UID),
+        {
+            snapshotListenOptions: { includeMetadataChanges: true },
+        }
+    );
 
     const handleSubmit = (e) => {
         if (user.uid === null) {
@@ -31,7 +44,7 @@ const SubmitFeedback: NextPage = () => {
                 title: title,
                 vidLink: vidLink,
                 description: description,
-                author: 'placeholder'
+                author: account.data()?.username
             });
 
         }
@@ -80,7 +93,7 @@ const SubmitFeedback: NextPage = () => {
                     <div className='flex flex-col text-black bg-white'>
                         <div className='flex flex-col items-center'>
                             <h3 className='p-2 pb-0 text-2xl font-medium font-HindSiliguri'>{title.length > 0 ? title : 'Title Placeholder'}</h3>
-                            <p className='p-2 pt-1 text-sm font-IBMPlexSans text-[#808080]'>Submitted by <span className='underline'>Current User</span></p>
+                            <p className='p-2 pt-1 text-sm font-IBMPlexSans text-[#808080]'>Submitted by <span className='underline'>{account?.data().username}</span></p>
                             <embed className='p-2' width="560" height="315" src={vidLink.length > 0 ? vidLink : 'https://www.youtube.com/embed/ScMzIvxBSi4'} title="Video Submission" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></embed>
                         </div>
                         <pre className='p-2 pb-6 pl-0 ml-14 font-IBMPlexSans'>{description.length > 0 ? description : 'Type a description for your post, and it will appear here!'}</pre>
