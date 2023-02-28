@@ -7,6 +7,9 @@ import { NextPage } from 'next';
 import { useAuth } from '../context/AuthContext';
 import SignInPrompt from '../components/SignInPrompt'
 import { useDocument } from 'react-firebase-hooks/firestore';
+import Alert from "../components/Alert";
+import { Profanity } from "@2toad/profanity";
+
 
 const SubmitFeedback: NextPage = () => {
 
@@ -16,6 +19,10 @@ const SubmitFeedback: NextPage = () => {
     const [check, setCheck] = useState(false);
     const { user } = useAuth();
     const [showSignInPrompt, setShowSignInPrompt] = useState(false)
+    const [showAlert, setShowAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState('')
+    const profanity = new Profanity()
+
 
     var UID;
     if (user.uid) {
@@ -23,6 +30,7 @@ const SubmitFeedback: NextPage = () => {
     } else {
         UID = 'null'
     }
+
 
     const [account, accountLoading, accountError] = useDocument(
         doc(db, 'Users', UID),
@@ -33,8 +41,13 @@ const SubmitFeedback: NextPage = () => {
 
     const handleSubmit = (e) => {
         if (user.uid === null) {
-
             setShowSignInPrompt(true)
+        } else if (title != profanity.censor(title)) {
+            setAlertMessage('Profanity Warning! Profanity in Title.')
+            setShowAlert(true)
+        } else if (description != profanity.censor(description)) {
+            setAlertMessage('Profanity Warning! Profanity in Description.')
+            setShowAlert(true)
         } else {
             setShowSignInPrompt(false)
             const PostsRef = collection(db, 'Posts')
@@ -61,6 +74,7 @@ const SubmitFeedback: NextPage = () => {
             </Head>
 
             <main className='grid grid-cols-4 '>
+                {showAlert && <Alert message={alertMessage} setShow={setShowAlert} />}
                 {showSignInPrompt && <SignInPrompt setShow={setShowSignInPrompt} />}
 
                 <h1 className='col-span-4 p-6 text-4xl font-semibold text-white font-HindSiliguri'>Submit for Feedback</h1>
