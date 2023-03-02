@@ -40,33 +40,36 @@ const ChordSelection = ({ chords, onChange }) => {
   );
 
   return (
-    <Popover className='relative flex flex-wrap items-center'>
-      {chords.map((chord, index) => (
-        <ChordBox
-          key={index}
-          value={chord}
-          onChange={(event) => handleChordChange(index, event.target.value)}
-          isLast={index === chords.length - 1}
-        />
-      ))}
-      <Popover.Button className='relative ml-2 text-gray-400 bg-gray-200 rounded-lg shadow-md w-28 h-44 hover:bg-gray-300 focus:outline-none'>
-        {({ open }) => (
-          <span className='absolute inset-0 flex flex-col items-center justify-center'>
-            {open ? (
-              <ChevronUpIcon className='w-6 h-6' />
-            ) : (
-              <PlusIcon className='w-6 h-6' />
-            )}
-            <span className='text-xs font-medium text-gray-700'>
-              Add chords
-            </span>
-          </span>
-        )}
-      </Popover.Button>
+    <Popover className='relative flex max-w-full'>
+      <div className='container flex flex-row items-center py-2 overflow-x-auto'>
+        {chords.map((chord, index) => (
+          <ChordBox
+            key={index}
+            value={chord}
+            onChange={(event) => handleChordChange(index, event.target.value)}
+            isLast={index === chords.length - 1}
+          />
+        ))}
 
-      {chords.length === 0 && (
-        <div className='ml-2 text-sm text-gray-400'>No chords</div>
-      )}
+        <Popover.Button className='relative flex-shrink-0 ml-2 text-gray-400 bg-gray-200 rounded-lg shadow-md w-28 h-44 hover:bg-gray-300 focus:outline-none'>
+          {({ open }) => (
+            <span className='absolute inset-0 flex flex-col items-center justify-center'>
+              {open ? (
+                <ChevronUpIcon className='w-6 h-6' />
+              ) : (
+                <PlusIcon className='w-6 h-6' />
+              )}
+              <span className='text-xs font-medium text-gray-700'>
+                Add chords
+              </span>
+            </span>
+          )}
+        </Popover.Button>
+
+        {chords.length === 0 && (
+          <div className='ml-2 text-sm text-gray-400'>No chords</div>
+        )}
+      </div>
       <Popover.Panel className='absolute z-10 flex flex-wrap items-center bg-white shadow-2xl left-10 -top-40 font-IBMPlexSans'>
         <div className='relative w-full h-16 m-2 shadow-lg'>
           <div className='absolute inset-0 flex items-center justify-center w-full h-full bg-gray-200 rounded-lg shadow-md'>
