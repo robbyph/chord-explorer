@@ -12,6 +12,7 @@ import { Profanity } from "@2toad/profanity";
 import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import ChordSelection from '../components/ChordSelection'
+import ChordPreview from '../components/ChordPreview';
 
 
 interface PostType {
@@ -20,7 +21,7 @@ interface PostType {
     tabLink: string;
 }
 
-const SubmitFeedback: NextPage = () => {
+const SubmitSong: NextPage = () => {
 
     const [tabLink, setTabLink] = useState('');
     const [songLink, setSongLink] = useState('');
@@ -168,10 +169,6 @@ const SubmitFeedback: NextPage = () => {
                                 </div>
                             </div>
 
-
-
-
-
                             <div className="flex pt-8 justify-left">
                                 <button
                                     type="submit"
@@ -189,6 +186,7 @@ const SubmitFeedback: NextPage = () => {
                         <div className='flex flex-col items-center'>
                             <h3 className='p-2 pb-0 text-2xl font-medium font-HindSiliguri'>{title.length > 0 ? title : 'Title Placeholder'}</h3>
                             <p className='p-2 pt-1 text-sm font-IBMPlexSans text-[#808080]'>Submitted by <span className='underline'>{account?.data().username}</span></p>
+                            <ChordPreview chords={chords} />
                             {/* <embed className='p-2' width="560" height="315" src={songLink.length > 0 ? vidLink : 'https://www.youtube.com/embed/ScMzIvxBSi4'} title="Video Submission" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></embed> */}
                         </div>
                     </div>
@@ -198,4 +196,4 @@ const SubmitFeedback: NextPage = () => {
     )
 }
 
-export default SubmitFeedback
+export default SubmitSong
