@@ -69,18 +69,19 @@ const SubmitSong: NextPage = () => {
             setShowAlert(true);
             return;
         }
-        const PostsRef = collection(db, "Posts");
-        await addDoc(PostsRef, {
+        const SongsRef = collection(db, "Songs");
+        console.log(chords)
+        await addDoc(SongsRef, {
             created: serverTimestamp(),
             // fields for the data to be sent to, make sure to separate each with a comma
             title: data.title,
             songLink: data.songLink,
             tabLink: data.tabLink,
-            chords: data.chords,
+            chords: chords,
             author: account.id,
         })
             .then((docRef) => {
-                router.push(`/post/${docRef.id}`);
+                //router.push(`/post/${docRef.id}`);
             })
             .catch((error) => {
                 console.error("Error adding document: ", error);
