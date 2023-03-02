@@ -1,28 +1,27 @@
 import { useState } from 'react';
 import { PlusIcon } from '@heroicons/react/outline';
 
-const ChordBox = ({ value, onChange }) => {
+const ChordBox = ({ value, onChange, isLast }) => {
   return (
-    <div className='relative flex-shrink-0 w-16 h-16 m-2 bg-white rounded-lg shadow-md'>
-      <input
-        type='text'
-        value={value}
-        onChange={onChange}
-        className='absolute inset-0 w-full h-full p-2 text-lg text-center text-gray-900 border-0 rounded-lg focus:outline-none'
-      />
-      <button
-        type='button'
-        className='absolute inset-y-0 right-0 flex items-center justify-center w-10 text-gray-600 hover:text-gray-900 focus:outline-none'
-        onClick={() => {}}
-      >
-        <PlusIcon className='w-6 h-6' />
-      </button>
+    <div className={`relative ${isLast ? '' : ''}`}>
+      <div className='relative w-20 h-16 m-2'>
+        <div className='absolute inset-0 flex items-center justify-center w-full h-full bg-gray-200 rounded-lg shadow-md'>
+          <input
+            type='text'
+            value={value}
+            onChange={onChange}
+            className='w-full px-3 py-2 text-lg text-center text-gray-900 bg-transparent border-0 focus:outline-none'
+          />
+        </div>
+        <div className='absolute top-0 left-0 z-10 flex items-center justify-center w-full h-full text-sm text-gray-400'>
+          {value ? null : 'Chord'}
+        </div>
+      </div>
     </div>
   );
 };
 
 const ChordSelection = ({ chords, onChange }) => {
-  console.log(chords);
   const handleChordChange = (index, value) => {
     onChange(chords.map((chord, i) => (i === index ? value : chord)));
   };
@@ -32,23 +31,32 @@ const ChordSelection = ({ chords, onChange }) => {
   };
 
   return (
-    <div className='flex flex-wrap'>
-      {chords.map((chord, index) => (
-        <ChordBox
-          key={index}
-          value={chord}
-          onChange={(event) => handleChordChange(index, event.target.value)}
-        />
-      ))}
-      <div className='relative flex-shrink-0 w-16 h-16 m-2 bg-gray-100 rounded-lg shadow-md'>
+    <div className='flex items-center'>
+      <div className='flex flex-wrap'>
+        {chords.map((chord, index) => (
+          <ChordBox
+            key={index}
+            value={chord}
+            onChange={(event) => handleChordChange(index, event.target.value)}
+            isLast={index === chords.length - 1}
+          />
+        ))}
+      </div>
+      <div className='relative ml-2'>
         <button
           type='button'
-          className='absolute inset-0 flex items-center justify-center w-full h-full text-lg text-gray-600 hover:text-gray-900 focus:outline-none'
+          className='relative w-20 h-16 text-gray-400 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 focus:outline-none'
           onClick={handleAddChord}
         >
-          <PlusIcon className='w-6 h-6' />
+          <span className='absolute inset-0 flex flex-col items-center justify-center'>
+            <PlusIcon className='w-6 h-6' />
+            <span className='text-xs font-medium text-gray-700'>Add chord</span>
+          </span>
         </button>
       </div>
+      {chords.length === 0 && (
+        <div className='ml-2 text-sm text-gray-400'>No chords</div>
+      )}
     </div>
   );
 };

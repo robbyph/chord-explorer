@@ -155,17 +155,27 @@ const SubmitFeedback: NextPage = () => {
                                 {errors.tabLink && <p className="pt-1 pl-2 text-red-400">{errors.tabLink.message}</p>}
                             </div>
 
-                            <div className="flex justify-center pt-8">
+                            <div className="flex flex-col-reverse justify-center pt-8">
                                 <ChordSelection
+                                    className="mt-4"
                                     chords={chords}
                                     onChange={(chords: string[]) => setChords(chords)}
                                 />
+                                <div className="flex items-center justify-between">
+                                    <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                        Chords
+                                    </label>
+                                </div>
                             </div>
 
-                            <div className="flex justify-center pt-8">
+
+
+
+
+                            <div className="flex pt-8 justify-left">
                                 <button
                                     type="submit"
-                                    className={`p-2 m-2 ml-0 bg-white border-2 text-lg  cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium`}
+                                    className={`p-2 px-8 m-2 ml-0 bg-white border-2 text-lg cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium`}
                                 >
                                     <p className="">Submit</p>
                                 </button>
