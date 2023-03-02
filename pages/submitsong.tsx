@@ -36,6 +36,7 @@ const SubmitSong: NextPage = () => {
     const router = useRouter();
 
 
+
     var UID;
     if (user.uid) {
         UID = user.uid
