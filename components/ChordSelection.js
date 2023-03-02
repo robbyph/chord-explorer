@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PlusIcon } from '@heroicons/react/outline';
+import { PlusIcon, ChevronUpIcon } from '@heroicons/react/outline';
 import { Popover } from '@headlessui/react';
 
 const ChordBox = ({ value, onChange, isLast }) => {
@@ -25,16 +25,14 @@ const ChordBox = ({ value, onChange, isLast }) => {
 
 const ChordSelection = ({ chords, onChange }) => {
   const CHORD_OPTIONS = ['G Major', 'B Minor', 'C Major', 'D Minor', 'E Minor'];
-  const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleChordChange = (index, value) => {
-    onChange(chords.map((chord, i) => (i === index ? value : chord)));
+    console.log(open());
   };
 
   const handleAddChord = (chord) => {
     onChange([...chords, chord]);
-    setIsOpen(false);
   };
 
   const filteredChords = CHORD_OPTIONS.filter((chord) =>
@@ -52,15 +50,24 @@ const ChordSelection = ({ chords, onChange }) => {
         />
       ))}
       <Popover.Button className='relative ml-2 text-gray-400 bg-gray-200 rounded-lg shadow-md w-28 h-44 hover:bg-gray-300 focus:outline-none'>
-        <span className='absolute inset-0 flex flex-col items-center justify-center'>
-          <PlusIcon className='w-6 h-6' />
-          <span className='text-xs font-medium text-gray-700'>Add chord</span>
-        </span>
+        {({ open }) => (
+          <span className='absolute inset-0 flex flex-col items-center justify-center'>
+            {open ? (
+              <ChevronUpIcon className='w-6 h-6' />
+            ) : (
+              <PlusIcon className='w-6 h-6' />
+            )}
+            <span className='text-xs font-medium text-gray-700'>
+              Add chords
+            </span>
+          </span>
+        )}
       </Popover.Button>
+
       {chords.length === 0 && (
         <div className='ml-2 text-sm text-gray-400'>No chords</div>
       )}
-      <Popover.Panel className='absolute z-10 flex flex-wrap items-center bg-white shadow-2xl -top-40 font-IBMPlexSans'>
+      <Popover.Panel className='absolute z-10 flex flex-wrap items-center bg-white shadow-2xl left-10 -top-40 font-IBMPlexSans'>
         <div className='relative w-full h-16 m-2 shadow-lg'>
           <div className='absolute inset-0 flex items-center justify-center w-full h-full bg-gray-200 rounded-lg shadow-md'>
             <input
