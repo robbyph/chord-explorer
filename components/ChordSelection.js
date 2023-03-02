@@ -31,21 +31,27 @@ const ChordSelection = ({ chords, onChange }) => {
   };
 
   return (
-    <div className='flex items-center'>
-      <div className='flex flex-wrap'>
-        {chords.map((chord, index) => (
-          <ChordBox
-            key={index}
-            value={chord}
-            onChange={(event) => handleChordChange(index, event.target.value)}
-            isLast={index === chords.length - 1}
-          />
-        ))}
-      </div>
-      <div className='relative ml-2'>
+    <div className='flex flex-wrap items-center'>
+      {chords.map((chord, index) => (
+        <div key={index} className='relative flex-none w-20 h-16 m-2'>
+          <div className='absolute inset-0 flex items-center justify-center w-full h-full bg-gray-200 rounded-lg shadow-md'>
+            <input
+              type='text'
+              value={chord}
+              onChange={(event) => handleChordChange(index, event.target.value)}
+              className='w-full px-3 py-2 text-lg text-center text-gray-900 bg-transparent border-0 focus:outline-none'
+            />
+          </div>
+          <div className='absolute top-0 left-0 z-10 flex items-center justify-center w-full h-full text-sm text-gray-400'>
+            {chord ? null : 'Chord'}
+          </div>
+        </div>
+      ))}
+
+      <div className='flex-auto'>
         <button
           type='button'
-          className='relative w-20 h-16 text-gray-400 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 focus:outline-none'
+          className='relative w-20 h-16 ml-2 text-gray-400 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 focus:outline-none'
           onClick={handleAddChord}
         >
           <span className='absolute inset-0 flex flex-col items-center justify-center'>
@@ -54,6 +60,7 @@ const ChordSelection = ({ chords, onChange }) => {
           </span>
         </button>
       </div>
+
       {chords.length === 0 && (
         <div className='ml-2 text-sm text-gray-400'>No chords</div>
       )}
