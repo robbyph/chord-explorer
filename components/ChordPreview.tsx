@@ -10,7 +10,7 @@ const ChordPreview = ({ chords }: ChordPreviewProps) => {
             <h4 className='p-2 pb-0 text-xl font-medium text-center font-HindSiliguri'>Chords</h4>
             <div className='flex flex-wrap justify-center'>
                 {chords.map((chord, index) => (
-                    <div className='relative w-20 h-16 m-2' key={index}>
+                    <div className='relative h-16 m-2 w-28' key={index}>
                         <div className='absolute inset-0 flex items-center justify-center w-full h-full bg-gray-200 rounded-lg shadow-md'>
                             <p className='text-lg font-bold text-center text-gray-900'>
                                 {chord}

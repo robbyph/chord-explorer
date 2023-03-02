@@ -5,7 +5,7 @@ import { Popover } from '@headlessui/react';
 const ChordBox = ({ value, onChange, isLast }) => {
   return (
     <div className={`relative ${isLast ? '' : ''}`}>
-      <div className='relative w-20 h-16 m-2'>
+      <div className='relative h-16 m-2 w-28'>
         <div className='absolute inset-0 flex items-center justify-center w-full h-full bg-gray-200 rounded-lg shadow-md'>
           <input
             type='text'
@@ -76,7 +76,7 @@ const ChordSelection = ({ chords, onChange }) => {
             <button
               key={chord}
               type='button'
-              className='w-20 h-16 m-2 text-gray-900 rounded-lg shadow-md hover:bg-gray-200 focus:outline-none'
+              className='h-16 m-2 text-gray-900 rounded-lg shadow-md w-28 hover:bg-gray-200 focus:outline-none'
               onClick={() => handleAddChord(chord)}
             >
               {chord}
