@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { PlusIcon, ChevronUpIcon } from '@heroicons/react/outline';
 import { Popover } from '@headlessui/react';
 
@@ -26,6 +26,14 @@ const ChordBox = ({ value, onChange, isLast }) => {
 const ChordSelection = ({ chords, onChange }) => {
   const CHORD_OPTIONS = ['G Major', 'B Minor', 'C Major', 'D Minor', 'E Minor'];
   const [searchTerm, setSearchTerm] = useState('');
+  const containerRef = useRef(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    setIsOverflowing(container.scrollWidth > container.clientWidth);
+    container.scrollLeft = container.scrollWidth;
+  }, [chords]);
 
   const handleChordChange = (index, value) => {
     console.log(open());
@@ -41,7 +49,10 @@ const ChordSelection = ({ chords, onChange }) => {
 
   return (
     <Popover className='relative flex max-w-full'>
-      <div className='container flex flex-row items-center py-2 overflow-x-auto'>
+      <div
+        ref={containerRef}
+        className='container flex flex-row items-center py-2 overflow-x-auto'
+      >
         {chords.map((chord, index) => (
           <ChordBox
             key={index}
