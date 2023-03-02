@@ -76,10 +76,6 @@ const ChordSelection = ({ chords, onChange }) => {
             </span>
           )}
         </Popover.Button>
-
-        {chords.length === 0 && (
-          <div className='ml-2 text-sm text-gray-400'>No chords</div>
-        )}
       </div>
       <Popover.Panel className='absolute z-10 flex flex-wrap items-center bg-white shadow-2xl left-10 -top-40 font-IBMPlexSans'>
         <div className='relative w-full h-16 m-2 shadow-lg'>
