@@ -6,7 +6,7 @@ const ChordBox = ({ value, onChange, isLast }) => {
   return (
     <div className={`relative ${isLast ? '' : ''}`}>
       <div className='relative m-2 h-44 w-28'>
-        <div className='absolute inset-0 flex flex-col items-center w-full h-full bg-gray-200 rounded-lg shadow-md justify-top'>
+        <div className='absolute inset-0 flex flex-col items-center w-full h-full bg-white rounded-lg shadow-md font-IBMPlexSans justify-top'>
           <input
             type='text'
             value={value}
@@ -60,8 +60,8 @@ const ChordSelection = ({ chords, onChange }) => {
       {chords.length === 0 && (
         <div className='ml-2 text-sm text-gray-400'>No chords</div>
       )}
-      <Popover.Panel className='absolute z-10 flex flex-wrap items-center bg-white font-IBMPlexSans'>
-        <div className='relative w-full h-16 m-2'>
+      <Popover.Panel className='absolute z-10 flex flex-wrap items-center bg-white shadow-2xl -top-40 font-IBMPlexSans'>
+        <div className='relative w-full h-16 m-2 shadow-lg'>
           <div className='absolute inset-0 flex items-center justify-center w-full h-full bg-gray-200 rounded-lg shadow-md'>
             <input
               type='text'
