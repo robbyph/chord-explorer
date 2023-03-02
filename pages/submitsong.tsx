@@ -17,6 +17,7 @@ import ChordPreview from '../components/ChordPreview';
 
 interface PostType {
     title: string;
+    author: string;
     songLink: string;
     tabLink: string;
 }
@@ -26,6 +27,7 @@ const SubmitSong: NextPage = () => {
     const [tabLink, setTabLink] = useState('');
     const [songLink, setSongLink] = useState('');
     const [title, setTitle] = useState('');
+    const [artist, setArtist] = useState('');
     const { user } = useAuth();
     const [showSignInPrompt, setShowSignInPrompt] = useState(false)
     const [showAlert, setShowAlert] = useState(false)
@@ -79,9 +81,19 @@ const SubmitSong: NextPage = () => {
             tabLink: data.tabLink,
             chords: chords,
             author: account.id,
+            artist: data.artist,
+            upVotes: 0,
+            downVotes: 0
         })
             .then((docRef) => {
                 //router.push(`/post/${docRef.id}`);
+                setAlertMessage("Submitted!");
+                setShowAlert(true);
+                setArtist('')
+                setChords([])
+                setTitle('')
+                setSongLink('')
+                setTabLink('')
             })
             .catch((error) => {
                 console.error("Error adding document: ", error);
@@ -122,7 +134,25 @@ const SubmitSong: NextPage = () => {
                                 {errors.title && <p className="pt-1 pl-2 text-red-400">{errors.title.message}</p>}
                             </div>
 
-                            <div className="mt-8">
+                            <div className='mt-4 font-IBMPlexSans'>
+                                <div className="flex items-center justify-between">
+                                    <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                        Artist
+                                    </label>
+                                </div>
+
+                                <input
+                                    type="text"
+                                    {...register("artist", { required: "Artist is required" })}
+                                    className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                    minLength={6}
+                                    value={artist}
+                                    onChange={e => setArtist(e.target.value)}
+                                />
+                                {errors.artist && <p className="pt-1 pl-2 text-red-400">{errors.artist.message}</p>}
+                            </div>
+
+                            <div className="mt-4">
                                 <div className="flex items-center justify-between">
                                     <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
                                         Song Link
@@ -140,7 +170,7 @@ const SubmitSong: NextPage = () => {
                                 {errors.songLink && <p className="pt-1 pl-2 text-red-400">{errors.songLink.message}</p>}
                             </div>
 
-                            <div className="mt-8">
+                            <div className="mt-4">
                                 <div className="flex items-center justify-between">
                                     <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
                                         Tab Link (Optional)
@@ -158,7 +188,7 @@ const SubmitSong: NextPage = () => {
                                 {errors.tabLink && <p className="pt-1 pl-2 text-red-400">{errors.tabLink.message}</p>}
                             </div>
 
-                            <div className="flex flex-col-reverse justify-center pt-8">
+                            <div className="flex flex-col-reverse justify-center pt-4">
                                 <ChordSelection
                                     className="mt-4"
                                     chords={chords}
