@@ -32,11 +32,17 @@ const PostPage = (props) => {
             snapshotListenOptions: { includeMetadataChanges: true },
         }
     );
+    const [loggedInUserData, loggedInUserDataLoading, loggedInUserDataError] = useDocument(
+        doc(db, 'Users', user.uid),
+        {
+            snapshotListenOptions: { includeMetadataChanges: true },
+        }
+    );
 
     const handleSubmit = (e) => {
         e.preventDefault();
         var tempComment = profanity.censor(newComment);
-        console.log(user)
+        //console.log(loggedInUserData?.data().username)
 
         if (user.uid === null) {
             setShowSignInPrompt(true)
@@ -51,7 +57,8 @@ const PostPage = (props) => {
             return addDoc(CommentsRef, {
                 created: serverTimestamp(),
                 comment: commentToSend,
-                author: props.post.author,
+                author: loggedInUserData?.id,
+                authorUserName: loggedInUserData?.data().username,
                 helpfulCount: 0,
                 unhelpfulCount: 0,
                 parentPost: props.id
@@ -122,6 +129,7 @@ const PostPage = (props) => {
                         {error && <strong>Error! <br /> {JSON.stringify(error)} </strong>}
                         {loading && <em>Loading...</em>}
                         {comments && comments.docs.map((c) => {
+                            //console.log(c.data().author)
                             return (
                                 <div id='comment' key={c.id} className='p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
                                     <p id='comment-content' className='pb-6'>{c.data().comment}</p>
@@ -132,7 +140,7 @@ const PostPage = (props) => {
                                             <button onClick={() => handleDownvote(c)} className='px-2 py-1 font-medium text-black bg-purple-200 border border-purple-400 shadow-md active:-translate-y-1'>{c.data().unhelpfulCount} | Unhelpful</button>
                                         </div>
                                         <div>
-                                            <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <Link href={`/profile/${props.post.author}`}><a className="underline">{author?.data().username}</a></Link></h4>
+                                            <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <Link href={`/profile/${c.data().author}`}><a className="underline">{c.data().authorUserName}</a></Link></h4>
                                             <h4 id='comment-author' className='pb-0 text-sm font-medium font-HindSiliguri'>Posted <em>{c.data().created?.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{c.data().created?.toDate().toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
                                         </div>
                                     </div>

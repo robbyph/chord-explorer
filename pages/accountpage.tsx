@@ -16,7 +16,7 @@ const AccountPage = () => {
     if (user.uid) {
         UID = user.uid
     } else {
-        UID = 'nUOyi6OFOFgXNTUKs8twjIhmVmy2'
+        UID = 'Ndbd5FSAl4QOMKyGaEY1866oNQk1'
     }
 
 
