@@ -242,7 +242,7 @@ const ChordRecognition = () => {
                         <Tab.Panel>
                             <div>
                                 <div className="col-span-4 p-2 pl-0 m-2 mb-2 ml-0 ">
-                                    <h2 className="col-span-4 pt-2 mb-2 text-2xl font-HindSiliguri">Click 'Start' to begin detecting chords</h2>
+                                    <h2 className="col-span-4 pt-2 mb-2 text-2xl font-HindSiliguri">Click Start to begin detecting chords</h2>
                                     <h3 className="col-span-4 mb-2 text-base font-HindSiliguri"><em>Please allow microphone access</em></h3>
                                     {/* {submitWarning ? <p className="font-bold text-red-500"> Please upload an audio file before generating chord data...</p> : ''}
                                     {recognitionWarning ? <p className="font-bold text-red-500">Please upload an audio file before generating chord data...</p> : ''}
