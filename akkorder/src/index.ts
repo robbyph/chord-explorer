@@ -74,7 +74,7 @@ export function detectChords(
       );
     }
   }
-  console.log(chords);
+  console.log('akkorder chords ', chords);
   return chords;
 }
 

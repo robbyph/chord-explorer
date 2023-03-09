@@ -26,53 +26,93 @@ const ChordRecognition = () => {
     const analyserNodeRef = useRef(null);
 
 
-    useEffect(() => {
-        let audioContext = new AudioContext();
-        let mediaStreamSource = null;
-        let analyserNode = null;
-        let scriptNode = null;
+    // useEffect(() => {
+    //     let audioContext = new AudioContext();
+    //     let mediaStreamSource = null;
+    //     let analyserNode = null;
+    //     let scriptNode = null;
 
-        // Start playing and processing audio in real-time when the isPlaying state is true and the audioStreamRef and audioContextRef are not null
-        if (isPlaying && audioStreamRef.current && audioContext) {
-            mediaStreamSource = audioContext.createMediaStreamSource(audioStreamRef.current);
-            analyserNode = audioContext.createAnalyser();
-            scriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+    //     // Start playing and processing audio in real-time when the isPlaying state is true and the audioStreamRef and audioContextRef are not null
+    //     if (isPlaying && audioStreamRef.current && audioContext) {
+    //         mediaStreamSource = audioContext.createMediaStreamSource(audioStreamRef.current);
+    //         analyserNode = audioContext.createAnalyser();
+    //         scriptNode = audioContext.createScriptProcessor(2048, 1, 1);
 
-            mediaStreamSource.connect(analyserNode);
-            analyserNode.connect(scriptNode);
-            scriptNode.connect(audioContext.destination);
+    //         mediaStreamSource.connect(analyserNode);
+    //         analyserNode.connect(scriptNode);
+    //         scriptNode.connect(audioContext.destination);
 
-            scriptNode.onaudioprocess = () => {
-                if (scriptNodeRef.current) {
-                    const channelData = new Float32Array(analyserNode.frequencyBinCount);
-                    analyserNode.getFloatTimeDomainData(channelData);
-                    const chords = detectChords(channelData, audioContext.sampleRate);
+    //         scriptNode.onaudioprocess = () => {
+    //             if (scriptNodeRef.current) {
+    //                 const channelData = new Float32Array(analyserNode.frequencyBinCount);
+    //                 analyserNode.getFloatTimeDomainData(channelData);
+    //                 const chords = detectChords(channelData, audioContext.sampleRate);
+    //                 setDetectedChords(chordFiltering(chords));
+    //             }
+    //         };
+
+    //         scriptNodeRef.current = scriptNode;
+    //         analyserNodeRef.current = analyserNode;
+    //     }
+
+    //     return () => {
+    //         if (mediaStreamSource) {
+    //             mediaStreamSource.disconnect();
+    //         }
+    //         if (analyserNode) {
+    //             analyserNode.disconnect();
+    //         }
+    //         if (scriptNode) {
+    //             scriptNode.onaudioprocess = null;
+    //             scriptNode.disconnect();
+    //         }
+    //         if (audioContext) {
+    //             audioContext.close();
+    //         }
+    //     };
+    // }, [isPlaying]);
+
+    const handlePlayClick = async () => {
+        if (isPlaying) {
+            setIsPlaying(false);
+            if (scriptNodeRef.current && analyserNodeRef.current) {
+                scriptNodeRef.current.disconnect(); // remove the onaudioprocess event listener
+                analyserNodeRef.current.disconnect();
+            }
+        } else {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioStreamRef.current = stream;
+                audioContextRef.current = new AudioContext();
+
+                const mediaStreamSource = audioContextRef.current.createMediaStreamSource(stream);
+                const analyserNode = audioContextRef.current.createAnalyser();
+                const scriptNode = audioContextRef.current.createScriptProcessor(2048, 1, 1);
+
+                mediaStreamSource.connect(analyserNode);
+                analyserNode.connect(scriptNode);
+                scriptNode.connect(audioContextRef.current.destination);
+
+                scriptNode.onaudioprocess = () => {
+                    const bufferLength = analyserNode.frequencyBinCount;
+                    const dataArray = new Float32Array(bufferLength);
+                    analyserNode.getFloatTimeDomainData(dataArray);
+
+                    const chords = detectChords(dataArray, audioContextRef.current.sampleRate);
                     setDetectedChords(chordFiltering(chords));
-                }
-            };
+                };
 
-            scriptNodeRef.current = scriptNode;
-            analyserNodeRef.current = analyserNode;
+                scriptNodeRef.current = scriptNode;
+                analyserNodeRef.current = analyserNode;
+
+                setIsPlaying(true);
+            } catch (err) {
+                console.error(err);
+            }
         }
+    };
 
-        return () => {
-            if (mediaStreamSource) {
-                mediaStreamSource.disconnect();
-            }
-            if (analyserNode) {
-                analyserNode.disconnect();
-            }
-            if (scriptNode) {
-                scriptNode.onaudioprocess = null;
-                scriptNode.disconnect();
-            }
-            if (audioContext) {
-                audioContext.close();
-            }
-        };
-    }, [isPlaying]);
-
-    const handlePlayClick = () => {
+    const handlePlayClickOld = () => {
         console.log('handlePlayClick', isPlaying); // check if handlePlayClick is being called and if isPlaying state is being properly updated
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then((stream) => {
@@ -82,7 +122,8 @@ const ChordRecognition = () => {
                 console.log('audioStreamRef.current:', audioStreamRef.current); // check if audioStreamRef.current is properly assigned
                 console.log('audioContextRef.current:', audioContextRef.current); // check if audioContextRef.current is properly assigned
                 if (isPlaying) {
-                    liveChordDetection(audioContextRef, audioStreamRef, setDetectedChords, true, scriptNodeRef); // pass updated value of isPlaying as a parameter
+                    liveChordDetection(audioContextRef, audioStreamRef, setDetectedChords, true, setIsPlaying, scriptNodeRef, analyserNodeRef);
+                    // pass updated value of isPlaying as a parameter
                 }
             })
             .catch((err) => console.error(err));
@@ -106,12 +147,15 @@ const ChordRecognition = () => {
             if (audioContextRef.current) {
                 audioContextRef.current.close();
             }
+            audioStreamRef.current = null;
+            audioContextRef.current = null;
+
 
         } else {
             // Start playing and processing audio in real-time
             console.log('set isPlaying to true', isPlaying)
             setIsPlaying(true);
-            liveChordDetection(audioContextRef, audioStreamRef, setDetectedChords, true, scriptNodeRef); // pass updated value of isPlaying as a parameter
+            liveChordDetection(audioContextRef, audioStreamRef, setDetectedChords, callback, setIsPlaying, scriptNodeRef, analyserNodeRef); // pass updated value of isPlaying as a parameter
         }
     };
 
@@ -138,31 +182,52 @@ const ChordRecognition = () => {
         }
     }
 
-    async function liveChordDetection(audioContextRef, audioStreamRef, setDetectedChords, setIsPlaying, scriptNodeRef) {
-        const mediaStreamSource = audioContextRef.current.createMediaStreamSource(audioStreamRef.current);
-        const analyserNode = audioContextRef.current.createAnalyser();
-        const scriptNode = audioContextRef.current.createScriptProcessor(2048, 1, 1);
+    async function liveChordDetection(audioContextRef, audioStreamRef, setDetectedChords, callback, setIsPlaying, scriptNodeRef, analyserNodeRef) {
 
-        mediaStreamSource.connect(analyserNode);
-        analyserNode.connect(scriptNode);
-        scriptNode.connect(audioContextRef.current.destination);
+        if (!audioStreamRef.current || !audioContextRef.current) return;
+
+        let mediaStreamSource = null;
+        let analyserNode = null;
+        let scriptNode = null;
+
+        if (scriptNodeRef.current && analyserNodeRef.current) {
+            // If nodes have already been created, reuse them
+            mediaStreamSource = audioContextRef.current.createMediaStreamSource(audioStreamRef.current);
+            analyserNode = analyserNodeRef.current;
+            scriptNode = scriptNodeRef.current;
+        } else {
+            // Otherwise, create new nodes
+            mediaStreamSource = audioContextRef.current.createMediaStreamSource(audioStreamRef.current);
+            analyserNode = audioContextRef.current.createAnalyser();
+            scriptNode = audioContextRef.current.createScriptProcessor(2048, 1, 1);
+
+            mediaStreamSource.connect(analyserNode);
+            analyserNode.connect(scriptNode);
+            scriptNode.connect(audioContextRef.current.destination);
+
+            scriptNodeRef.current = scriptNode;
+            analyserNodeRef.current = analyserNode;
+        }
 
         scriptNode.onaudioprocess = () => {
-            if (scriptNodeRef.current && setIsPlaying.current) { // check if scriptNodeRef and setIsPlaying exist before accessing their properties or methods
+            console.log('setIsPlaying ', setIsPlaying);
+            if (scriptNodeRef.current && setIsPlaying) { // check if scriptNodeRef and setIsPlaying exist before accessing their properties or methods
                 const channelData = new Float32Array(analyserNode.frequencyBinCount);
+                console.log('channelData', channelData)
                 analyserNode.getFloatTimeDomainData(channelData);
                 const chords = detectChords(channelData, audioContextRef.current.sampleRate);
+                console.log('received chords ', chords)
                 setDetectedChords(chordFiltering(chords));
             }
-            if (typeof setIsPlaying === 'function') {
-                setIsPlaying(true); // call the callback function with true when the audio processing starts
+
+            if (typeof callback === 'function') {
+                callback(true); // call the callback function with true when the audio processing starts
             }
         };
 
-        if (scriptNodeRef.current !== null) {
-            scriptNodeRef.current.disconnect();
+        if (typeof setIsPlaying === 'function') {
+            setIsPlaying(true);
         }
-        scriptNodeRef.current = scriptNode;
 
         return () => {
             if (scriptNodeRef.current) {
@@ -177,6 +242,7 @@ const ChordRecognition = () => {
             }
         };
     }
+
 
 
 
@@ -263,6 +329,7 @@ const ChordRecognition = () => {
         }
     };
 
+    console.log('isPlaying on click', isPlaying); // check if handlePlayClick is being called and if isPlaying state is being properly updated
 
     return (
         <div>
@@ -317,7 +384,7 @@ const ChordRecognition = () => {
                                 <button className={
                                     `py-2 px-4 border mb-2 font-HindSiliguri font-medium xl:mr-2 ${isPlaying ? 'bg-white text-purple-600' : 'bg-opacity-0 text-white'}`
                                 } onClick={handlePlayClick}>{isPlaying ? 'Stop' : 'Start'}</button>
-                                <h3 className="col-span-4 pt-2 text-xl underline font-HindSiliguri">Chords Detected</h3>
+                                <h3 className="col-span-4 pt-2 text-xl underline font-HindSiliguri">Chord Detected</h3>
                                 <ul className="list-disc list-inside font-IBMPlexSans">
                                     {detectedChords.map((chord, i) => {
                                         return <li key={i}>{chord.rootNote} {toTextQuality(chord.quality)} {chord.interval != 0 ? chord.interval : ''}</li>
