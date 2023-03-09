@@ -1,6 +1,6 @@
 //@ts-nocheck
 
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import { detectChords } from "../akkorder/src/index";
 import { silenceRemovalAlgorithm } from "../utilities/remove_silence";
@@ -18,7 +18,47 @@ const ChordRecognition = () => {
     const [submitWarning, setSubmitWarning] = useState(false)
     const [submittedIndicator, setSubmittedIndicator] = useState(false)
 
+    //live chord detection 
+    const [audioStream, setAudioStream] = useState(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const audioContextRef = useRef(null);
+    const audioSourceRef = useRef(null);
 
+    useEffect(() => {
+        // Request access to the user's microphone
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then((stream) => {
+                setAudioStream(stream);
+                audioContextRef.current = new AudioContext();
+            })
+            .catch((err) => console.error(err));
+    }, []);
+
+    const handlePlayClick = () => {
+        if (!audioStream) return;
+        if (isPlaying) {
+            // Stop playing
+            setIsPlaying(false);
+            audioSourceRef.current.stop();
+        } else {
+            // Start playing and processing audio in real-time
+            setIsPlaying(true);
+            const sourceNode = audioContextRef.current.createMediaStreamSource(audioStream);
+            const analyserNode = audioContextRef.current.createAnalyser();
+            const scriptNode = audioContextRef.current.createScriptProcessor(2048, 1, 1);
+            sourceNode.connect(analyserNode);
+            analyserNode.connect(scriptNode);
+            scriptNode.connect(audioContextRef.current.destination);
+            scriptNode.onaudioprocess = () => {
+                const buffer = new Float32Array(analyserNode.frequencyBinCount);
+                analyserNode.getFloatFrequencyData(buffer);
+                const chord = chordDetector(buffer);
+                console.log(chord); // replace with your own chord detection logic
+            };
+            audioSourceRef.current = sourceNode;
+            audioSourceRef.current.start();
+        }
+    };
 
     async function loadSound(url: string | URL) {
         context = new AudioContext();
@@ -146,7 +186,7 @@ const ChordRecognition = () => {
                                 /* Use the `selected` state to conditionally style the selected tab. */
                                 <button
                                     className={
-                                        `p-2 border xl:mr-2 ${selected ? 'bg-white text-black' : 'bg-opacity-0 text-white'}`
+                                        `p-2 border font-HindSiliguri font-medium xl:mr-2 ${selected ? 'bg-white text-purple-700' : 'bg-opacity-0 text-white'}`
                                     }
                                 >
                                     Live Chord Recognition
@@ -157,7 +197,7 @@ const ChordRecognition = () => {
                                 /* Use the `selected` state to conditionally style the selected tab. */
                                 <button
                                     className={
-                                        `p-2 border xl:mr-2 ${selected ? 'bg-white text-purple-600' : 'bg-opacity-0 text-white'}`
+                                        `p-2 border font-HindSiliguri font-medium xl:mr-2 ${selected ? 'bg-white text-purple-700' : 'bg-opacity-0 text-white'}`
                                     }
                                 >
                                     Chord Recognition from a File
@@ -165,14 +205,35 @@ const ChordRecognition = () => {
                             )}</Tab>
                     </Tab.List>
                     <Tab.Panels className='pt-0 mt-2'>
-                        <Tab.Panel>Content 1</Tab.Panel>
-                        <Tab.Panel><div className="col-span-4 p-2 pl-0 m-2 mb-8 ml-0 ">
-                            <h2 className="col-span-4 pt-2 mb-2 text-2xl font-HindSiliguri">First, Upload an MP3 or WAV Audio File</h2>
-                            {submitWarning ? <p className="font-bold text-red-500"> Please upload an audio file before generating chord data...</p> : ''}
-                            {recognitionWarning ? <p className="font-bold text-red-500">Please upload an audio file before generating chord data...</p> : ''}
-                            {submittedIndicator ? <p className="font-bold text-white">Uploaded!</p> : ''}
-                            <input type="file" name="myImage" className="my-2" onChange={uploadToClient} /> <br />
-                        </div>
+                        <Tab.Panel>
+                            <div>
+                                <div className="col-span-4 p-2 pl-0 m-2 mb-2 ml-0 ">
+                                    <h2 className="col-span-4 pt-2 mb-2 text-2xl font-HindSiliguri">Click 'Start' to begin detecting chords</h2>
+                                    <h3 className="col-span-4 mb-2 text-base font-HindSiliguri"><em>Please allow microphone access</em></h3>
+                                    {/* {submitWarning ? <p className="font-bold text-red-500"> Please upload an audio file before generating chord data...</p> : ''}
+                                    {recognitionWarning ? <p className="font-bold text-red-500">Please upload an audio file before generating chord data...</p> : ''}
+                                    {submittedIndicator ? <p className="font-bold text-white">Uploaded!</p> : ''}
+                                    <input type="file" name="myImage" className="my-2" onChange={uploadToClient} /> <br /> */}
+                                </div>
+                                <button className={
+                                    `py-2 px-4 border mb-2 font-HindSiliguri font-medium xl:mr-2 ${isPlaying ? 'bg-white text-purple-600' : 'bg-opacity-0 text-white'}`
+                                } onClick={handlePlayClick}>{isPlaying ? 'Stop' : 'Start'}</button>
+                                <h3 className="col-span-4 pt-2 text-xl underline font-HindSiliguri">Chords Detected</h3>
+                                <ul className="list-disc list-inside font-IBMPlexSans">
+                                    {detectedChords.map((chord, i) => {
+                                        return <li key={i}>{chord.rootNote} {toTextQuality(chord.quality)} {chord.interval != 0 ? chord.interval : ''}</li>
+                                    })}
+                                </ul>
+                            </div>
+                        </Tab.Panel>
+                        <Tab.Panel>
+                            <div className="col-span-4 p-2 pl-0 m-2 mb-8 ml-0 ">
+                                <h2 className="col-span-4 pt-2 mb-2 text-2xl font-HindSiliguri">First, Upload an MP3 or WAV Audio File</h2>
+                                {submitWarning ? <p className="font-bold text-red-500"> Please upload an audio file before generating chord data...</p> : ''}
+                                {recognitionWarning ? <p className="font-bold text-red-500">Please upload an audio file before generating chord data...</p> : ''}
+                                {submittedIndicator ? <p className="font-bold text-white">Uploaded!</p> : ''}
+                                <input type="file" name="myImage" className="my-2" onChange={uploadToClient} /> <br />
+                            </div>
                             <h2 className="col-span-4 pt-2 mb-2 text-2xl font-HindSiliguri">Then, let the AI do the rest</h2>
                             <button className="col-span-4 px-2 py-2 text-xl border font-IBMPlexSans font-medium bg-white text-[#5B21B6]" onClick={() => uploadToServer()}>Detect Chords</button>
                             <h3 className="col-span-4 pt-2 text-xl underline font-HindSiliguri">Chords Detected</h3>
@@ -180,7 +241,8 @@ const ChordRecognition = () => {
                                 {detectedChords.map((chord, i) => {
                                     return <li key={i}>{chord.rootNote} {toTextQuality(chord.quality)} {chord.interval != 0 ? chord.interval : ''}</li>
                                 })}
-                            </ul></Tab.Panel>
+                            </ul>
+                        </Tab.Panel>
                     </Tab.Panels>
                 </Tab.Group>
 
