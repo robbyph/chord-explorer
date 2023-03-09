@@ -38,22 +38,26 @@ const ChordRecognition = () => {
                 audioStreamRef.current = stream;
                 audioContextRef.current = new AudioContext();
 
+                const bufferSize = 8192;
                 const mediaStreamSource = audioContextRef.current.createMediaStreamSource(stream);
                 const analyserNode = audioContextRef.current.createAnalyser();
-                const scriptNode = audioContextRef.current.createScriptProcessor(2048, 1, 1);
+                const scriptNode = audioContextRef.current.createScriptProcessor(bufferSize, 1, 1);
 
                 mediaStreamSource.connect(analyserNode);
                 analyserNode.connect(scriptNode);
                 scriptNode.connect(audioContextRef.current.destination);
 
-                scriptNode.onaudioprocess = () => {
-                    const bufferLength = analyserNode.frequencyBinCount;
-                    console.log(bufferLength)
-                    const dataArray = new Float32Array(bufferLength);
-                    console.log(dataArray)
-                    analyserNode.getFloatTimeDomainData(dataArray);
+                const sourceSampleRate = audioContextRef.current.sampleRate;
+                const targetSampleRate = 44100;
 
-                    const chords = detectChords(dataArray, 44100);
+                const bufferLength = bufferSize;
+                const dataArray = new Float32Array(bufferLength);
+
+                scriptNode.onaudioprocess = () => {
+                    analyserNode.getFloatTimeDomainData(dataArray);
+                    const resampledData = resampleLinear(dataArray, sourceSampleRate, targetSampleRate);
+                    console.log(Array.from(resampledData))
+                    const chords = detectChords(Array.from(resampledData), targetSampleRate);
                     setDetectedChords(chordFiltering(chords));
                 };
 
@@ -66,6 +70,26 @@ const ChordRecognition = () => {
             }
         }
     };
+
+    function resampleLinear(input, inputRate, outputRate) {
+        const outputLength = Math.round(input.length * outputRate / inputRate);
+        const output = new Float32Array(outputLength);
+
+        for (let i = 0; i < outputLength; i++) {
+            const index = i * inputRate / outputRate;
+            const intIndex = Math.floor(index);
+            const frac = index - intIndex;
+
+            const a = input[intIndex];
+            const b = input[intIndex + 1] || input[intIndex];
+
+            output[i] = a * (1 - frac) + b * frac;
+        }
+
+        return output;
+    }
+
+
 
     async function loadSound(url: string | URL) {
         context = new AudioContext();
@@ -82,16 +106,14 @@ const ChordRecognition = () => {
             setRecognitionWarning(true)
             setSubmitWarning(false)
         } else {
-            console.log(sourceBuffer)
+
             var channelData = Array.from(sourceBuffer.getChannelData(0));
+            console.log(channelData)
             var channelDataSilenceRemoved = await silenceRemovalAlgorithm(channelData);
             let chords = detectChords(channelDataSilenceRemoved, 44100);
             setDetectedChords(chordFiltering(chords))
         }
     }
-
-
-
 
     function chordFiltering(chords: any[]) {
         var tempChords: any[] = []
