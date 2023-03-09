@@ -90,68 +90,6 @@ const ChordRecognition = () => {
         }
     }
 
-    async function liveChordDetection(audioContextRef, audioStreamRef, setDetectedChords, callback, setIsPlaying, scriptNodeRef, analyserNodeRef) {
-
-        if (!audioStreamRef.current || !audioContextRef.current) return;
-
-        let mediaStreamSource = null;
-        let analyserNode = null;
-        let scriptNode = null;
-
-        if (scriptNodeRef.current && analyserNodeRef.current) {
-            // If nodes have already been created, reuse them
-            mediaStreamSource = audioContextRef.current.createMediaStreamSource(audioStreamRef.current);
-            analyserNode = analyserNodeRef.current;
-            scriptNode = scriptNodeRef.current;
-        } else {
-            // Otherwise, create new nodes
-            mediaStreamSource = audioContextRef.current.createMediaStreamSource(audioStreamRef.current);
-            analyserNode = audioContextRef.current.createAnalyser();
-            scriptNode = audioContextRef.current.createScriptProcessor(2048, 1, 1);
-
-            mediaStreamSource.connect(analyserNode);
-            analyserNode.connect(scriptNode);
-            scriptNode.connect(audioContextRef.current.destination);
-
-            scriptNodeRef.current = scriptNode;
-            analyserNodeRef.current = analyserNode;
-        }
-
-        scriptNode.onaudioprocess = () => {
-            console.log('setIsPlaying ', setIsPlaying);
-            if (scriptNodeRef.current && setIsPlaying) { // check if scriptNodeRef and setIsPlaying exist before accessing their properties or methods
-                const channelData = new Float32Array(analyserNode.frequencyBinCount);
-                console.log('channelData', channelData)
-                analyserNode.getFloatTimeDomainData(channelData);
-                const chords = detectChords(channelData, audioContextRef.current.sampleRate);
-                console.log('received chords ', chords)
-                setDetectedChords(chordFiltering(chords));
-            }
-
-            if (typeof callback === 'function') {
-                callback(true); // call the callback function with true when the audio processing starts
-            }
-        };
-
-        if (typeof setIsPlaying === 'function') {
-            setIsPlaying(true);
-        }
-
-        return () => {
-            if (scriptNodeRef.current) {
-                scriptNodeRef.current.onaudioprocess = null; // remove the onaudioprocess event before stopping
-                scriptNodeRef.current.disconnect();
-            }
-            if (mediaStreamSource) {
-                mediaStreamSource.disconnect();
-            }
-            if (analyserNode) {
-                analyserNode.disconnect();
-            }
-        };
-    }
-
-
 
 
 
