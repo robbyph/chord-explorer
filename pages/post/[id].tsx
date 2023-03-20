@@ -16,6 +16,13 @@ import Link from 'next/link';
 
 const PostPage = (props) => {
     const { user } = useAuth();
+    var UID;
+
+    if (user.uid) {
+        UID = user.uid
+    } else {
+        UID = 'Ndbd5FSAl4QOMKyGaEY1866oNQk1'
+    }
 
     const [newComment, setNewComment] = useState('');
     const [showAlert, setShowAlert] = useState(false)
@@ -33,7 +40,7 @@ const PostPage = (props) => {
         }
     );
     const [loggedInUserData, loggedInUserDataLoading, loggedInUserDataError] = useDocument(
-        doc(db, 'Users', user.uid),
+        doc(db, 'Users', UID),
         {
             snapshotListenOptions: { includeMetadataChanges: true },
         }
