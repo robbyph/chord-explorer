@@ -26,6 +26,8 @@ const SubmitSong: NextPage = () => {
 
     const [tabLink, setTabLink] = useState('');
     const [songLink, setSongLink] = useState('');
+    const [genre, setGenre] = useState('');
+    const [difficulty, setDifficulty] = useState('');
     const [title, setTitle] = useState('');
     const [artist, setArtist] = useState('');
     const { user } = useAuth();
@@ -105,6 +107,8 @@ const SubmitSong: NextPage = () => {
                 setTitle('')
                 setSongLink('')
                 setTabLink('')
+                setGenre('')
+                setDifficulty('')
             })
             .catch((error) => {
                 console.error("Error adding document: ", error);
@@ -129,41 +133,92 @@ const SubmitSong: NextPage = () => {
                     <div className='col-span-2 pl-6 pr-6 space-y-2'>
                         <FormProvider {...methods}>
                             <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className='font-IBMPlexSans'>
-                                    <div className="flex items-center justify-between">
-                                        <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
-                                            Song Title
-                                        </label>
+                                <div className='grid grid-cols-2 gap-2'>
+                                    <div className='font-IBMPlexSans'>
+                                        <div className="flex items-center justify-between">
+                                            <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                                Song Title
+                                            </label>
+                                        </div>
+
+                                        <input
+                                            type="text"
+                                            {...register("title", { required: "Title is required" })}
+                                            className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                            minLength={6}
+                                            value={title}
+                                            onChange={e => setTitle(e.target.value)}
+                                        />
+                                        {errors.title && <p className="pt-1 pl-2 text-red-400">{errors.title.message}</p>}
                                     </div>
 
-                                    <input
-                                        type="text"
-                                        {...register("title", { required: "Title is required" })}
-                                        className={`w-full p-1 text-lg font-IBMPlexSans`}
-                                        minLength={6}
-                                        value={title}
-                                        onChange={e => setTitle(e.target.value)}
-                                    />
-                                    {errors.title && <p className="pt-1 pl-2 text-red-400">{errors.title.message}</p>}
-                                </div>
+                                    <div className='font-IBMPlexSans'>
+                                        <div className="flex items-center justify-between">
+                                            <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                                Artist
+                                            </label>
+                                        </div>
 
-                                <div className='mt-4 font-IBMPlexSans'>
-                                    <div className="flex items-center justify-between">
-                                        <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
-                                            Artist
-                                        </label>
+                                        <input
+                                            type="text"
+                                            {...register("artist", { required: "Artist is required" })}
+                                            className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                            minLength={6}
+                                            value={artist}
+                                            onChange={e => setArtist(e.target.value)}
+                                        />
+                                        {errors.artist && <p className="pt-1 pl-2 text-red-400">{errors.artist.message}</p>}
+                                    </div>
+                                </div>
+                                <div className='grid grid-cols-2 gap-2'>
+                                    <div className="mt-4 font-IBMPlexSans" >
+                                        <div className="flex items-center justify-between">
+                                            <label htmlFor="genre" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                                Genre
+                                            </label>
+                                        </div>
+
+                                        <select
+                                            id="genre"
+                                            {...register("genre", { required: "Genre is required" })}
+                                            className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                            value={genre}
+                                            onChange={e => setGenre(e.target.value)}
+                                        >
+                                            {genre.length === 0 ? <option value=""></option> : ''}
+                                            <option className='font-IBMPlexSans' value="rock">Rock</option>
+                                            <option value="jazz">Jazz</option>
+                                            <option value="pop">Pop</option>
+                                            <option value="folk">Folk</option>
+                                            <option value="indie">Indie</option>
+                                        </select>
+                                        {errors.genre && <p className="pt-1 pl-2 text-red-400">{errors.genre.message}</p>}
                                     </div>
 
-                                    <input
-                                        type="text"
-                                        {...register("artist", { required: "Artist is required" })}
-                                        className={`w-full p-1 text-lg font-IBMPlexSans`}
-                                        minLength={6}
-                                        value={artist}
-                                        onChange={e => setArtist(e.target.value)}
-                                    />
-                                    {errors.artist && <p className="pt-1 pl-2 text-red-400">{errors.artist.message}</p>}
+                                    <div className="mt-4 font-IBMPlexSans" >
+                                        <div className="flex items-center justify-between">
+                                            <label htmlFor="genre" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                                Difficulty
+                                            </label>
+                                        </div>
+
+                                        <select
+                                            id="difficulty"
+                                            {...register("difficulty", { required: "Difficulty is required" })}
+                                            className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                            value={difficulty}
+                                            onChange={e => setDifficulty(e.target.value)}
+                                        >
+                                            {difficulty.length === 0 ? <option value=""></option> : ''}
+                                            <option value="easy">Easy</option>
+                                            <option value="intermediate">Intermediate</option>
+                                            <option value="hard">Hard</option>
+                                        </select>
+                                        {errors.difficulty && <p className="pt-1 pl-2 text-red-400">{errors.difficulty.message}</p>}
+                                    </div>
                                 </div>
+
+
 
                                 <div className="mt-4">
                                     <div className="flex items-center justify-between">
