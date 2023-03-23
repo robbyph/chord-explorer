@@ -1,15 +1,10 @@
 import React from "react";
 import Head from "next/head";
+import SongModal from "../components/SongModal";
 
 //dummy song data
 const songs = [
-    {
-        title: "In The Aeroplane Over The Sea",
-        artist: "Neutral Milk Hotel",
-        genre: "Folk",
-        difficulty: "Easy",
-        chords: ["G", "Em", "C", "D"],
-    },
+    { title: 'In The Aeroplane Over The Sea', artist: 'Neutral Milk Hotel', genre: 'Folk', difficulty: 'Easy', chords: ["G", "Em", "C", "D"], songLink: 'https://www.youtube.com/watch?v=1FeD16vu_qQ', tabLink: 'https://tabs.ultimate-guitar.com/tab/neutral-milk-hotel/in-the-aeroplane-over-the-sea-chords-35827' },
     {
         title: "Don't Fear The Reaper",
         artist: "Blue Öyster Cult",
@@ -39,11 +34,17 @@ const songs = [
         artist: "Artist 3",
         genre: "Rock",
         difficulty: "Easy",
-        chords: ["Daug", "G7", "Am7"],
+        chords: ["Daug", "G7", "Am7", "Bsus2", "Cmin7", "Emaj7", "F", "G", "Am"],
     }]
+
+//song modal component
+
 
 
 const search = () => {
+    const [selectedSong, setSelectedSong] = React.useState(null);
+    const [modalOpen, setModalOpen] = React.useState(false);
+
     return (
         <div>
             <Head>
@@ -55,6 +56,9 @@ const search = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
+                {modalOpen && <SongModal song={selectedSong}
+                    onClose={() => setModalOpen(false)}
+                />}
                 <h1 className="col-span-4 p-6 text-4xl font-semibold font-HindSiliguri">
                     Search
                 </h1>
@@ -116,7 +120,12 @@ const search = () => {
                         <div className="flex flex-col justify-center p-4 text-black bg-white rounded">
                             <h3 className="text-2xl font-semibold font-HindSiliguri">{song.title}</h3>
                             <p className="text-lg font-HindSiliguri">By {song.artist}</p>
-                            <button className={`p-2 px-8 m-2 ml-0 bg-white border-2 text-lg cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium hover:text-white hover:bg-[#5B21B6]`}>View Chord Charts</button>
+                            <button
+                                onClick={() => {
+                                    setSelectedSong(song);
+                                    setModalOpen(true);
+                                }}
+                                className={`p-2 px-8 m-2 ml-0 bg-white border-2 text-lg cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium hover:text-white hover:bg-[#5B21B6]`}>View Chord Charts</button>
                         </div>
                     ))}
                 </div>
@@ -124,5 +133,8 @@ const search = () => {
         </div >
     );
 };
+
+
+
 
 export default search;
