@@ -13,7 +13,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import ChordSelection from '../components/ChordSelection'
 import ChordPreview from '../components/ChordPreview';
-
+import ProtectedRoute from '../components/ProtectedRoute';
 
 interface PostType {
     title: string;
@@ -101,130 +101,134 @@ const SubmitSong: NextPage = () => {
     };
 
     return (
-        <div>
-            <Head>
-                <title>Chord Explorer</title>
-                <meta name="description" content="A music education website where you can search for songs based on the chords you're learning/teaching, as well as getting community based feedback on your playing!" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+        <ProtectedRoute>
 
-            <main className='grid grid-cols-4 '>
-                {showAlert && <Alert message={alertMessage} setShow={setShowAlert} />}
-                {showSignInPrompt && <SignInPrompt setShow={setShowSignInPrompt} />}
+            <div>
+                <Head>
+                    <title>Chord Explorer</title>
+                    <meta name="description" content="A music education website where you can search for songs based on the chords you're learning/teaching, as well as getting community based feedback on your playing!" />
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
 
-                <h1 className='col-span-4 p-6 text-4xl font-semibold text-white font-HindSiliguri'>Submit a Song</h1>
-                <div className='col-span-2 pl-6 pr-6 space-y-2'>
-                    <FormProvider {...methods}>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className='font-IBMPlexSans'>
-                                <div className="flex items-center justify-between">
-                                    <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
-                                        Song Title
-                                    </label>
+                <main className='grid grid-cols-4 '>
+                    {showAlert && <Alert message={alertMessage} setShow={setShowAlert} />}
+                    {showSignInPrompt && <SignInPrompt setShow={setShowSignInPrompt} />}
+
+                    <h1 className='col-span-4 p-6 text-4xl font-semibold text-white font-HindSiliguri'>Submit a Song</h1>
+                    <div className='col-span-2 pl-6 pr-6 space-y-2'>
+                        <FormProvider {...methods}>
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <div className='font-IBMPlexSans'>
+                                    <div className="flex items-center justify-between">
+                                        <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                            Song Title
+                                        </label>
+                                    </div>
+
+                                    <input
+                                        type="text"
+                                        {...register("title", { required: "Title is required" })}
+                                        className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                        minLength={6}
+                                        value={title}
+                                        onChange={e => setTitle(e.target.value)}
+                                    />
+                                    {errors.title && <p className="pt-1 pl-2 text-red-400">{errors.title.message}</p>}
                                 </div>
 
-                                <input
-                                    type="text"
-                                    {...register("title", { required: "Title is required" })}
-                                    className={`w-full p-1 text-lg font-IBMPlexSans`}
-                                    minLength={6}
-                                    value={title}
-                                    onChange={e => setTitle(e.target.value)}
-                                />
-                                {errors.title && <p className="pt-1 pl-2 text-red-400">{errors.title.message}</p>}
-                            </div>
+                                <div className='mt-4 font-IBMPlexSans'>
+                                    <div className="flex items-center justify-between">
+                                        <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                            Artist
+                                        </label>
+                                    </div>
 
-                            <div className='mt-4 font-IBMPlexSans'>
-                                <div className="flex items-center justify-between">
-                                    <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
-                                        Artist
-                                    </label>
+                                    <input
+                                        type="text"
+                                        {...register("artist", { required: "Artist is required" })}
+                                        className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                        minLength={6}
+                                        value={artist}
+                                        onChange={e => setArtist(e.target.value)}
+                                    />
+                                    {errors.artist && <p className="pt-1 pl-2 text-red-400">{errors.artist.message}</p>}
                                 </div>
 
-                                <input
-                                    type="text"
-                                    {...register("artist", { required: "Artist is required" })}
-                                    className={`w-full p-1 text-lg font-IBMPlexSans`}
-                                    minLength={6}
-                                    value={artist}
-                                    onChange={e => setArtist(e.target.value)}
-                                />
-                                {errors.artist && <p className="pt-1 pl-2 text-red-400">{errors.artist.message}</p>}
-                            </div>
+                                <div className="mt-4">
+                                    <div className="flex items-center justify-between">
+                                        <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                            Song Link
+                                        </label>
 
-                            <div className="mt-4">
-                                <div className="flex items-center justify-between">
-                                    <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
-                                        Song Link
-                                    </label>
+                                    </div>
 
+                                    <input
+                                        type="string"
+                                        {...register("songLink", { required: "Song Link is required" })}
+                                        className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                        value={songLink}
+                                        onChange={e => setSongLink(e.target.value)}
+                                    />
+                                    {errors.songLink && <p className="pt-1 pl-2 text-red-400">{errors.songLink.message}</p>}
                                 </div>
 
-                                <input
-                                    type="string"
-                                    {...register("songLink", { required: "Song Link is required" })}
-                                    className={`w-full p-1 text-lg font-IBMPlexSans`}
-                                    value={songLink}
-                                    onChange={e => setSongLink(e.target.value)}
-                                />
-                                {errors.songLink && <p className="pt-1 pl-2 text-red-400">{errors.songLink.message}</p>}
-                            </div>
+                                <div className="mt-4">
+                                    <div className="flex items-center justify-between">
+                                        <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                            Tab Link (Optional)
+                                        </label>
 
-                            <div className="mt-4">
-                                <div className="flex items-center justify-between">
-                                    <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
-                                        Tab Link (Optional)
-                                    </label>
+                                    </div>
 
+                                    <input
+                                        type="string"
+                                        {...register("tabLink")}
+                                        className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                        value={tabLink}
+                                        onChange={e => setTabLink(e.target.value)}
+                                    />
+                                    {errors.tabLink && <p className="pt-1 pl-2 text-red-400">{errors.tabLink.message}</p>}
                                 </div>
 
-                                <input
-                                    type="string"
-                                    {...register("tabLink")}
-                                    className={`w-full p-1 text-lg font-IBMPlexSans`}
-                                    value={tabLink}
-                                    onChange={e => setTabLink(e.target.value)}
-                                />
-                                {errors.tabLink && <p className="pt-1 pl-2 text-red-400">{errors.tabLink.message}</p>}
-                            </div>
-
-                            <div className="flex flex-col-reverse justify-center pt-4">
-                                <ChordSelection
-                                    className="mt-4"
-                                    chords={chords}
-                                    onChange={(chords: string[]) => setChords(chords)}
-                                />
-                                <div className="flex items-center justify-between">
-                                    <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
-                                        Chords
-                                    </label>
+                                <div className="flex flex-col-reverse justify-center pt-4">
+                                    <ChordSelection
+                                        className="mt-4"
+                                        chords={chords}
+                                        onChange={(chords: string[]) => setChords(chords)}
+                                    />
+                                    <div className="flex items-center justify-between">
+                                        <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
+                                            Chords
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="flex pt-8 justify-left">
-                                <button
-                                    type="submit"
-                                    className={`p-2 px-8 m-2 ml-0 bg-white border-2 text-lg cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium`}
-                                >
-                                    <p className="">Submit</p>
-                                </button>
+                                <div className="flex pt-8 justify-left">
+                                    <button
+                                        type="submit"
+                                        className={`p-2 px-8 m-2 ml-0 bg-white border-2 text-lg cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium`}
+                                    >
+                                        <p className="">Submit</p>
+                                    </button>
+                                </div>
+                            </form>
+                        </FormProvider>
+                    </div>
+                    <div className='col-span-2 px-20'>
+                        <h2 className='block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl'>Submission Preview</h2>
+                        <div className='flex flex-col text-black bg-white'>
+                            <div className='flex flex-col items-center'>
+                                <h3 className='p-2 pb-0 text-2xl font-medium font-HindSiliguri'>{title.length > 0 ? title : 'Title Placeholder'}</h3>
+                                <p className='p-2 pt-1 text-sm font-IBMPlexSans text-[#808080]'>Submitted by <span className='underline'>{account?.data()?.username}</span></p>
+                                <ChordPreview chords={chords} />
+                                {/* <embed className='p-2' width="560" height="315" src={songLink.length > 0 ? vidLink : 'https://www.youtube.com/embed/ScMzIvxBSi4'} title="Video Submission" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></embed> */}
                             </div>
-                        </form>
-                    </FormProvider>
-                </div>
-                <div className='col-span-2 px-20'>
-                    <h2 className='block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl'>Submission Preview</h2>
-                    <div className='flex flex-col text-black bg-white'>
-                        <div className='flex flex-col items-center'>
-                            <h3 className='p-2 pb-0 text-2xl font-medium font-HindSiliguri'>{title.length > 0 ? title : 'Title Placeholder'}</h3>
-                            <p className='p-2 pt-1 text-sm font-IBMPlexSans text-[#808080]'>Submitted by <span className='underline'>{account?.data().username}</span></p>
-                            <ChordPreview chords={chords} />
-                            {/* <embed className='p-2' width="560" height="315" src={songLink.length > 0 ? vidLink : 'https://www.youtube.com/embed/ScMzIvxBSi4'} title="Video Submission" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></embed> */}
                         </div>
                     </div>
-                </div>
-            </main>
-        </div>
+                </main>
+            </div>
+        </ProtectedRoute>
+
     )
 }
 
