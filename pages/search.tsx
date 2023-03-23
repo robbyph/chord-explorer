@@ -1,6 +1,9 @@
 import React from "react";
 import Head from "next/head";
 import SongModal from "../components/SongModal";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { collection, orderBy, query } from "firebase/firestore";
+import { db } from "../firebase/firestore";
 
 //dummy song data
 const songs = [
@@ -45,6 +48,13 @@ const search = () => {
     const [selectedSong, setSelectedSong] = React.useState(null);
     const [modalOpen, setModalOpen] = React.useState(false);
 
+    const [songs, loading, error] = useCollection(
+        query(collection(db, 'Songs')),
+        {
+            snapshotListenOptions: { includeMetadataChanges: true },
+        }
+    );
+
     return (
         <div>
             <Head>
@@ -55,7 +65,9 @@ const search = () => {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main>
+            {loading && <h1>Loading...</h1>}
+            {error && <h1>Error: {error}</h1>}
+            {songs?.docs && <main>
                 {modalOpen && <SongModal song={selectedSong}
                     onClose={() => setModalOpen(false)}
                 />}
@@ -116,20 +128,23 @@ const search = () => {
                     Songs Containing G Major (G)
                 </h2>
                 <div className="grid grid-cols-4 gap-4 px-4 justify-items-stretch">
-                    {songs.map((song) => (
-                        <div className="flex flex-col justify-center p-4 text-black bg-white rounded">
-                            <h3 className="text-2xl font-semibold font-HindSiliguri">{song.title}</h3>
-                            <p className="text-lg font-HindSiliguri">By {song.artist}</p>
-                            <button
-                                onClick={() => {
-                                    setSelectedSong(song);
-                                    setModalOpen(true);
-                                }}
-                                className={`p-2 px-8 m-2 ml-0 bg-white border-2 text-lg cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium hover:text-white hover:bg-[#5B21B6]`}>View Chord Charts</button>
-                        </div>
-                    ))}
+                    {songs.docs.map((song) => {
+                        console.log(song.data())
+                        return (
+                            <div key={song.data().id} className="flex flex-col justify-center p-4 text-black bg-white rounded">
+                                <h3 className="text-2xl font-semibold font-HindSiliguri">{song.data().title}</h3>
+                                <p className="text-lg font-HindSiliguri">By {song.data().artist}</p>
+                                <button
+                                    onClick={() => {
+                                        setSelectedSong(song);
+                                        setModalOpen(true);
+                                    }}
+                                    className={`p-2 px-8 m-2 ml-0 bg-white border-2 text-lg cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium hover:text-white hover:bg-[#5B21B6]`}>View Chord Charts</button>
+                            </div>
+                        )
+                    })}
                 </div>
-            </main >
+            </main >}
         </div >
     );
 };

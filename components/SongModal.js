@@ -46,22 +46,22 @@ const SongModal = ({ song, onClose }) => {
         <div className='flex flex-col justify-center p-4 text-center text-black bg-white rounded'>
           <div className='text-center'>
             <h3 className='text-3xl font-semibold font-HindSiliguri'>
-              {song.title}
+              {song.data().title}
             </h3>
-            <p className='text-lg font-HindSiliguri'>{song.artist}</p>
+            <p className='text-lg font-HindSiliguri'>{song.data().artist}</p>
             <a
               className='text-blue-600 underline'
               target='_blank'
-              href={song.songLink}
+              href={song.data().songLink}
             >
               Listen Here!
             </a>
             <br />
-            {song.tabLink && (
+            {song.data().tabLink && (
               <a
                 className='text-blue-600 underline'
                 target='_blank'
-                href={song.tabLink}
+                href={song.data().tabLink}
               >
                 See Tabs Here!
               </a>
@@ -70,8 +70,11 @@ const SongModal = ({ song, onClose }) => {
           <div className='mt-8'>
             <h3 className='text-2xl font-semibold font-HindSiliguri'>Chords</h3>
             <div className='flex flex-wrap justify-center mt-2'>
-              {song.chords.map((chord) => (
-                <div className='p-2 m-2 text-gray-900 border border-t-2 rounded-lg shadow-lg w-28'>
+              {song.data().chords.map((chord) => (
+                <div
+                  key={chord}
+                  className='p-2 m-2 text-gray-900 border border-t-2 rounded-lg shadow-lg w-28'
+                >
                   <p className='pt-2 pb-1 text-lg font-semibold font-HindSiliguri'>
                     {chord}
                   </p>
