@@ -53,6 +53,7 @@ const ChordSelection = ({ chords, onChange, deleteChord }) => {
   const containerRef = useRef(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   useEffect(() => {
     const container = containerRef.current;
@@ -66,6 +67,7 @@ const ChordSelection = ({ chords, onChange, deleteChord }) => {
 
   const handleAddChord = (chord) => {
     if (chords.includes(chord)) {
+      setAlertMessage('Only One of Each Chord, Please');
       setShowAlert(true);
       return;
     }
@@ -82,12 +84,7 @@ const ChordSelection = ({ chords, onChange, deleteChord }) => {
         ref={containerRef}
         className='container flex flex-row items-center py-2 overflow-x-auto'
       >
-        {showAlert && (
-          <Alert
-            setShow={setShowAlert}
-            message='Only One of Each Chord, Please'
-          />
-        )}
+        {showAlert && <Alert setShow={setShowAlert} message={alertMessage} />}
         {chords.map((chord, index) => (
           <ChordBox
             key={index}

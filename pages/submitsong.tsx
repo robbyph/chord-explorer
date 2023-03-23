@@ -77,6 +77,11 @@ const SubmitSong: NextPage = () => {
             setShowAlert(true);
             return;
         }
+        if (chords.length === 0) {
+            setAlertMessage("Please select at least one chord.");
+            setShowAlert(true);
+            return;
+        }
         const SongsRef = collection(db, "Songs");
         console.log(chords)
         await addDoc(SongsRef, {
