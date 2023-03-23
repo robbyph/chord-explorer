@@ -144,7 +144,7 @@ const SubmitSong: NextPage = () => {
                                         <input
                                             type="text"
                                             {...register("title", { required: "Title is required" })}
-                                            className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                            className={`w-full p-2 text-lg font-IBMPlexSans`}
                                             minLength={6}
                                             value={title}
                                             onChange={e => setTitle(e.target.value)}
@@ -162,7 +162,7 @@ const SubmitSong: NextPage = () => {
                                         <input
                                             type="text"
                                             {...register("artist", { required: "Artist is required" })}
-                                            className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                            className={`w-full p-2 text-lg font-IBMPlexSans`}
                                             minLength={6}
                                             value={artist}
                                             onChange={e => setArtist(e.target.value)}
@@ -181,7 +181,7 @@ const SubmitSong: NextPage = () => {
                                         <select
                                             id="genre"
                                             {...register("genre", { required: "Genre is required" })}
-                                            className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                            className={`w-full p-2 text-lg font-IBMPlexSans`}
                                             value={genre}
                                             onChange={e => setGenre(e.target.value)}
                                         >
@@ -205,7 +205,7 @@ const SubmitSong: NextPage = () => {
                                         <select
                                             id="difficulty"
                                             {...register("difficulty", { required: "Difficulty is required" })}
-                                            className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                            className={`w-full p-2 text-lg font-IBMPlexSans`}
                                             value={difficulty}
                                             onChange={e => setDifficulty(e.target.value)}
                                         >
@@ -231,7 +231,7 @@ const SubmitSong: NextPage = () => {
                                     <input
                                         type="string"
                                         {...register("songLink", { required: "Song Link is required" })}
-                                        className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                        className={`w-full p-2 text-lg font-IBMPlexSans`}
                                         value={songLink}
                                         onChange={e => setSongLink(e.target.value)}
                                     />
@@ -249,7 +249,7 @@ const SubmitSong: NextPage = () => {
                                     <input
                                         type="string"
                                         {...register("tabLink")}
-                                        className={`w-full p-1 text-lg font-IBMPlexSans`}
+                                        className={`w-full p-2 text-lg font-IBMPlexSans`}
                                         value={tabLink}
                                         onChange={e => setTabLink(e.target.value)}
                                     />
