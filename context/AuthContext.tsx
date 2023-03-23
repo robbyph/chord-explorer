@@ -53,15 +53,14 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
                 posts: []
             });
         }).catch((error) => {
-            throw error
+            throw error;
         })
         //then, we create a database object, with the same uid, for their other data
     };
 
     const logIn = async (email: string, password: string) => {
         await signInWithEmailAndPassword(auth, email, password).catch((error) => {
-            console.log(error.code)
-            if (error.code == "auth/wrong-password") { console.log("Invalid Login Attempt") }
+            throw error;
         });
     };
 

@@ -3,6 +3,9 @@ import { useRouter } from "next/router";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
+import Alert from "../components/Alert";
+import { useState } from "react";
+
 
 interface LoginType {
     email: string;
@@ -10,6 +13,8 @@ interface LoginType {
 }
 const LoginPage = () => {
     const methods = useForm<LoginType>({ mode: "onBlur" });
+    const [showAlert, setShowAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState('')
 
     const {
         register,
@@ -25,12 +30,17 @@ const LoginPage = () => {
             await logIn(data.email, data.password);
             router.push("/accountpage");
         } catch (error: any) {
-            console.log(error.message);
+            if (error.code == "auth/wrong-password") { setAlertMessage("Invalid Login Attempt") }
+            else if (error.code == "auth/user-not-found") { setAlertMessage("A user with this email does not exist. Try signing up?") }
+            setShowAlert(true)
+
+            console.log(error.code);
         }
     };
 
     return (
         <div className="container w-1/3 mx-auto mt-12 sign-up-form ">
+            {showAlert && <Alert message={alertMessage} setShow={setShowAlert} />}
             <h2 className="px-12 mt-8 text-4xl font-semibold text-center text-white font-HindSiliguri">Log In</h2>
             <FormProvider {...methods}>
                 <form action="" className="px-4 pb-12 mx-auto font-IBMPlexSans" onSubmit={handleSubmit(onSubmit)}>
