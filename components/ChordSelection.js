@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { PlusIcon, ChevronUpIcon } from '@heroicons/react/outline';
 import { Popover } from '@headlessui/react';
+import Alert from './Alert';
 
 const ChordBox = ({ value, onChange, isLast, deleteChord }) => {
   const [isHovering, setIsHovering] = useState(false);
@@ -51,6 +52,7 @@ const ChordSelection = ({ chords, onChange, deleteChord }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const containerRef = useRef(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -63,6 +65,10 @@ const ChordSelection = ({ chords, onChange, deleteChord }) => {
   };
 
   const handleAddChord = (chord) => {
+    if (chords.includes(chord)) {
+      setShowAlert(true);
+      return;
+    }
     onChange([...chords, chord]);
   };
 
@@ -76,6 +82,12 @@ const ChordSelection = ({ chords, onChange, deleteChord }) => {
         ref={containerRef}
         className='container flex flex-row items-center py-2 overflow-x-auto'
       >
+        {showAlert && (
+          <Alert
+            setShow={setShowAlert}
+            message='Only One of Each Chord, Please'
+          />
+        )}
         {chords.map((chord, index) => (
           <ChordBox
             key={index}
