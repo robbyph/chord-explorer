@@ -5,6 +5,40 @@ import Head from "next/head";
 
 import Chord from "../node_modules/@tombatossals/react-chords/lib/Chord";
 
+import chords from "../guitar_reduced.json"
+
+
+const keyList = chords.chords;
+console.log(keyList);
+
+const chordData = keyList.C;
+
+const realVals = JSON.stringify(chordData)
+console.log(realVals)
+
+
+function suffixFinder(key, value) {
+    if (typeof value === 'string' && key ==="suffix") {
+        let suffx = value; 
+    } else {
+            value = undefined;
+        }
+    return value
+}
+
+ function chordParse() {
+    var obj = JSON.parse(jsonData);
+    var chordInfo = [];
+
+    for(var i in obj)
+        chordInfo.push(obj[i]);
+
+// one of the few that actually pull some data not just blanket data where its [object]
+console.log(Array.prototype.at.call(chordData, [1]));
+
+
+
+//the data here creates the chord boxes which are later called within the react portion nearer the bottom 
 const chordlibrary = () => {
     
     const MyChord = () => {
@@ -35,7 +69,7 @@ const chordlibrary = () => {
         )
     }
     
-    const MyChord2 = () => {
+    const DoesThisMatter = () => {
         const chord2 = {
             frets: [2, 4, 3, 3, 4, 1],
             fingers: [1, 2, 4, 3, 1, 4],
@@ -62,6 +96,7 @@ const chordlibrary = () => {
         )
     }
 
+    //creates a const that watches the drop down of the 12 chords and updates it when a new one is selected
     const [ChordSel, setOption] = useState("A");
     console.log(ChordSel)
     return (
@@ -111,8 +146,8 @@ const chordlibrary = () => {
                 <div>
                     <img className ="test image" src="/favicon.ico"></img>
                 </div>
-                <div className="bg-white text-black">AAAAAAAAAAAAAAAAAAAAAAAAAA<MyChord2/></div>
-                <div className="bg-[#fafafa] text-black">AAAAAAAAAAAAAAAAAAAAAAAAAA<MyChord2/></div>
+                <div className="bg-white text-black">AAAAAAAAAAAAAAAAAAAAAAAAAA<DoesThisMatter/></div>
+                <div className="bg-[#fafafa] text-black">AAAAAAAAAAAAAAAAAAAAAAAAAA<DoesThisMatter /></div>
                 {/*the class name sets the background to a white and the color of the A to black*/}
                 <div className="bg-[#fafafa] text-black">AAAAAAAAAAAAAAAAAAAAAAAAAA <MyChord /></div>
                 <div><img className ="test image" src="/favicon.ico"></img></div>
