@@ -61,6 +61,12 @@ const SubmitSong: NextPage = () => {
         }
     );
 
+    //function that deletes a chord from the chord array using the value of the chord
+    const deleteChord = (chord: string) => {
+        console.log(chords)
+        setChords(chords.filter((item) => item !== chord));
+    };
+
     const onSubmit = async (data: PostType) => {
         if (!user?.uid) {
             setShowSignInPrompt(true);
@@ -195,6 +201,7 @@ const SubmitSong: NextPage = () => {
                                         className="mt-4"
                                         chords={chords}
                                         onChange={(chords: string[]) => setChords(chords)}
+                                        deleteChord={deleteChord}
                                     />
                                     <div className="flex items-center justify-between">
                                         <label htmlFor="" className="block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl">
