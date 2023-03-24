@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { useRef, useEffect } from 'react';
 
-const ChordModal = ({ chord, onClose }) => {
+const ChordModal = ({ chord, root, onClose }) => {
   const modalRef = useRef();
 
   useEffect(() => {
@@ -54,44 +54,8 @@ const ChordModal = ({ chord, onClose }) => {
         <div className='flex flex-col justify-center p-4 text-center text-black bg-white rounded'>
           <div className='text-center'>
             <h3 className='text-3xl font-semibold font-HindSiliguri'>
-              {song.data().title}
+              {root} {chord}
             </h3>
-            <p className='text-lg font-HindSiliguri'>{song.data().artist}</p>
-            <a
-              className='text-blue-600 underline'
-              target='_blank'
-              rel='noreferrer'
-              href={song.data().songLink}
-            >
-              Listen Here!
-            </a>
-            <br />
-            {song.data().tabLink && (
-              <a
-                className='text-blue-600 underline'
-                target='_blank'
-                rel='noreferrer'
-                href={song.data().tabLink}
-              >
-                See Tabs Here!
-              </a>
-            )}
-          </div>
-          <div className='mt-8'>
-            <h3 className='text-2xl font-semibold font-HindSiliguri'>Chords</h3>
-            <div className='flex flex-wrap justify-center mt-2'>
-              {song.data().chords.map((chord) => (
-                <div
-                  key={chord}
-                  className='p-2 m-2 text-gray-900 border border-t-2 rounded-lg shadow-lg w-28'
-                >
-                  <p className='pt-2 pb-1 text-lg font-semibold font-HindSiliguri'>
-                    {chord}
-                  </p>
-                  <img src='https://placehold.jp/150x150.png' alt='' />
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>

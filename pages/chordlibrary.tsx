@@ -32,6 +32,7 @@ const ChordLibrary = () => {
                     <ChordModal
                         chord={selectedChord}
                         onClose={() => setModalOpen(false)}
+                        root={chordRoot}
                     />}
                 <h1 className="col-span-12 p-6 text-4xl font-semibold font-HindSiliguri">Chord Library</h1>
                 <div className="flex flex-col w-1/6 px-4 mb-4" id="parameters">
