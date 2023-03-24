@@ -6,42 +6,7 @@ import { collection, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase/firestore";
 import { useState } from "react";
 
-//dummy song data
-const songs = [
-    { title: 'In The Aeroplane Over The Sea', artist: 'Neutral Milk Hotel', genre: 'Folk', difficulty: 'Easy', chords: ["G", "Em", "C", "D"], songLink: 'https://www.youtube.com/watch?v=1FeD16vu_qQ', tabLink: 'https://tabs.ultimate-guitar.com/tab/neutral-milk-hotel/in-the-aeroplane-over-the-sea-chords-35827' },
-    {
-        title: "Don't Fear The Reaper",
-        artist: "Blue Öyster Cult",
-        genre: "Rock",
-        difficulty: "Easy",
-        chords: ["Am", "G", "F", "E7"],
-    },
-    {
-        title: "Song 3",
 
-        artist: "Artist 3",
-        genre: "Rock",
-        difficulty: "Easy",
-        chords: ["F", "G", "Am"],
-    },
-    {
-        title: "Song 4",
-
-        artist: "Artist 3",
-        genre: "Rock",
-        difficulty: "Easy",
-        chords: ["Bsus2", "Cmin7", "Emaj7"],
-    },
-    {
-        title: "Song 5",
-
-        artist: "Artist 3",
-        genre: "Rock",
-        difficulty: "Easy",
-        chords: ["Daug", "G7", "Am7", "Bsus2", "Cmin7", "Emaj7", "F", "G", "Am"],
-    }]
-
-//song modal component
 
 
 
