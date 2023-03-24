@@ -8,7 +8,6 @@ import { Tab } from '@headlessui/react'
 import { Fragment } from 'react'
 
 const ChordRecognition = () => {
-
     var sourceBuffer: AudioBuffer;
     var context: AudioContext;
     const [detectedChords, setDetectedChords] = useState([]);
