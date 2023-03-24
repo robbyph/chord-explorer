@@ -12,10 +12,18 @@ const SongModal = ({ song, onClose }) => {
       }
     };
 
+    const handleKeyDown = (event) => {
+      if (event.keyCode === 27) {
+        onClose();
+      }
+    };
+
     window.addEventListener('click', handleOutsideClick);
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       window.removeEventListener('click', handleOutsideClick);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClose]);
 
