@@ -5,7 +5,7 @@ import ChordModal from '../components/ChordModal';
 
 
 //dummy song data
-const chords = ['major', 'minor', 'diminished', 'sus2', 'sus4']
+const chords = ['major', 'minor', 'diminished', 'augmented', 'sus2', 'sus4', 'maj7', 'min7', '7']
 
 //song modal component
 
