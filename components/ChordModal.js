@@ -28,8 +28,12 @@ const ChordModal = ({ chord, root, onClose }) => {
         return 'Perfect 4th';
       case '4A':
         return 'Augmented 4th';
+      case '5d':
+        return 'Diminished 5th';
       case '5P':
         return 'Perfect 5th';
+      case '5A':
+        return 'Augmented 5th';
       case '6m':
         return 'Minor 6th';
       case '6M':
@@ -60,9 +64,13 @@ const ChordModal = ({ chord, root, onClose }) => {
       case '4P':
         return '4';
       case '4A':
-        return '#4/b5';
+        return '#4';
+      case '5d':
+        return 'b5';
       case '5P':
         return '5';
+      case '5A':
+        return '#5';
       case '6m':
         return 'b6';
       case '6M':
