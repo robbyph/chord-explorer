@@ -2,9 +2,7 @@
 
 import React, { useState } from "react";
 import Head from "next/head";
-
 import Chord from "../node_modules/@tombatossals/react-chords/lib/Chord";
-
 import chords from "../guitar_reduced.json"
 
 
@@ -18,29 +16,29 @@ console.log(realVals)
 
 
 function suffixFinder(key, value) {
-    if (typeof value === 'string' && key ==="suffix") {
-        let suffx = value; 
+    if (typeof value === 'string' && key === "suffix") {
+        let suffx = value;
     } else {
-            value = undefined;
-        }
+        value = undefined;
+    }
     return value
 }
 
- function chordParse() {
+function chordParse() {
     var obj = JSON.parse(jsonData);
     var chordInfo = [];
 
-    for(var i in obj)
+    for (var i in obj)
         chordInfo.push(obj[i]);
 
-// one of the few that actually pull some data not just blanket data where its [object]
-console.log(Array.prototype.at.call(chordData, [1]));
+    // one of the few that actually pull some data not just blanket data where its [object]
+    console.log(Array.prototype.at.call(chordData, [1]));
 
-
+}
 
 //the data here creates the chord boxes which are later called within the react portion nearer the bottom 
-const chordlibrary = () => {
-    
+const ChordLibrary = () => {
+
     const MyChord = () => {
         const chord = {
             frets: [1, 3, 3, 2, 1, 1],
@@ -68,7 +66,7 @@ const chordlibrary = () => {
 
         )
     }
-    
+
     const DoesThisMatter = () => {
         const chord2 = {
             frets: [2, 4, 3, 3, 4, 1],
@@ -101,7 +99,7 @@ const chordlibrary = () => {
     console.log(ChordSel)
     return (
 
-        
+
         <div>
             <Head>
                 <title>Chord Explorer</title>
@@ -116,19 +114,19 @@ const chordlibrary = () => {
                 <div className="flex flex-row">
                     <div className="p-6">
                         <p className="mb-2 text-base font-IBMPlexSans">Chord Root</p>
-                        <select onChange={(e) => {setOption(e.target.value)}} value = {ChordSel} className="p-2 " id="chordDropdown">
-                            <option value = "A"> A </option>
-                            <option value ="A#"> A# </option>
-                            <option value = "B"> B </option>
-                            <option value = "C"> C </option>
-                            <option value ="C#"> C# </option>
-                            <option value = "D"> D </option>
-                            <option value ="D#"> D# </option>
-                            <option value = "E"> E </option>
-                            <option value = "F"> F </option>
-                            <option value ="F#"> F# </option>
-                            <option value = "G"> G </option>
-                            <option value ="G#"> G# </option>
+                        <select onChange={(e) => { setOption(e.target.value) }} value={ChordSel} className="p-2 " id="chordDropdown">
+                            <option value="A"> A </option>
+                            <option value="A#"> A# </option>
+                            <option value="B"> B </option>
+                            <option value="C"> C </option>
+                            <option value="C#"> C# </option>
+                            <option value="D"> D </option>
+                            <option value="D#"> D# </option>
+                            <option value="E"> E </option>
+                            <option value="F"> F </option>
+                            <option value="F#"> F# </option>
+                            <option value="G"> G </option>
+                            <option value="G#"> G# </option>
                         </select>
                     </div>
                 </div>
@@ -142,20 +140,20 @@ const chordlibrary = () => {
 
             {/* This div will house the css grid and its items */}
             {/* setting the number of coluns and rows, rows are auto set with this config */}
-            <div id="SVG" className="grid gap-x-12 gap-y-12 grid-cols-4 grid-flow-row">
+            <div id="SVG" className="grid grid-flow-row grid-cols-4 gap-x-12 gap-y-12">
                 <div>
-                    <img className ="test image" src="/favicon.ico"></img>
+                    <img className="test image" src="/favicon.ico"></img>
                 </div>
-                <div className="bg-white text-black">AAAAAAAAAAAAAAAAAAAAAAAAAA<DoesThisMatter/></div>
+                <div className="text-black bg-white">AAAAAAAAAAAAAAAAAAAAAAAAAA<DoesThisMatter /></div>
                 <div className="bg-[#fafafa] text-black">AAAAAAAAAAAAAAAAAAAAAAAAAA<DoesThisMatter /></div>
                 {/*the class name sets the background to a white and the color of the A to black*/}
                 <div className="bg-[#fafafa] text-black">AAAAAAAAAAAAAAAAAAAAAAAAAA <MyChord /></div>
-                <div><img className ="test image" src="/favicon.ico"></img></div>
-                <div>Text<img className ="test image" src="/favicon.ico"></img></div>
+                <div><img className="test image" src="/favicon.ico"></img></div>
+                <div>Text<img className="test image" src="/favicon.ico"></img></div>
             </div>
         </div>
     );
 };
 
 
-export default chordlibrary;
+export default ChordLibrary;
