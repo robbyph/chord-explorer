@@ -52,6 +52,7 @@ const SongModal = ({ song, onClose }) => {
             <a
               className='text-blue-600 underline'
               target='_blank'
+              rel='noreferrer'
               href={song.data().songLink}
             >
               Listen Here!
@@ -61,6 +62,7 @@ const SongModal = ({ song, onClose }) => {
               <a
                 className='text-blue-600 underline'
                 target='_blank'
+                rel='noreferrer'
                 href={song.data().tabLink}
               >
                 See Tabs Here!
