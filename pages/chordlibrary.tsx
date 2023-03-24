@@ -3,8 +3,9 @@ import Head from 'next/head'
 import { useState } from "react";
 import ChordModal from '../components/ChordModal';
 
+
 //dummy song data
-const chords = ['Major', 'Minor', 'Diminished', 'Sus2', 'Sus4']
+const chords = ['major', 'minor', 'diminished', 'sus2', 'sus4']
 
 //song modal component
 
@@ -58,7 +59,7 @@ const ChordLibrary = () => {
                 <div className="grid grid-cols-4 gap-4 px-4 justify-items-stretch">
                     {chords.map((chord) =>
                         <div key={chord} className="flex flex-col p-4 text-center text-black bg-white rounded">
-                            <h3 className="pb-2 text-3xl font-semibold font-HindSiliguri">{chordRoot} {chord}</h3>
+                            <h3 className="pb-2 text-3xl font-semibold font-HindSiliguri">{chordRoot} {chord.charAt(0).toUpperCase() + chord.slice(1)}</h3>
                             <img className='w-40 mx-auto' src='https://placehold.jp/150x150.png' alt='' />
                             <button onClick={() => {
                                 setSelectedChord(chord);

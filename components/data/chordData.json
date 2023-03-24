@@ -13,49 +13,49 @@
         "emotional_cliches": ["sad", "sober", "reflective"]
     },
     {
-        "quality": "suspended second",
+        "quality": "sus2",
         "scales": [
             "major", "mixolydian", "lydian", "natural minor", "lydian dominant", "harmonic minor", "melodic minor", "dorian"
         ],
         "emotional_cliches": ["ambiguous"]
     },
     {
-        "quality": "suspended fourth",
+        "quality": "sus4",
         "scales": [
             "major", "mixolydian", "phrygian", "natural minor", "harmonic minor", "melodic minor", "dorian"
         ],
         "emotional_cliches": ["suspended", "ambiguous"]
     },
     {
-        "quality": "diminished",
+        "quality": "dim",
         "scales": [
             "locrian", "diminished"
         ],
         "emotional_cliches": ["dramatic", "evil", "mysterious"]
     },
     {
-        "quality": "augmented",
+        "quality": "aug",
         "scales": [
             "whole tone", "altered"
         ],
         "emotional_cliches": ["anxious", "freefalling", "dreamlike"]
     },
     {
-        "quality": "major seventh",
+        "quality": "maj7",
         "scales": [
             "major", "lydian"
         ],
         "emotional_cliches": ["introspective", "nostalgic"]
     },
     {
-        "quality": "minor seventh",
+        "quality": "min7",
         "scales": [
             "natural minor", "dorian", "phrygian"
         ],
         "emotional_cliches": ["jazzy", "sophisticated"]
     },
     {
-        "quality": "dominant seventh",
+        "quality": "7",
         "scales": [
             "mixolydian"
         ],
