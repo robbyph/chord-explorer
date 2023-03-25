@@ -14,6 +14,27 @@ const ChordModal = ({ chord, root, onClose }) => {
   const [keysOpen, setKeysOpen] = useState(false);
   const [emotionOpen, setEmotionOpen] = useState(false);
 
+  const getTrueName = () => {
+    if (chordName.includes('sharp')) {
+      console.log('sharp');
+      return chordName.replace('sharp', '#');
+    } else if (chordName.includes('flat')) {
+      return chordName.replace('flat', 'b');
+    } else {
+      return chordName;
+    }
+  };
+
+  const getTrueRoot = () => {
+    if (root.includes('sharp')) {
+      return root.replace('sharp', '#');
+    } else if (root.includes('flat')) {
+      return root.replace('flat', 'b');
+    } else {
+      return root;
+    }
+  };
+
   const convertIntervalToEnglish = (interval) => {
     switch (interval) {
       case '1P':
@@ -48,6 +69,56 @@ const ChordModal = ({ chord, root, onClose }) => {
         return 'Octave';
       default:
         return interval;
+    }
+  };
+
+  const getProperChordSuffix = (chord) => {
+    switch (chord) {
+      case 'm7':
+        return 'm7';
+      case 'maj7':
+        return 'maj7';
+      case 'sus2':
+        return 'sus2';
+      case 'sus4':
+        return 'sus4';
+      case 'dim':
+        return 'Diminished';
+      case 'aug':
+        return 'Augmented';
+      default:
+        return chord.charAt(0).toUpperCase() + chord.slice(1);
+    }
+  };
+
+  const getProperChordRoot = (root) => {
+    switch (root) {
+      case 'Csharp':
+        return 'C#/Db';
+      case 'Fsharp':
+        return 'F#/Gb';
+      case 'Eb':
+        return 'D#/Eb';
+      case 'Ab':
+        return 'G#/Ab';
+      case 'Bb':
+        return 'A#/Bb';
+      default:
+        return root;
+    }
+  };
+
+  const getProperChordName = () => {
+    if (
+      chord === 'm7' ||
+      chord === 'maj7' ||
+      chord === 'sus2' ||
+      chord === 'sus4' ||
+      chord == '7'
+    ) {
+      return getProperChordRoot(root) + getProperChordSuffix(chord);
+    } else {
+      return getProperChordRoot(root) + ' ' + getProperChordSuffix(chord);
     }
   };
 
@@ -100,8 +171,8 @@ const ChordModal = ({ chord, root, onClose }) => {
 
   const scalesWithChord = () => {
     const scales = [];
-    Chord.chordScales(chordName).forEach((scale) => {
-      var properScale = `${root} ${scale}`;
+    Chord.chordScales(getTrueName()).forEach((scale) => {
+      var properScale = `${getTrueRoot()} ${scale}`;
       var modes = Scale.modeNames(properScale);
       modes.forEach((mode) => {
         var joinedMode = mode.join(' ');
@@ -114,18 +185,6 @@ const ChordModal = ({ chord, root, onClose }) => {
     });
     return scales;
   };
-
-  const convertedIntervalsEnglish = Chord.get(chordName).intervals.map(
-    (interval) => {
-      return convertIntervalToEnglish(interval);
-    }
-  );
-
-  const convertedIntervalsNumber = Chord.get(chordName).intervals.map(
-    (interval) => {
-      return convertIntervalToNumber(interval);
-    }
-  );
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -151,6 +210,18 @@ const ChordModal = ({ chord, root, onClose }) => {
 
   const chordBoxData = guitarData.chords[root].find((c) => c.suffix === chord)
     .positions[0];
+
+  const convertedIntervalsEnglish = Chord.get(getTrueName()).intervals.map(
+    (interval) => {
+      return convertIntervalToEnglish(interval);
+    }
+  );
+
+  const convertedIntervalsNumber = Chord.get(getTrueName()).intervals.map(
+    (interval) => {
+      return convertIntervalToNumber(interval);
+    }
+  );
 
   return (
     <div className='fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50 font-HindSiliguri'>
@@ -179,10 +250,10 @@ const ChordModal = ({ chord, root, onClose }) => {
         <div className='flex flex-col justify-center p-4 text-center text-black bg-white rounded'>
           <div className='mb-4 text-center'>
             <h3 className='text-3xl font-semibold font-HindSiliguri'>
-              {root} {chord.charAt(0).toUpperCase() + chord.slice(1)}
+              {getProperChordName()}
             </h3>
             <p className='font-HindSiliguri'>
-              {Chord.get(chordName).notes.join(' - ')}
+              {Chord.get(getTrueName()).notes.join(' - ')}
             </p>
           </div>
           <div className='grid grid-cols-6 font-HindSiliguri'>
@@ -201,11 +272,11 @@ const ChordModal = ({ chord, root, onClose }) => {
             <div className='flex flex-col col-span-5 pl-24 text-left'>
               <h3 className='pt-6 text-2xl font-semibold'>Chord Symbols</h3>
               <p className='pl-4 text-lg'>
-                {Chord.get(chordName).aliases.map((alias, i) => {
-                  if (i >= Chord.get(chordName).aliases.length - 1) {
-                    return root + alias;
+                {Chord.get(getTrueName()).aliases.map((alias, i) => {
+                  if (i >= Chord.get(getTrueName()).aliases.length - 1) {
+                    return getTrueRoot() + alias;
                   } else {
-                    return root + alias + ', ';
+                    return getTrueRoot() + alias + ', ';
                   }
                 })}
               </p>
@@ -227,10 +298,10 @@ const ChordModal = ({ chord, root, onClose }) => {
               </h3>
               {scalesOpen && (
                 <ul className='pl-4'>
-                  {Chord.chordScales(chordName).map((scale) => {
+                  {Chord.chordScales(getTrueName()).map((scale) => {
                     return (
                       <li>
-                        {root} {scale}
+                        {getTrueRoot()} {scale}
                       </li>
                     );
                   })}
@@ -285,7 +356,7 @@ const ChordModal = ({ chord, root, onClose }) => {
               </h3>
               {extOpen && (
                 <ul className='pl-4'>
-                  {Chord.extended(chordName).map((chord) => {
+                  {Chord.extended(getTrueName()).map((chord) => {
                     return <li>{chord}</li>;
                   })}
                 </ul>
