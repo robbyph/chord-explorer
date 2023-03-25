@@ -13,15 +13,38 @@ const ChordModal = ({ chord, root, onClose }) => {
   const [extOpen, setExtOpen] = useState(false);
   const [keysOpen, setKeysOpen] = useState(false);
   const [emotionOpen, setEmotionOpen] = useState(false);
+  const [voicingPosition, setVoicingPosition] = useState(0);
 
   const getTrueName = () => {
     if (chordName.includes('sharp')) {
-      console.log('sharp');
       return chordName.replace('sharp', '#');
     } else if (chordName.includes('flat')) {
       return chordName.replace('flat', 'b');
     } else {
       return chordName;
+    }
+  };
+
+  const handleVoicingPositionUp = () => {
+    if (
+      voicingPosition <
+      guitarData.chords[root].find((c) => c.suffix === chord).positions.length -
+        1
+    ) {
+      setVoicingPosition(voicingPosition + 1);
+    } else {
+      setVoicingPosition(0);
+    }
+  };
+
+  const handleVoicingPositionDown = () => {
+    if (voicingPosition > 0) {
+      setVoicingPosition(voicingPosition - 1);
+    } else {
+      setVoicingPosition(
+        guitarData.chords[root].find((c) => c.suffix === chord).positions
+          .length - 1
+      );
     }
   };
 
@@ -208,8 +231,9 @@ const ChordModal = ({ chord, root, onClose }) => {
     };
   }, [onClose]);
 
-  const chordBoxData = guitarData.chords[root].find((c) => c.suffix === chord)
-    .positions[0];
+  const chordBoxData = guitarData.chords[root].find(
+    (c) => c.suffix === chord
+  ).positions;
 
   const convertedIntervalsEnglish = Chord.get(getTrueName()).intervals.map(
     (interval) => {
@@ -259,11 +283,19 @@ const ChordModal = ({ chord, root, onClose }) => {
           <div className='grid grid-cols-6 font-HindSiliguri'>
             <div className='flex flex-col col-span-1'>
               <div className='w-64 mx-auto'>
-                <ReactChord chord={chordBoxData} instrument={instrument} />
+                <ReactChord
+                  chord={chordBoxData[voicingPosition]}
+                  instrument={instrument}
+                />
               </div>
               <div className='mt-2'>
-                <button className='mr-2'>◀</button> Voicing{' '}
-                <button className='ml-2'>▶</button>
+                <button onClick={handleVoicingPositionDown} className='mr-2'>
+                  ◀
+                </button>{' '}
+                Voicing{' '}
+                <button onClick={handleVoicingPositionUp} className='ml-2'>
+                  ▶
+                </button>
               </div>
               <div className='mt-4 border border-black rounded hover:bg-black hover:text-white hover:cursor-pointer'>
                 Listen
