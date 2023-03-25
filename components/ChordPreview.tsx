@@ -22,7 +22,12 @@ const ChordPreview = ({ chords }: ChordPreviewProps) => {
             <h4 className='p-2 pb-0 text-xl font-medium text-center font-HindSiliguri'>Chords</h4>
             <div className='flex flex-wrap justify-center'>
                 {chords.map((chord, index) => {
-                    const reduced = chord.split(' ');
+                    var reduced = chord.split(' ');
+                    if (reduced[0] == 'C#') {
+                        reduced[0] = 'Csharp';
+                    } else if (reduced[0] == 'F#') {
+                        reduced[0] = 'Fsharp';
+                    }
                     const chordBoxData = guitarData.chords[reduced[0]].find(
                         (c) => c.suffix === reduced[1].toLowerCase()
                     ).positions;

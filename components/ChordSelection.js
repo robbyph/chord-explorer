@@ -6,9 +6,26 @@ import guitarData from '../components/data/guitar.json';
 import ReactChord from '@tombatossals/react-chords/lib/Chord';
 import { Chord, ChordType, Key, Scale } from 'tonal';
 
+const chordOptions = [
+  'major',
+  'minor',
+  'dim',
+  'aug',
+  'sus2',
+  'sus4',
+  'maj7',
+  'm7',
+  '7',
+];
+
 const ChordBox = ({ value, onChange, isLast, deleteChord }) => {
   const [isHovering, setIsHovering] = useState(false);
-  const reduced = value.split(' ');
+  var reduced = value.split(' ');
+  if (reduced[0] == 'C#') {
+    reduced[0] = 'Csharp';
+  } else if (reduced[0] == 'F#') {
+    reduced[0] = 'Fsharp';
+  }
   const chordBoxData = guitarData.chords[reduced[0]].find(
     (c) => c.suffix === reduced[1].toLowerCase()
   ).positions;
@@ -65,7 +82,6 @@ const ChordBox = ({ value, onChange, isLast, deleteChord }) => {
 };
 
 const ChordSelection = ({ chords, onChange, deleteChord }) => {
-  const CHORD_OPTIONS = ['G Major', 'B Minor', 'C Major', 'D Minor', 'E Minor'];
   const [searchTerm, setSearchTerm] = useState('');
   const containerRef = useRef(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
@@ -91,7 +107,18 @@ const ChordSelection = ({ chords, onChange, deleteChord }) => {
     onChange([...chords, chord]);
   };
 
-  const filteredChords = CHORD_OPTIONS.filter((chord) =>
+  const getChordOptions = () => {
+    var chordArray = Object.values(guitarData.chords);
+    var filteredChords = [];
+    chordArray.forEach((chord) =>
+      chord
+        .filter((c) => chordOptions.includes(c.suffix))
+        .map((c) => filteredChords.push(c.key + ' ' + c.suffix))
+    );
+    return filteredChords;
+  };
+
+  const filteredChords = getChordOptions().filter((chord) =>
     chord.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -139,7 +166,7 @@ const ChordSelection = ({ chords, onChange, deleteChord }) => {
             />
           </div>
         </div>
-        <div className='flex flex-wrap items-center'>
+        <div className='flex flex-wrap items-center h-40 overflow-auto'>
           {filteredChords.map((chord) => (
             <button
               key={chord}
