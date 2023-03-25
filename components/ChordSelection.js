@@ -2,9 +2,26 @@ import { useState, useRef, useEffect } from 'react';
 import { PlusIcon, ChevronUpIcon } from '@heroicons/react/outline';
 import { Popover } from '@headlessui/react';
 import Alert from './Alert';
+import guitarData from '../components/data/guitar.json';
+import ReactChord from '@tombatossals/react-chords/lib/Chord';
+import { Chord, ChordType, Key, Scale } from 'tonal';
 
 const ChordBox = ({ value, onChange, isLast, deleteChord }) => {
   const [isHovering, setIsHovering] = useState(false);
+  const reduced = value.split(' ');
+  const chordBoxData = guitarData.chords[reduced[0]].find(
+    (c) => c.suffix === reduced[1].toLowerCase()
+  ).positions;
+
+  const instrument = {
+    strings: 6,
+    fretsOnChord: 4,
+    name: 'Guitar',
+    keys: [],
+    tunings: {
+      standard: ['E', 'A', 'D', 'G', 'B', 'E'],
+    },
+  };
 
   return (
     <div
@@ -35,7 +52,7 @@ const ChordBox = ({ value, onChange, isLast, deleteChord }) => {
               <p className='w-full px-3 py-2 text-lg text-center text-gray-900 bg-transparent border-0 focus:outline-none'>
                 {value}
               </p>
-              <img src='https://placehold.jp/150x150.png' alt='' />
+              <ReactChord chord={chordBoxData[0]} instrument={instrument} />
             </div>
           )}
         </div>

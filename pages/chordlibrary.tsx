@@ -14,6 +14,7 @@ const ChordLibrary = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [chordRoot, setChordRoot] = useState('C');
 
+
     const handleChange = (event) => {
         setChordRoot(event.target.value);
     };
