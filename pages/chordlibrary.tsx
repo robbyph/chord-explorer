@@ -34,6 +34,30 @@ const ChordLibrary = () => {
         }
     }
 
+    const getProperChordSuffix = (chord) => {
+        switch (chord) {
+            case 'm7':
+                return 'm7'
+            default: return chord.charAt(0).toUpperCase() + chord.slice(1)
+        }
+    }
+
+    const getProperChordRoot = (root) => {
+        switch (root) {
+            case 'Csharp':
+                return 'C#/Db'
+            case 'Fsharp':
+                return 'F#/Gb'
+            case 'Eb':
+                return 'D#/Eb'
+            case 'Ab':
+                return 'G#/Ab'
+            case 'Bb':
+                return 'A#/Bb'
+            default: return root
+        }
+    }
+
     return (
         <div>
             <Head>
@@ -79,7 +103,7 @@ const ChordLibrary = () => {
                         console.log(chordBoxData)
                         return (
                             <div key={chord} className="flex flex-col p-4 text-center text-black bg-white rounded">
-                                <h3 className="pb-2 text-3xl font-semibold font-HindSiliguri">{chordRoot} {chord !== 'm7' ? chord.charAt(0).toUpperCase() + chord.slice(1) : chord}</h3>
+                                <h3 className="pb-2 text-3xl font-semibold font-HindSiliguri">{getProperChordRoot(chordRoot)} {getProperChordSuffix(chord)}</h3>
                                 <div className='w-64 mx-auto'><Chord chord={chordBoxData} instrument={instrument} /></div>
 
                                 <button onClick={() => {
