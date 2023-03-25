@@ -38,6 +38,16 @@ const ChordLibrary = () => {
         switch (chord) {
             case 'm7':
                 return 'm7'
+            case 'maj7':
+                return 'maj7'
+            case 'sus2':
+                return 'sus2'
+            case 'sus4':
+                return 'sus4'
+            case 'dim':
+                return 'Diminished'
+            case 'aug':
+                return 'Augmented'
             default: return chord.charAt(0).toUpperCase() + chord.slice(1)
         }
     }
@@ -55,6 +65,15 @@ const ChordLibrary = () => {
             case 'Bb':
                 return 'A#/Bb'
             default: return root
+        }
+    }
+
+    const getChordName = (chord) => {
+        if (chord === 'm7' || chord === 'maj7' || chord === 'sus2' || chord === 'sus4' || chord == '7') {
+            return getProperChordRoot(chordRoot) + getProperChordSuffix(chord)
+        }
+        else {
+            return getProperChordRoot(chordRoot) + ' ' + getProperChordSuffix(chord)
         }
     }
 
@@ -103,7 +122,7 @@ const ChordLibrary = () => {
                         console.log(chordBoxData)
                         return (
                             <div key={chord} className="flex flex-col p-4 text-center text-black bg-white rounded">
-                                <h3 className="pb-2 text-3xl font-semibold font-HindSiliguri">{getProperChordRoot(chordRoot)} {getProperChordSuffix(chord)}</h3>
+                                <h3 className="pb-2 text-3xl font-semibold font-HindSiliguri">{getChordName(chord)}</h3>
                                 <div className='w-64 mx-auto'><Chord chord={chordBoxData} instrument={instrument} /></div>
 
                                 <button onClick={() => {
