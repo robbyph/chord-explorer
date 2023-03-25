@@ -1,8 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 import { useRef, useEffect, useState } from 'react';
-import { Chord, ChordType, Key, Scale } from 'tonal';
 import chordData from '../components/data/chordData.json';
+import guitarData from '../components/data/guitar.json';
+import ReactChord from '@tombatossals/react-chords/lib/Chord';
+import { Chord, ChordType, Key, Scale } from 'tonal';
 
 const ChordModal = ({ chord, root, onClose }) => {
   const modalRef = useRef();
@@ -86,6 +88,16 @@ const ChordModal = ({ chord, root, onClose }) => {
     }
   };
 
+  const instrument = {
+    strings: 6,
+    fretsOnChord: 4,
+    name: 'Guitar',
+    keys: [],
+    tunings: {
+      standard: ['E', 'A', 'D', 'G', 'B', 'E'],
+    },
+  };
+
   const scalesWithChord = () => {
     const scales = [];
     Chord.chordScales(chordName).forEach((scale) => {
@@ -137,6 +149,9 @@ const ChordModal = ({ chord, root, onClose }) => {
     };
   }, [onClose]);
 
+  const chordBoxData = guitarData.chords[root].find((c) => c.suffix === chord)
+    .positions[0];
+
   return (
     <div className='fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50 font-HindSiliguri'>
       <div
@@ -172,11 +187,9 @@ const ChordModal = ({ chord, root, onClose }) => {
           </div>
           <div className='grid grid-cols-6 font-HindSiliguri'>
             <div className='flex flex-col col-span-1'>
-              <img
-                className='w-40 mx-auto'
-                src='https://placehold.jp/150x150.png'
-                alt=''
-              />
+              <div className='w-64 mx-auto'>
+                <ReactChord chord={chordBoxData} instrument={instrument} />
+              </div>
               <div className='mt-2'>
                 <button className='mr-2'>◀</button> Voicing{' '}
                 <button className='ml-2'>▶</button>

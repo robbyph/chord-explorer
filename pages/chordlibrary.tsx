@@ -19,7 +19,6 @@ const ChordLibrary = () => {
     };
 
     const getChordBox = (chordSuffix: string) => {
-        console.log(guitarData.chords)
         var data = guitarData.chords[chordRoot].find((chord) => chord.suffix === chordSuffix).positions[0]
         return data
     }
@@ -118,13 +117,10 @@ const ChordLibrary = () => {
                 <div className="grid grid-cols-4 gap-4 px-4 justify-items-stretch">
                     {chords.map((chord) => {
                         var chordBoxData = getChordBox(chord)
-                        console.log(chord)
-                        console.log(chordBoxData)
                         return (
                             <div key={chord} className="flex flex-col p-4 text-center text-black bg-white rounded">
                                 <h3 className="pb-2 text-3xl font-semibold font-HindSiliguri">{getChordName(chord)}</h3>
                                 <div className='w-64 mx-auto'><Chord chord={chordBoxData} instrument={instrument} /></div>
-
                                 <button onClick={() => {
                                     setSelectedChord(chord);
                                     setModalOpen(true);
