@@ -2,12 +2,12 @@ import React from 'react'
 import Head from 'next/head'
 import { useState } from "react";
 import ChordModal from '../components/ChordModal';
-
+import guitarData from '../components/data/guitar.json'
+import Chord from "@tombatossals/react-chords/lib/Chord";
 
 //dummy song data
-const chords = ['major', 'minor', 'diminished', 'augmented', 'sus2', 'sus4', 'maj7', 'min7', '7']
+const chords = ['major', 'minor', 'dim', 'aug', 'sus2', 'sus4', 'maj7', 'm7', '7']
 
-//song modal component
 
 const ChordLibrary = () => {
     const [selectedChord, setSelectedChord] = useState({});
@@ -17,6 +17,22 @@ const ChordLibrary = () => {
     const handleChange = (event) => {
         setChordRoot(event.target.value);
     };
+
+    const getChordBox = (chordSuffix: string) => {
+        console.log(guitarData.chords)
+        var data = guitarData.chords[chordRoot].find((chord) => chord.suffix === chordSuffix).positions[0]
+        return data
+    }
+
+    const instrument = {
+        strings: 6,
+        fretsOnChord: 4,
+        name: 'Guitar',
+        keys: [],
+        tunings: {
+            standard: ['E', 'A', 'D', 'G', 'B', 'E']
+        }
+    }
 
     return (
         <div>
@@ -40,16 +56,16 @@ const ChordLibrary = () => {
                     <label className="mb-1 ml-1 font-semibold" htmlFor="chordRoot">Chord Root</label>
                     <select value={chordRoot} name="chordRoot" id="chordRootSelect" className="h-10 px-3 border-gray-300 rounded" onChange={handleChange}>
                         <option value="C">C</option>
-                        <option value="C#">C#/Db</option>
+                        <option value="Csharp">C#/Db</option>
                         <option value="D">D</option>
-                        <option value="D#">D#/Eb</option>
+                        <option value="Eb">D#/Eb</option>
                         <option value="E">E</option>
                         <option value="F">F</option>
-                        <option value="F#">F#/Gb</option>
+                        <option value="Fsharp">F#/Gb</option>
                         <option value="G">G</option>
-                        <option value="G#">G#/Ab</option>
+                        <option value="Ab">G#/Ab</option>
                         <option value="A">A</option>
-                        <option value="A#">A#/Bb</option>
+                        <option value="Bb">A#/Bb</option>
                         <option value="B">B</option>
                     </select>
                 </div>
@@ -57,16 +73,22 @@ const ChordLibrary = () => {
                     Chords
                 </h2>
                 <div className="grid grid-cols-4 gap-4 px-4 justify-items-stretch">
-                    {chords.map((chord) =>
-                        <div key={chord} className="flex flex-col p-4 text-center text-black bg-white rounded">
-                            <h3 className="pb-2 text-3xl font-semibold font-HindSiliguri">{chordRoot} {chord.charAt(0).toUpperCase() + chord.slice(1)}</h3>
-                            <img className='w-40 mx-auto' src='https://placehold.jp/150x150.png' alt='' />
-                            <button onClick={() => {
-                                setSelectedChord(chord);
-                                setModalOpen(true);
-                            }} className={`p-2 mt-4 px-8 m-2 ml-0 bg-white border-2 text-lg cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium hover:text-white hover:bg-[#5B21B6]`}>Read More & Listen</button>
-                        </div>
-                    )}
+                    {chords.map((chord) => {
+                        var chordBoxData = getChordBox(chord)
+                        console.log(chord)
+                        console.log(chordBoxData)
+                        return (
+                            <div key={chord} className="flex flex-col p-4 text-center text-black bg-white rounded">
+                                <h3 className="pb-2 text-3xl font-semibold font-HindSiliguri">{chordRoot} {chord !== 'm7' ? chord.charAt(0).toUpperCase() + chord.slice(1) : chord}</h3>
+                                <div className='w-64 mx-auto'><Chord chord={chordBoxData} instrument={instrument} /></div>
+
+                                <button onClick={() => {
+                                    setSelectedChord(chord);
+                                    setModalOpen(true);
+                                }} className={`p-2 mt-4 px-8 m-2 ml-0 bg-white border-2 text-lg cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium hover:text-white hover:bg-[#5B21B6]`}>Read More & Listen</button>
+                            </div>
+                        )
+                    })}
                 </div>
             </main>
         </div>

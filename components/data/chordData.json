@@ -27,14 +27,14 @@
         "emotional_cliches": ["suspended", "ambiguous"]
     },
     {
-        "quality": "diminished",
+        "quality": "dim",
         "scales": [
             "locrian", "diminished"
         ],
         "emotional_cliches": ["dramatic", "evil", "mysterious"]
     },
     {
-        "quality": "augmented",
+        "quality": "aug",
         "scales": [
             "whole tone", "altered"
         ],
