@@ -146,7 +146,7 @@ const SubmitSong: NextPage = () => {
                                             type="text"
                                             {...register("title", { required: "Title is required" })}
                                             className={`w-full p-2 text-lg font-IBMPlexSans`}
-                                            minLength={6}
+                                            minLength={1}
                                             value={title}
                                             onChange={e => setTitle(e.target.value)}
                                         />
@@ -164,7 +164,7 @@ const SubmitSong: NextPage = () => {
                                             type="text"
                                             {...register("artist", { required: "Artist is required" })}
                                             className={`w-full p-2 text-lg font-IBMPlexSans`}
-                                            minLength={6}
+                                            minLength={1}
                                             value={artist}
                                             onChange={e => setArtist(e.target.value)}
                                         />

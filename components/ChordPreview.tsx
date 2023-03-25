@@ -32,7 +32,7 @@ const ChordPreview = ({ chords }: ChordPreviewProps) => {
                         (c) => c.suffix === reduced[1].toLowerCase()
                     ).positions;
                     return (
-                        <div className='relative h-32 m-2 w-28' key={index}>
+                        <div className='relative h-40 p-2 m-2 w-28' key={index}>
                             <div className='absolute inset-0 flex items-center justify-center w-full h-full bg-gray-200 rounded-lg shadow-md'>
                                 <p className='text-lg font-bold text-center text-gray-900'>
                                     {chord}
