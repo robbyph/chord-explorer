@@ -332,7 +332,7 @@ const ChordModal = ({ chord, root, onClose }) => {
                 <ul className='pl-4'>
                   {Chord.chordScales(getTrueName()).map((scale) => {
                     return (
-                      <li>
+                      <li key={scale}>
                         {getTrueRoot()} {scale}
                       </li>
                     );
@@ -351,7 +351,7 @@ const ChordModal = ({ chord, root, onClose }) => {
               {keysOpen && (
                 <ul className='pl-4'>
                   {scalesWithChord().map((scale) => {
-                    return <li>{scale}</li>;
+                    return <li key={scale}>{scale}</li>;
                   })}
                 </ul>
               )}
@@ -389,7 +389,7 @@ const ChordModal = ({ chord, root, onClose }) => {
               {extOpen && (
                 <ul className='pl-4'>
                   {Chord.extended(getTrueName()).map((chord) => {
-                    return <li>{chord}</li>;
+                    return <li key={chord}>{chord}</li>;
                   })}
                 </ul>
               )}

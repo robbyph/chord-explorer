@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Chromagram } from './Chromagram';
 import { ChordDetector } from './ChordDetector';
 
