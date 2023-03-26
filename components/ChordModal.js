@@ -251,7 +251,10 @@ const ChordModal = ({ chord, root, onClose }) => {
     <div className='fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50 font-HindSiliguri'>
       <div
         ref={modalRef}
-        className='relative w-3/5 pt-4 mb-8 overflow-auto bg-white rounded h-3/4'
+        className='relative w-3/5 pt-4 mb-8 overflow-auto bg-white rounded'
+        style={{
+          maxHeight: 'calc(100vh - 200px)',
+        }}
       >
         <button
           className='absolute text-gray-400 top-2 right-2 hover:text-gray-600'
