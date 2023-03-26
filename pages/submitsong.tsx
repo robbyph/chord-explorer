@@ -64,6 +64,11 @@ const SubmitSong: NextPage = () => {
         }
     );
 
+    function isValidLink(link) {
+        const pattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?$/;
+        return pattern.test(link);
+    }
+
     //function that deletes a chord from the chord array using the value of the chord
     const deleteChord = (chord: string) => {
         console.log(chords)
@@ -82,6 +87,11 @@ const SubmitSong: NextPage = () => {
         }
         if (chords.length === 0) {
             setAlertMessage("Please select at least one chord.");
+            setShowAlert(true);
+            return;
+        }
+        if (!isValidLink(data.songLink)) {
+            setAlertMessage("Please enter a valid song link.");
             setShowAlert(true);
             return;
         }
