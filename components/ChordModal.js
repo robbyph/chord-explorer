@@ -4,7 +4,9 @@ import { useRef, useEffect, useState } from 'react';
 import chordData from '../components/data/chordData.json';
 import guitarData from '../components/data/guitar.json';
 import ReactChord from '@tombatossals/react-chords/lib/Chord';
-import { Chord, ChordType, Key, Scale } from 'tonal';
+import { Chord, ChordType, Key, Note, Scale } from 'tonal';
+import * as Tone from 'tone';
+import Link from 'next/link';
 
 const ChordModal = ({ chord, root, onClose }) => {
   const modalRef = useRef();
@@ -14,6 +16,18 @@ const ChordModal = ({ chord, root, onClose }) => {
   const [keysOpen, setKeysOpen] = useState(false);
   const [emotionOpen, setEmotionOpen] = useState(false);
   const [voicingPosition, setVoicingPosition] = useState(0);
+  const stringSamples = {
+    0: '/guitarAudioFiles/lowE.wav',
+    1: '/guitarAudioFiles/A.wav',
+    2: '/guitarAudioFiles/D.wav',
+    3: '/guitarAudioFiles/G.wav',
+    4: '/guitarAudioFiles/B.wav',
+    5: '/guitarAudioFiles/highE.wav',
+  };
+
+  const sampler = new Tone.Sampler(stringSamples, () => {
+    console.log('sampler is loaded and ready to play');
+  });
 
   const getTrueName = () => {
     if (chordName.includes('sharp')) {
@@ -247,6 +261,31 @@ const ChordModal = ({ chord, root, onClose }) => {
     }
   );
 
+  const chordNotes = chordBoxData[voicingPosition].midi.map((note) => {
+    return Note.fromMidi(note);
+  });
+
+  // trigger a note on a specific string
+  function playString(stringIndex, note, duration, time) {
+    sampler.triggerAttackRelease(`${note}${stringIndex}`, duration, time);
+  }
+
+  // strum a chord
+  function strumChord(chord, duration, time) {
+    chord.forEach((note, index) => {
+      // map notes to string indices
+      const stringIndex = {
+        E2: 0,
+        A2: 1,
+        D3: 2,
+        G3: 3,
+        B3: 4,
+        E4: 5,
+      }[note];
+      playString(stringIndex, note, duration, time);
+    });
+  }
+
   return (
     <div className='fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50 font-HindSiliguri'>
       <div
@@ -300,9 +339,14 @@ const ChordModal = ({ chord, root, onClose }) => {
                   ▶
                 </button>
               </div>
-              <div className='mt-4 border border-black rounded hover:bg-black hover:text-white hover:cursor-pointer'>
+              <button
+                onClick={() => {
+                  strumChord(chordNotes, '2n', Tone.now() + '1m');
+                }}
+                className='mt-4 border border-black rounded hover:bg-black hover:text-white hover:cursor-pointer'
+              >
                 Listen
-              </div>
+              </button>
             </div>
             <div className='flex flex-col col-span-5 pl-24 text-left'>
               <h3 className='pt-6 text-2xl font-semibold'>Chord Symbols</h3>
