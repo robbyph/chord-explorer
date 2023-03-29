@@ -16,18 +16,7 @@ const ChordModal = ({ chord, root, onClose }) => {
   const [keysOpen, setKeysOpen] = useState(false);
   const [emotionOpen, setEmotionOpen] = useState(false);
   const [voicingPosition, setVoicingPosition] = useState(0);
-  const stringSamples = {
-    0: '/guitarAudioFiles/lowE.wav',
-    1: '/guitarAudioFiles/A.wav',
-    2: '/guitarAudioFiles/D.wav',
-    3: '/guitarAudioFiles/G.wav',
-    4: '/guitarAudioFiles/B.wav',
-    5: '/guitarAudioFiles/highE.wav',
-  };
-
-  const sampler = new Tone.Sampler(stringSamples, () => {
-    console.log('sampler is loaded and ready to play');
-  });
+  const [sampler, setSampler] = useState(null);
 
   const getTrueName = () => {
     if (chordName.includes('sharp')) {
@@ -265,26 +254,36 @@ const ChordModal = ({ chord, root, onClose }) => {
     return Note.fromMidi(note);
   });
 
-  // trigger a note on a specific string
-  function playString(stringIndex, note, duration, time) {
-    sampler.triggerAttackRelease(`${note}${stringIndex}`, duration, time);
-  }
+  useState(() => {
+    const newSampler = new Tone.Sampler(
+      {
+        E2: '/guitarAudioFiles/lowE.wav',
+        A3: '/guitarAudioFiles/A.wav',
+        D3: '/guitarAudioFiles/D.wav',
+        G3: '/guitarAudioFiles/G.wav',
+        B3: '/guitarAudioFiles/B.wav',
+        E4: '/guitarAudioFiles/highE.wav',
+      },
+      () => {
+        console.log('Sampler is loaded and ready to play');
+      }
+    ).toDestination();
+    const newReverb = new Tone.Reverb(2).toDestination();
+    newSampler.connect(newReverb);
 
-  // strum a chord
-  function strumChord(chord, duration, time) {
-    chord.forEach((note, index) => {
-      // map notes to string indices
-      const stringIndex = {
-        E2: 0,
-        A2: 1,
-        D3: 2,
-        G3: 3,
-        B3: 4,
-        E4: 5,
-      }[note];
-      playString(stringIndex, note, duration, time);
-    });
-  }
+    setSampler(newSampler);
+
+    return () => {
+      // dispose of the sampler when the component unmounts
+      newSampler.dispose();
+    };
+  }, []);
+
+  const handleButtonClick = () => {
+    if (Tone.loaded()) {
+      sampler.triggerAttackRelease(chordNotes, 4);
+    }
+  };
 
   return (
     <div className='fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50 font-HindSiliguri'>
@@ -340,9 +339,7 @@ const ChordModal = ({ chord, root, onClose }) => {
                 </button>
               </div>
               <button
-                onClick={() => {
-                  strumChord(chordNotes, '2n', Tone.now() + '1m');
-                }}
+                onClick={handleButtonClick}
                 className='mt-4 border border-black rounded hover:bg-black hover:text-white hover:cursor-pointer'
               >
                 Listen
