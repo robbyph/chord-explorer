@@ -99,7 +99,7 @@ const SubmitFeedback: NextPage = () => {
                     {showAlert && <Alert message={alertMessage} setShow={setShowAlert} />}
                     {showSignInPrompt && <SignInPrompt setShow={setShowSignInPrompt} />}
 
-                    <h1 className='col-span-4 p-6 text-4xl font-semibold text-white font-HindSiliguri'>Submit for Feedback</h1>
+                    <h1 className='col-span-4 p-6 text-4xl font-semibold text-white font-HindSiliguri'>Request Feedback</h1>
                     <div className='col-span-2 pl-6 pr-6 space-y-2'>
                         <FormProvider {...methods}>
                             <form onSubmit={handleSubmit(onSubmit)}>

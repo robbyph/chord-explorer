@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
 import { Menu } from '@headlessui/react';
 
@@ -50,7 +50,7 @@ const Navigation = ({ currentPage }) => {
           <a onClick={() => setShow(false)}>Give Feedback</a>
         </Link>
         <Link href='/submitfeedback'>
-          <a onClick={() => setShow(false)}>Submit for Feedback</a>
+          <a onClick={() => setShow(false)}>Request Feedback</a>
         </Link>
         <Link href='/accountpage'>
           <a onClick={() => setShow(false)}>Account</a>
