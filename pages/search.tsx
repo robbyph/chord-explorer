@@ -6,13 +6,13 @@ import { collection, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase/firestore";
 import { useState } from "react";
 
-
-
-
-
 const Search = () => {
     const [selectedSong, setSelectedSong] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
+    const [chordRoot, setChordRoot] = useState("any");
+    const [chordQuality, setChordQuality] = useState("any");
+    const [genre, setGenre] = useState("any");
+    const [difficulty, setDifficulty] = useState("any");
 
     const [songs, loading, error] = useCollection(
         query(collection(db, 'Songs')),
@@ -20,6 +20,11 @@ const Search = () => {
             snapshotListenOptions: { includeMetadataChanges: true },
         }
     );
+
+    console.log(chordRoot)
+    console.log(chordQuality)
+    console.log(genre)
+    console.log(difficulty)
 
     return (
         <div>
@@ -44,7 +49,11 @@ const Search = () => {
                     <div className="grid grid-cols-4 gap-4 px-4">
                         <div className="flex flex-col mb-4">
                             <label className="mb-1 ml-1 font-semibold" htmlFor="chordRoot">Chord Root</label>
-                            <select name="chordRoot" id="chordRootSelect" className="h-10 px-3 border-gray-300 rounded">
+                            <select value={chordRoot} onChange={
+                                (e) => {
+                                    setChordRoot(e.target.value);
+                                }
+                            } name="chordRoot" id="chordRootSelect" className="h-10 px-3 border-gray-300 rounded">
                                 <option value="any">Any</option>
                                 <option value="C">C</option>
                                 <option value="C#">C#/Db</option>
@@ -62,32 +71,46 @@ const Search = () => {
                         </div>
                         <div className="flex flex-col mb-4">
                             <label className="mb-1 ml-1 font-semibold" htmlFor="chordQuality">Chord Quality</label>
-                            <select name="chordQuality" id="chordQualitySelect" className="h-10 px-3 border-gray-300 rounded">
+                            <select name="chordQuality" value={chordQuality} onChange={
+                                (e) => {
+                                    setChordQuality(e.target.value);
+                                }
+                            } id="chordQualitySelect" className="h-10 px-3 border-gray-300 rounded">
                                 <option value="any">Any</option>
                                 <option value="major">Major</option>
                                 <option value="minor">Minor</option>
-                                <option value="diminished">Diminished</option>
-                                <option value="augmented">Augmented</option>
-                                <option value="suspended second">Sus2</option>
-                                <option value="suspended fourth">Sus4</option>
-                                <option value="major seventh">Major 7</option>
-                                <option value="minor seventh">Minor 7</option>
-                                <option value="dominant seventh">Dominant 7</option>
+                                <option value="dim">Diminished</option>
+                                <option value="aug">Augmented</option>
+                                <option value="sus4">Sus2</option>
+                                <option value="sus4">Sus4</option>
+                                <option value="maj7">Major 7</option>
+                                <option value="m7">Minor 7</option>
+                                <option value="7">Dominant 7</option>
                             </select>
                         </div>
                         <div className="flex flex-col mb-4">
                             <label className="mb-1 ml-1 font-semibold" htmlFor="genre">Genre</label>
-                            <select name="genre" id="genreSelect" className="h-10 px-3 border-gray-300 rounded">
-                                <option value="any">Rock</option>
-                                <option value="major">Jazz</option>
+                            <select name="genre" value={genre} onChange={
+                                (e) => {
+                                    setGenre(e.target.value);
+                                }
+                            } id="genre" className="h-10 px-3 border-gray-300 rounded">
+                                <option value="any">Any</option>
+                                <option value="rock">Rock</option>
+                                <option value="jazz">Jazz</option>
                             </select>
                         </div>
                         <div className="flex flex-col mb-4">
-                            <label className="mb-1 ml-1 font-semibold" htmlFor="chordQuality">Difficulty</label>
-                            <select name="chordQuality" id="chordQualitySelect" className="h-10 px-3 border-gray-300 rounded">
-                                <option value="any">Easy</option>
-                                <option value="major">Intermediate</option>
-                                <option value="minor">Hard</option>
+                            <label className="mb-1 ml-1 font-semibold" htmlFor="difficulty">Difficulty</label>
+                            <select value={difficulty} onChange={
+                                (e) => {
+                                    setDifficulty(e.target.value);
+                                }
+                            } name="difficulty" id="chordQualitySelect" className="h-10 px-3 border-gray-300 rounded">
+                                <option value="any">Any</option>
+                                <option value="easy">Easy</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="hard">Hard</option>
                             </select>
                         </div>
                     </div>
@@ -96,7 +119,6 @@ const Search = () => {
                     </h2>
                     <div className="grid grid-cols-4 gap-4 px-4 justify-items-stretch">
                         {songs.docs.map((song) => {
-                            console.log(song.data())
                             return (
                                 <div key={song.data().id} className="flex flex-col justify-center p-4 text-black bg-white rounded">
                                     <h3 className="text-2xl font-semibold font-HindSiliguri">{song.data().title}</h3>
