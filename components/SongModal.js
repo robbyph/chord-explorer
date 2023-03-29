@@ -1,9 +1,22 @@
 import React from 'react';
 import Head from 'next/head';
 import { useRef, useEffect } from 'react';
+import guitarData from '../components/data/guitar.json';
+import ReactChord from '@tombatossals/react-chords/lib/Chord';
+import { Chord, ChordType, Key, Scale } from 'tonal';
 
 const SongModal = ({ song, onClose }) => {
   const modalRef = useRef();
+
+  const instrument = {
+    strings: 6,
+    fretsOnChord: 4,
+    name: 'Guitar',
+    keys: [],
+    tunings: {
+      standard: ['E', 'A', 'D', 'G', 'B', 'E'],
+    },
+  };
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -80,17 +93,31 @@ const SongModal = ({ song, onClose }) => {
           <div className='mt-8'>
             <h3 className='text-2xl font-semibold font-HindSiliguri'>Chords</h3>
             <div className='flex flex-wrap justify-center mt-2'>
-              {song.data().chords.map((chord) => (
-                <div
-                  key={chord}
-                  className='p-2 m-2 text-gray-900 border border-t-2 rounded-lg shadow-lg w-28'
-                >
-                  <p className='pt-2 pb-1 text-lg font-semibold font-HindSiliguri'>
-                    {chord}
-                  </p>
-                  <img src='https://placehold.jp/150x150.png' alt='' />
-                </div>
-              ))}
+              {song.data().chords.map((chord) => {
+                var reduced = chord.split(' ');
+                if (reduced[0] == 'C#') {
+                  reduced[0] = 'Csharp';
+                } else if (reduced[0] == 'F#') {
+                  reduced[0] = 'Fsharp';
+                }
+                const chordBoxData = guitarData.chords[reduced[0]].find(
+                  (c) => c.suffix === reduced[1].toLowerCase()
+                ).positions;
+                return (
+                  <div
+                    key={chord}
+                    className='p-2 m-2 text-gray-900 border border-t-2 rounded-lg shadow-lg w-44'
+                  >
+                    <p className='pt-2 pb-1 text-lg font-semibold font-HindSiliguri'>
+                      {chord}
+                    </p>
+                    <ReactChord
+                      chord={chordBoxData[0]}
+                      instrument={instrument}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

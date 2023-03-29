@@ -268,8 +268,6 @@ const ChordModal = ({ chord, root, onClose }) => {
         console.log('Sampler is loaded and ready to play');
       }
     ).toDestination();
-    const newReverb = new Tone.Reverb(2).toDestination();
-    newSampler.connect(newReverb);
 
     setSampler(newSampler);
 
@@ -281,7 +279,7 @@ const ChordModal = ({ chord, root, onClose }) => {
 
   const handleButtonClick = () => {
     if (Tone.loaded()) {
-      sampler.triggerAttackRelease(chordNotes, 4);
+      sampler.triggerAttack(chordNotes);
     }
   };
 
