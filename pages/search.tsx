@@ -27,9 +27,17 @@ const Search = () => {
         console.log(chordRoot, chordQuality, genre, difficulty)
 
         if (chordRoot == 'any' && chordQuality != 'any') {
-            q = query(q, where('chords', 'array-contains', chordQuality));
+            q = query(q,
+                where('chords', '>=', chordQuality),
+                where('chords', '<=', chordQuality + '\uf8ff'),
+                orderBy('chords')
+            );
         } else if (chordRoot != 'any' && chordQuality == 'any') {
-            q = query(q, where('chords', 'array-contains', chordRoot));
+            q = query(q,
+                where('chords', '>=', chordRoot),
+                where('chords', '<=', chordRoot + '\uf8ff'),
+                orderBy('chords')
+            );
         }
 
         if (chordRoot != 'any' && chordQuality != 'any') {
@@ -52,6 +60,7 @@ const Search = () => {
             querySnapshot.forEach((doc) => {
                 songs.push({ data: doc.data(), id: doc.id });
             });
+            console.log(songs)
             setFirebaseSongs(songs);
             setLoading(false);
         });
