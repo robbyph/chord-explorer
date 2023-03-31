@@ -120,7 +120,7 @@ const Search = () => {
                     <div className="grid grid-cols-4 gap-4 px-4 justify-items-stretch">
                         {songs.docs.map((song) => {
                             return (
-                                <div key={song.data().id} className="flex flex-col justify-center p-4 text-black bg-white rounded">
+                                <div key={song.id} className="flex flex-col justify-center p-4 text-black bg-white rounded">
                                     <h3 className="text-2xl font-semibold font-HindSiliguri">{song.data().title}</h3>
                                     <p className="text-lg font-HindSiliguri">By {song.data().artist}</p>
                                     <button
