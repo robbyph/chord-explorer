@@ -6,6 +6,7 @@ import { detectChords } from "../akkorder/src/index";
 import { silenceRemovalAlgorithm } from "../utilities/remove_silence";
 import { Tab } from '@headlessui/react'
 import { Fragment } from 'react'
+import Alert from '../components/Alert'
 
 const ChordRecognition = () => {
     var sourceBuffer: AudioBuffer;
@@ -16,6 +17,7 @@ const ChordRecognition = () => {
     const [recognitionWarning, setRecognitionWarning] = useState(false)
     const [submitWarning, setSubmitWarning] = useState(false)
     const [submittedIndicator, setSubmittedIndicator] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     //live chord detection 
     const [isPlaying, setIsPlaying] = useState(false);
@@ -105,12 +107,12 @@ const ChordRecognition = () => {
             setRecognitionWarning(true)
             setSubmitWarning(false)
         } else {
-
             var channelData = Array.from(sourceBuffer.getChannelData(0));
             console.log(channelData)
             var channelDataSilenceRemoved = await silenceRemovalAlgorithm(channelData);
             let chords = detectChords(channelDataSilenceRemoved, 44100);
             setDetectedChords(chordFiltering(chords))
+            setLoading(false)
         }
     }
 
@@ -167,6 +169,7 @@ const ChordRecognition = () => {
     }
 
     const uploadToServer = async () => {
+        setLoading(true)
         setRecognitionWarning(false)
         if (file === null) {
             setSubmitWarning(true)
@@ -196,8 +199,6 @@ const ChordRecognition = () => {
         }
     };
 
-    console.log('isPlaying on click', isPlaying); // check if handlePlayClick is being called and if isPlaying state is being properly updated
-
     return (
         <div>
             <Head>
@@ -211,6 +212,7 @@ const ChordRecognition = () => {
             <main className="p-6 m-2">
                 <h1 className="col-span-4 text-4xl font-semibold font-HindSiliguri">Chord Recognition</h1>
                 <h2 className="col-span-4 pb-4 text-2xl font-HindSiliguri">Powered by AI</h2>
+                {loading && <Alert message='Loading, Please Wait...' setShow={setLoading} />}
 
                 <Tab.Group>
                     <Tab.List>
