@@ -14,21 +14,28 @@ const Search = () => {
     const [genre, setGenre] = useState("any");
     const [difficulty, setDifficulty] = useState("any");
 
-    const [songs, setSongs] = useState<{ id: string }[]>([]);
+    const [firebaseSongs, setFirebaseSongs] = useState<{ data: any; id: string }[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<null | FirestoreError>(null);
-    useEffect(() => {
-        let q = query(collection(db, 'Songs'));
 
-        if (chordRoot !== 'any' && chordQuality !== 'any') {
+    // Define default query
+    let q = query(collection(db, 'Songs'));
+
+    useEffect(() => {
+        // Modify query whenever any of the select elements change
+
+        console.log(chordRoot, chordQuality, genre, difficulty)
+        if (chordRoot != 'any' && chordQuality != 'any') {
             q = query(q, where('chords', 'array-contains', `${chordRoot} ${chordQuality}`));
+        } else {
+            q = query(collection(db, 'Songs'));
         }
 
-        if (genre !== 'any') {
+        if (genre != 'any') {
             q = query(q, where('genre', '==', genre));
         }
 
-        if (difficulty !== 'any') {
+        if (difficulty != 'any') {
             q = query(q, where('difficulty', '==', difficulty));
         }
 
@@ -36,7 +43,8 @@ const Search = () => {
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const songs = snapshot.docs.map((doc) => ({ id: doc.id, data: { ...doc.data() } }));
-            setSongs(songs);
+            console.log(songs)
+            setFirebaseSongs(songs);
             setLoading(false);
         }, (error) => {
             setError(error);
@@ -59,7 +67,7 @@ const Search = () => {
             {loading && <h1>Loading...</h1>}
             {error && <strong>Error! <br /> {JSON.stringify(error)}</strong>}
             {
-                songs && <main>
+                firebaseSongs && <main>
                     {modalOpen && <SongModal song={selectedSong}
                         onClose={() => setModalOpen(false)}
                     />}
@@ -141,7 +149,7 @@ const Search = () => {
                         Songs Containing G Major (G)
                     </h2>
                     <div className="grid grid-cols-4 gap-4 px-4 justify-items-stretch">
-                        {songs.map((song) => {
+                        {firebaseSongs.map((song) => {
                             return (
                                 <div key={song.id} className="flex flex-col justify-center p-4 text-black bg-white rounded">
                                     <h3 className="text-2xl font-semibold font-HindSiliguri">{song.data.title}</h3>
