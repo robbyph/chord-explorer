@@ -25,10 +25,16 @@ const Search = () => {
         // Modify query whenever any of the select elements change
 
         console.log(chordRoot, chordQuality, genre, difficulty)
+
+        if (chordRoot == 'any' && chordQuality != 'any') {
+            q = query(q, where('chords', 'array-contains', chordQuality));
+        } else if (chordRoot != 'any' && chordQuality == 'any') {
+            q = query(q, where('chords', 'array-contains', chordRoot));
+        }
+
         if (chordRoot != 'any' && chordQuality != 'any') {
-            q = query(q, where('chords', 'array-contains', `${chordRoot} ${chordQuality}`));
-        } else {
-            q = query(collection(db, 'Songs'));
+            var chord = `${chordRoot} ${chordQuality}`;
+            q = query(q, where('chords', 'array-contains', chord));
         }
 
         if (genre != 'any') {
@@ -41,15 +47,16 @@ const Search = () => {
 
         q = query(q, orderBy('title'));
 
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            const songs = snapshot.docs.map((doc) => ({ id: doc.id, data: { ...doc.data() } }));
-            console.log(songs)
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const songs: { data: any; id: string }[] = [];
+            querySnapshot.forEach((doc) => {
+                songs.push({ data: doc.data(), id: doc.id });
+            });
             setFirebaseSongs(songs);
             setLoading(false);
-        }, (error) => {
-            setError(error);
-            setLoading(false);
         });
+
+
 
         return () => unsubscribe();
     }, [chordRoot, chordQuality, genre, difficulty]);
