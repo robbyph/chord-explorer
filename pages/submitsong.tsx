@@ -107,7 +107,9 @@ const SubmitSong: NextPage = () => {
             author: account.id,
             artist: data.artist,
             upVotes: 0,
-            downVotes: 0
+            downVotes: 0,
+            genre: genre,
+            difficulty: difficulty,
         })
             .then((docRef) => {
                 //router.push(`/post/${docRef.id}`);

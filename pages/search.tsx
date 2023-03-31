@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import SongModal from "../components/SongModal";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { collection, orderBy, query } from "firebase/firestore";
+import { collection, CollectionReference, DocumentData, FirestoreError, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "../firebase/firestore";
 import { useState } from "react";
 
@@ -14,17 +14,37 @@ const Search = () => {
     const [genre, setGenre] = useState("any");
     const [difficulty, setDifficulty] = useState("any");
 
-    const [songs, loading, error] = useCollection(
-        query(collection(db, 'Songs')),
-        {
-            snapshotListenOptions: { includeMetadataChanges: true },
-        }
-    );
+    const [songs, setSongs] = useState<{ id: string }[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<null | FirestoreError>(null);
+    useEffect(() => {
+        let q = query(collection(db, 'Songs'));
 
-    console.log(chordRoot)
-    console.log(chordQuality)
-    console.log(genre)
-    console.log(difficulty)
+        if (chordRoot !== 'any' && chordQuality !== 'any') {
+            q = query(q, where('chords', 'array-contains', `${chordRoot} ${chordQuality}`));
+        }
+
+        if (genre !== 'any') {
+            q = query(q, where('genre', '==', genre));
+        }
+
+        if (difficulty !== 'any') {
+            q = query(q, where('difficulty', '==', difficulty));
+        }
+
+        q = query(q, orderBy('title'));
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const songs = snapshot.docs.map((doc) => ({ id: doc.id, data: { ...doc.data() } }));
+            setSongs(songs);
+            setLoading(false);
+        }, (error) => {
+            setError(error);
+            setLoading(false);
+        });
+
+        return () => unsubscribe();
+    }, [chordRoot, chordQuality, genre, difficulty]);
 
     return (
         <div>
@@ -39,7 +59,7 @@ const Search = () => {
             {loading && <h1>Loading...</h1>}
             {error && <strong>Error! <br /> {JSON.stringify(error)}</strong>}
             {
-                songs?.docs && <main>
+                songs && <main>
                     {modalOpen && <SongModal song={selectedSong}
                         onClose={() => setModalOpen(false)}
                     />}
@@ -98,6 +118,9 @@ const Search = () => {
                                 <option value="any">Any</option>
                                 <option value="rock">Rock</option>
                                 <option value="jazz">Jazz</option>
+                                <option value="pop">Pop</option>
+                                <option value="folk">Folk</option>
+                                <option value="indie">Indie</option>
                             </select>
                         </div>
                         <div className="flex flex-col mb-4">
@@ -118,11 +141,11 @@ const Search = () => {
                         Songs Containing G Major (G)
                     </h2>
                     <div className="grid grid-cols-4 gap-4 px-4 justify-items-stretch">
-                        {songs.docs.map((song) => {
+                        {songs.map((song) => {
                             return (
                                 <div key={song.id} className="flex flex-col justify-center p-4 text-black bg-white rounded">
-                                    <h3 className="text-2xl font-semibold font-HindSiliguri">{song.data().title}</h3>
-                                    <p className="text-lg font-HindSiliguri">By {song.data().artist}</p>
+                                    <h3 className="text-2xl font-semibold font-HindSiliguri">{song.data.title}</h3>
+                                    <p className="text-lg font-HindSiliguri">By {song.data.artist}</p>
                                     <button
                                         onClick={() => {
                                             setSelectedSong(song);
