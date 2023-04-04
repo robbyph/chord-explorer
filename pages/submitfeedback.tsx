@@ -12,7 +12,7 @@ import { Profanity } from "@2toad/profanity";
 import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import ProtectedRoute from '../components/ProtectedRoute';
-
+import YoutubeLazyLoad from '../components/YoutubeLazyLoad';
 
 interface PostType {
     title: string;
@@ -187,7 +187,7 @@ const SubmitFeedback: NextPage = () => {
                             <div className='flex flex-col items-center'>
                                 <h3 className='p-2 pb-0 text-2xl font-medium font-HindSiliguri'>{title.length > 0 ? title : 'Title Placeholder'}</h3>
                                 <p className='p-2 pt-1 text-sm font-IBMPlexSans text-[#808080]'>Submitted by <span className='underline'>{account?.data()?.username}</span></p>
-                                <embed className='p-2' width="560" height="315" src={vidLink.length > 0 ? vidLink : 'https://www.youtube.com/embed/ScMzIvxBSi4'} title="Video Submission" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></embed>
+                                <YoutubeLazyLoad vidLink={vidLink} />
                             </div>
                             <pre className='p-2 pb-6 pl-0 ml-14 font-IBMPlexSans'>{description.length > 0 ? description : 'Type a description for your post, and it will appear here!'}</pre>
                         </div>
