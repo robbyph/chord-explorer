@@ -70,13 +70,13 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         await signOut(auth);
     };
 
-    const resetPassword = (email: string) => {
+    const resetPassword = async (email: string) => {
         sendPasswordResetEmail(auth, email)
             .then(() => {
                 console.log("Password reset email sent!")
             })
             .catch((error) => {
-                console.error(error);
+                throw error;
             });
     };
 

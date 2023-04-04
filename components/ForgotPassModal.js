@@ -1,18 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 
-const ForgotPassModal = ({ setShow }) => {
+const ForgotPassModal = (props) => {
   const handleClose = () => {
-    setShow(false);
+    props.setShow(false);
   };
 
   const { resetPassword } = useAuth();
   const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
 
   const handleClick = () => {
-    resetPassword(email);
-    setShow(false);
+    resetPassword(email).catch((error) => {
+      setError(error.message);
+    });
+    props.setShow(false);
   };
+
+  useEffect(() => {
+    return () => {
+      if (error.length > 0) {
+        props.onClose(error);
+      } else {
+        props.onClose('Password reset email sent!');
+      }
+    };
+  }, [props]);
 
   return (
     <div

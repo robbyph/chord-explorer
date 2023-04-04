@@ -40,11 +40,20 @@ const LoginPage = () => {
         }
     };
 
+    const handleChildClose = (message: string) => {
+        console.log('msg', message)
+        if (message != '') {
+            setAlertMessage(message)
+            setShowAlert(true)
+        }
+        setForgotPasswordModal(false)
+
+    }
 
     return (
         <div className="container w-1/3 mx-auto mt-12 sign-up-form ">
             {showAlert && <Alert message={alertMessage} setShow={setShowAlert} />}
-            {forgotPasswordModal && <ForgotPassModal setShow={setForgotPasswordModal} />}
+            {forgotPasswordModal && <ForgotPassModal onClose={handleChildClose} setShow={setForgotPasswordModal} />}
             <h2 className="px-12 mt-8 text-4xl font-semibold text-center text-white font-HindSiliguri">Log In</h2>
             <FormProvider {...methods}>
                 <form action="" className="px-4 pb-12 mx-auto font-IBMPlexSans" onSubmit={handleSubmit(onSubmit)}>
