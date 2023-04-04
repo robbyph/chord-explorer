@@ -79,4 +79,29 @@ export function detectChords(
   return chords;
 }
 
+export function detectChordsLive(
+  audioBuffer: number[],
+  sampleRate: number,
+  frameSize: number
+): Chord[] {
+  let chroma_builder = new Chromagram(frameSize, sampleRate);
+  let detector = new ChordDetector();
+  let frame = new Array(sampleRate);
+  let chords = [];
+  for (let i = 0; i < audioBuffer.length; i = i + sampleRate) {
+    for (let k = 0; k < sampleRate; k++) {
+      frame[k] = audioBuffer[i + k];
+    }
+    chroma_builder.processAudioFrame(frame);
+    if (chroma_builder.isReady()) {
+      detector.detectChord(chroma_builder.getChromagram());
+      chords.push(
+        prettifyChord(detector.rootNote, detector.quality, detector.intervals)
+      );
+    }
+  }
+  console.log('akkorder chords ', chords);
+  return chords;
+}
+
 export { ChordDetector, Chromagram };

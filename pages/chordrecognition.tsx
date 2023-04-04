@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Head from "next/head";
-import { detectChords } from "../akkorder/src/index";
+import { detectChords, detectChordsLive } from "../akkorder/src/index";
 import { silenceRemovalAlgorithm } from "../utilities/remove_silence";
 import { Tab } from '@headlessui/react'
 import { Fragment } from 'react'
 import Alert from '../components/Alert'
+import { Chromagram } from "../akkorder/src/index";
 
 const ChordRecognition = () => {
     var sourceBuffer: AudioBuffer;
@@ -48,17 +49,19 @@ const ChordRecognition = () => {
                 analyserNode.connect(scriptNode);
                 scriptNode.connect(audioContextRef.current.destination);
 
-                const sourceSampleRate = audioContextRef.current.sampleRate;
-                const targetSampleRate = 44100;
+                //const sourceSampleRate = audioContextRef.current.sampleRate;
+                //console.log('sourceSampleRate: ', sourceSampleRate)
+                //const targetSampleRate = 44100
 
-                const bufferLength = bufferSize;
-                const dataArray = new Float32Array(bufferLength);
+
+                const dataArray = new Float32Array(bufferSize);
+                //console.log('dataArray: ', dataArray);
 
                 scriptNode.onaudioprocess = () => {
                     analyserNode.getFloatTimeDomainData(dataArray);
-                    const resampledData = resampleLinear(dataArray, sourceSampleRate, targetSampleRate);
-                    console.log(Array.from(resampledData))
-                    const chords = detectChords(Array.from(resampledData), targetSampleRate);
+                    //const resampledData = resampleLinear(dataArray, sourceSampleRate, targetSampleRate);
+                    console.log(Array.from(dataArray))
+                    const chords = detectChordsLive(Array.from(dataArray), 44100, bufferSize);
                     setDetectedChords(chordFiltering(chords));
                 };
 
@@ -71,6 +74,59 @@ const ChordRecognition = () => {
             }
         }
     };
+
+    const handlePlayClickOLD = async () => {
+        if (isPlaying) {
+            setIsPlaying(false);
+            if (scriptNodeRef.current && analyserNodeRef.current) {
+                scriptNodeRef.current.disconnect(); // remove the onaudioprocess event listener
+                analyserNodeRef.current.disconnect();
+            }
+        } else {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioStreamRef.current = stream;
+                audioContextRef.current = new AudioContext();
+
+                const bufferSize = 8192;
+                const mediaStreamSource = audioContextRef.current.createMediaStreamSource(stream);
+                const analyserNode = audioContextRef.current.createAnalyser();
+                const scriptNode = audioContextRef.current.createScriptProcessor(bufferSize, 1, 1);
+
+                mediaStreamSource.connect(analyserNode);
+                analyserNode.connect(scriptNode);
+                scriptNode.connect(audioContextRef.current.destination);
+
+                let frameSize = 512;
+                let sampleRate = 44100;
+
+                let chrome = new Chromagram(frameSize, sampleRate);
+
+                chrome.setChromaCalculationInterval(8192);
+
+                scriptNode.onaudioprocess = () => {
+                    let frame = new Array(frameSize);
+                    c.processAudioFrame(frame);
+                    if (c.isReady()) {
+                        let chroma = c.getChromagram();
+                    }
+
+                    // analyserNode.getFloatTimeDomainData(dataArray);
+                    // console.log(Array.from(dataArray))
+                    // const chords = detectChords(Array.from(dataArray), bufferSize);
+                    // setDetectedChords(chordFiltering(chords));
+                };
+
+                scriptNodeRef.current = scriptNode;
+                analyserNodeRef.current = analyserNode;
+
+                setIsPlaying(true);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+    }
 
     function resampleLinear(input, inputRate, outputRate) {
         const outputLength = Math.round(input.length * outputRate / inputRate);
@@ -89,8 +145,6 @@ const ChordRecognition = () => {
 
         return output;
     }
-
-
 
     async function loadSound(url: string | URL) {
         context = new AudioContext();
@@ -184,7 +238,6 @@ const ChordRecognition = () => {
                 chordDetection();
             });
             setSubmittedIndicator(false)
-
         }
     }
 
