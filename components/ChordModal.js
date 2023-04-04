@@ -215,12 +215,14 @@ const ChordModal = ({ chord, root, onClose }) => {
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
+        sampler.releaseAll();
         onClose();
       }
     };
 
     const handleKeyDown = (event) => {
       if (event.keyCode === 27) {
+        sampler.releaseAll();
         onClose();
       }
     };
