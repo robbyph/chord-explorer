@@ -186,8 +186,8 @@ const ChordRecognition = () => {
     }
 
     function chordFiltering(chords: any[]) {
-        var tempChords: any[] = []
-        var uniqueChords: any[] = []
+        var tempChords: any[] = [];
+        var uniqueChords: any[] = [];
 
         //cull uniques
         const hash = ({ rootNote, quality, interval }) =>
@@ -195,44 +195,55 @@ const ChordRecognition = () => {
 
         const counts = chords.reduce((map, item) => {
             const key = hash(item);
-            return ({
+            return {
                 ...map,
                 [key]: (map[key] ?? 0) + 1,
-            });
+            };
         }, {});
 
         uniqueChords = chords.filter((item) => counts[hash(item)] > 1);
 
         //cull duplicates
-        tempChords = uniqueChords.filter((value, index, self) =>
-            index === self.findIndex((t) => (
-                t.rootNote == value.rootNote && t.quality == value.quality && t.interval == value.interval
-            ))
-        )
+        tempChords = uniqueChords.filter(
+            (value, index, self) =>
+                index ===
+                self.findIndex(
+                    (t) =>
+                        t.rootNote == value.rootNote &&
+                        t.quality == value.quality &&
+                        t.interval == value.interval
+                )
+        );
 
         if (tempChords.length < 1) {
-            return chords
+            return chords;
         } else {
             return tempChords;
-
         }
     }
 
     function toTextQuality(quality) {
         switch (quality) {
-            case 0: return 'Minor'
+            case 0:
+                return "Minor";
                 break;
-            case 1: return 'Major'
+            case 1:
+                return "Major";
                 break;
-            case 2: return 'Suspended'
+            case 2:
+                return "Suspended";
                 break;
-            case 3: return 'Dominant'
+            case 3:
+                return "Dominant";
                 break;
-            case 4: return 'Diminished'
+            case 4:
+                return "Diminished";
                 break;
-            case 5: return 'Augmented'
+            case 5:
+                return "Augmented";
                 break;
-            default: return '';
+            default:
+                return "";
                 break;
         }
     }
