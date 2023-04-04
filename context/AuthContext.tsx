@@ -4,6 +4,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
+    sendPasswordResetEmail
 } from "firebase/auth";
 import { auth, db } from "../firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
@@ -69,8 +70,18 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         await signOut(auth);
     };
 
+    const resetPassword = (email: string) => {
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                console.log("Password reset email sent!")
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
     return (
-        <AuthContext.Provider value={{ user: user, signUp, logIn, logOut }}>
+        <AuthContext.Provider value={{ user: user, signUp, logIn, logOut, resetPassword }}>
             {loading ? null : children}
         </AuthContext.Provider>
     );

@@ -5,6 +5,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import Alert from "../components/Alert";
 import { useState } from "react";
+import ForgotPassModal from "../components/ForgotPassModal";
 
 
 interface LoginType {
@@ -15,6 +16,7 @@ const LoginPage = () => {
     const methods = useForm<LoginType>({ mode: "onBlur" });
     const [showAlert, setShowAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState('')
+    const [forgotPasswordModal, setForgotPasswordModal] = useState(false)
 
     const {
         register,
@@ -38,9 +40,11 @@ const LoginPage = () => {
         }
     };
 
+
     return (
         <div className="container w-1/3 mx-auto mt-12 sign-up-form ">
             {showAlert && <Alert message={alertMessage} setShow={setShowAlert} />}
+            {forgotPasswordModal && <ForgotPassModal setShow={setForgotPasswordModal} />}
             <h2 className="px-12 mt-8 text-4xl font-semibold text-center text-white font-HindSiliguri">Log In</h2>
             <FormProvider {...methods}>
                 <form action="" className="px-4 pb-12 mx-auto font-IBMPlexSans" onSubmit={handleSubmit(onSubmit)}>
@@ -83,7 +87,8 @@ const LoginPage = () => {
                     </div>
                 </form>
             </FormProvider>
-            <Link href='/signup'><a className="underline">Need an account? Sign up here!</a ></Link>
+            <span>Need an account? <Link href='/signup'><a className="underline">Sign up here!</a ></Link> </span><br />
+            <span>Forgot your password? <button className="underline" onClick={() => setForgotPasswordModal(true)}>Click here</button></span>
         </div >
     );
 };

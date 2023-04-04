@@ -1,0 +1,52 @@
+import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+
+const ForgotPassModal = ({ setShow }) => {
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  const { resetPassword } = useAuth();
+  const [email, setEmail] = useState('');
+
+  const handleClick = () => {
+    resetPassword(email);
+    setShow(false);
+  };
+
+  return (
+    <div
+      className={`text-black font-bold xl:left-1/3 bg-amber-300 mt-4 xl:ml-24 top-0 z-10 fixed animate-slideup font-IBMPlexSans shadow-2xl`}
+      css={{
+        bottom: 0,
+        left: 0,
+        right: 0,
+      }}
+    >
+      <div className='flex items-start justify-between max-w-md'>
+        <div className='flex flex-col px-10 py-6'>
+          <span className='mb-4 text-xl animate-pulse'>
+            Enter your email to reset your password.
+          </span>
+          <input
+            className='px-2 py-1 mb-4 bg-white'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type='text'
+          />
+          <button
+            onClick={handleClick}
+            className='px-2 py-1 font-medium border border-white rounded-lg hover:bg-white hover:text-amber-600'
+          >
+            Reset Password
+          </button>
+        </div>
+        <button onClick={handleClose} className='px-2 py-1 font-medium'>
+          X
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default ForgotPassModal;
