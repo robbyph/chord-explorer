@@ -40,8 +40,6 @@ const SubmitSong: NextPage = () => {
     const [chords, setChords] = useState<string[]>([]);
     const router = useRouter();
 
-
-
     var UID;
     if (user.uid) {
         UID = user.uid

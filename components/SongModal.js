@@ -8,6 +8,8 @@ import { Chord, ChordType, Key, Scale } from 'tonal';
 const SongModal = ({ song, onClose }) => {
   const modalRef = useRef();
 
+  console.log(song);
+
   const instrument = {
     strings: 6,
     fretsOnChord: 4,
@@ -67,24 +69,24 @@ const SongModal = ({ song, onClose }) => {
         <div className='flex flex-col justify-center p-4 text-center text-black bg-white rounded'>
           <div className='text-center'>
             <h3 className='text-3xl font-semibold font-HindSiliguri'>
-              {song.data().title}
+              {song.data.title}
             </h3>
-            <p className='text-lg font-HindSiliguri'>{song.data().artist}</p>
+            <p className='text-lg font-HindSiliguri'>{song.data.artist}</p>
             <a
               className='text-blue-600 underline'
               target='_blank'
               rel='noreferrer'
-              href={song.data().songLink}
+              href={song.data.songLink}
             >
               Listen Here!
             </a>
             <br />
-            {song.data().tabLink && (
+            {song.data.tabLink && (
               <a
                 className='text-blue-600 underline'
                 target='_blank'
                 rel='noreferrer'
-                href={song.data().tabLink}
+                href={song.data.tabLink}
               >
                 See Tabs Here!
               </a>
@@ -93,7 +95,7 @@ const SongModal = ({ song, onClose }) => {
           <div className='mt-8'>
             <h3 className='text-2xl font-semibold font-HindSiliguri'>Chords</h3>
             <div className='flex flex-wrap justify-center mt-2'>
-              {song.data().chords.map((chord) => {
+              {song.data.chords.map((chord) => {
                 var reduced = chord.split(' ');
                 if (reduced[0] == 'C#') {
                   reduced[0] = 'Csharp';
