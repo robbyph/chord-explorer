@@ -5,7 +5,6 @@ import ChordModal from '../components/ChordModal';
 import guitarData from '../components/data/guitar.json'
 import Chord from "@tombatossals/react-chords/lib/Chord";
 
-//dummy song data
 const chords = ['major', 'minor', 'dim', 'aug', 'sus2', 'sus4', 'maj7', 'm7', '7']
 
 
@@ -115,7 +114,7 @@ const ChordLibrary = () => {
                 <h2 className="col-span-4 p-6 text-3xl font-semibold font-HindSiliguri">
                     Chords
                 </h2>
-                <div className="grid grid-cols-4 gap-4 px-4 justify-items-stretch">
+                <div className="grid grid-cols-4 gap-4 px-4 mb-4 justify-items-stretch">
                     {chords.map((chord) => {
                         var chordBoxData = getChordBox(chord)
                         return (

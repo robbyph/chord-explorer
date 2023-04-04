@@ -195,7 +195,6 @@ const SubmitFeedback: NextPage = () => {
                 </main>
             </div>
         </ProtectedRoute>
-
     )
 }
 
