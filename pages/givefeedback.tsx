@@ -71,7 +71,7 @@ const GiveFeedback = () => {
                                 </div>
                                 <div className="ml-auto">
                                     {p.data().vidLink && (
-                                        <YoutubeLazyLoad vidLink={p.data().vidLink} />
+                                        <YoutubeLazyLoad video={p.data().vidLink} height={'14rem'} />
                                     )}
                                 </div>
                             </li>

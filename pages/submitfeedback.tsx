@@ -187,7 +187,7 @@ const SubmitFeedback: NextPage = () => {
                             <div className='flex flex-col items-center'>
                                 <h3 className='p-2 pb-0 text-2xl font-medium font-HindSiliguri'>{title.length > 0 ? title : 'Title Placeholder'}</h3>
                                 <p className='p-2 pt-1 text-sm font-IBMPlexSans text-[#808080]'>Submitted by <span className='underline'>{account?.data()?.username}</span></p>
-                                <YoutubeLazyLoad vidLink={vidLink} />
+                                {<YoutubeLazyLoad video={vidLink} height={'14rem'} playable={false} />}
                             </div>
                             <pre className='p-2 pb-6 pl-0 ml-14 font-IBMPlexSans'>{description.length > 0 ? description : 'Type a description for your post, and it will appear here!'}</pre>
                         </div>
