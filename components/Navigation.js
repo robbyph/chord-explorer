@@ -74,7 +74,7 @@ const Navigation = ({ currentPage }) => {
             onClick={() => setShow(false)}
             className='hover:animate-bounceslowonce'
           >
-            Submit for Feedback
+            Request Feedback
           </a>
         </Link>
         <Menu as='div' className='hover:animate-bounceslowonce'>
