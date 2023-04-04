@@ -8,24 +8,31 @@ const ForgotPassModal = (props) => {
 
   const { resetPassword } = useAuth();
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [err, setErr] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleClick = () => {
-    resetPassword(email).catch((error) => {
-      setError(error.message);
-    });
-    props.setShow(false);
+  const handleClick = async () => {
+    await resetPassword(email)
+      .catch((error) => {
+        console.log('errro', error.message);
+        setErr(error.message);
+      })
+      .finally(() => {
+        setSubmitted(true);
+      });
   };
 
   useEffect(() => {
-    return () => {
-      if (error.length > 0) {
-        props.onClose(error);
+    console.log('submitted', submitted);
+    console.log('err', err);
+    if (submitted) {
+      if (err.length > 0) {
+        props.onClose(err);
       } else {
         props.onClose('Password reset email sent!');
       }
-    };
-  }, [props]);
+    }
+  }, [submitted, err]);
 
   return (
     <div

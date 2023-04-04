@@ -47,7 +47,6 @@ const LoginPage = () => {
             setShowAlert(true)
         }
         setForgotPasswordModal(false)
-
     }
 
     return (

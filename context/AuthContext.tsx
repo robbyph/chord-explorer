@@ -71,14 +71,14 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     };
 
     const resetPassword = async (email: string) => {
-        sendPasswordResetEmail(auth, email)
-            .then(() => {
-                console.log("Password reset email sent!")
-            })
-            .catch((error) => {
-                throw error;
-            });
+        try {
+            await sendPasswordResetEmail(auth, email);
+            console.log("Password reset email sent!");
+        } catch (error) {
+            return Promise.reject(error);
+        }
     };
+
 
     return (
         <AuthContext.Provider value={{ user: user, signUp, logIn, logOut, resetPassword }}>
