@@ -12,7 +12,7 @@ import Alert from '../../components/Alert'
 import { useAuth } from '../../context/AuthContext';
 import SignInPrompt from '../../components/SignInPrompt'
 import Link from 'next/link';
-
+import YoutubeLazyLoad from '../../components/YoutubeLazyLoad';
 
 const PostPage = (props) => {
     const { user } = useAuth();
@@ -188,7 +188,7 @@ const PostPage = (props) => {
                 </div>
                 <div id='body' className='flex flex-col justify-center pb-16 space-x-16 space-y-2 lg:space-y-0 lg:flex-row'>
                     <p className=''>{props.post.description}</p>
-                    <iframe loading="lazy" className="h-60" src={props.post.vidLink + '?autoplay=0&controls=0'}></iframe>
+                    <YoutubeLazyLoad vidLink={props.post.vidLink} />
                 </div>
             </div>
             <div id='comments' className='grid justify-center grid-cols-12 px-4 pb-8'>
@@ -208,7 +208,6 @@ const PostPage = (props) => {
                         {error && <strong>Error! <br /> {JSON.stringify(error)} </strong>}
                         {loading && <em>Loading...</em>}
                         {comments && comments.docs.map((c) => {
-                            //console.log(c.data().author)
                             return (
                                 <div id='comment' key={c.id} className='p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
                                     <p id='comment-content' className='pb-6'>{c.data().comment}</p>
