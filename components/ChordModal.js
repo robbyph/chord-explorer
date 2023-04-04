@@ -17,6 +17,7 @@ const ChordModal = ({ chord, root, onClose }) => {
   const [emotionOpen, setEmotionOpen] = useState(false);
   const [voicingPosition, setVoicingPosition] = useState(0);
   const [sampler, setSampler] = useState(null);
+  const [samplerLoaded, setSamplerLoaded] = useState(false);
 
   const getTrueName = () => {
     if (chordName.includes('sharp')) {
@@ -257,8 +258,8 @@ const ChordModal = ({ chord, root, onClose }) => {
   });
 
   useState(() => {
-    const newSampler = new Tone.Sampler(
-      {
+    const newSampler = new Tone.Sampler({
+      urls: {
         E2: '/guitarAudioFiles/lowE.wav',
         A3: '/guitarAudioFiles/A.wav',
         D3: '/guitarAudioFiles/D.wav',
@@ -266,10 +267,11 @@ const ChordModal = ({ chord, root, onClose }) => {
         B3: '/guitarAudioFiles/B.wav',
         E4: '/guitarAudioFiles/highE.wav',
       },
-      () => {
+      onload: () => {
+        setSamplerLoaded(true);
         console.log('Sampler is loaded and ready to play');
-      }
-    ).toDestination();
+      },
+    }).toDestination();
 
     setSampler(newSampler);
 
@@ -280,7 +282,7 @@ const ChordModal = ({ chord, root, onClose }) => {
   }, []);
 
   const handleButtonClick = () => {
-    if (Tone.loaded()) {
+    if (Tone.loaded() && samplerLoaded) {
       sampler.triggerAttack(chordNotes);
     }
   };
