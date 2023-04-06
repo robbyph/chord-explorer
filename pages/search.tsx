@@ -72,6 +72,18 @@ const Search = () => {
                 });
             }
 
+            //sort our songs by title
+            songs.sort((a, b) => {
+                if (a.data.title < b.data.title) {
+                    return -1;
+                }
+                if (a.data.title > b.data.title) {
+                    return 1;
+                }
+                return 0;
+            });
+
+
 
             //set our song state to whatever is left after filtering out the songs that don't match our search criteria
             setFirebaseSongs(songs);
@@ -214,7 +226,7 @@ const Search = () => {
                     <h2 className="col-span-4 p-6 text-3xl font-semibold font-HindSiliguri">
                         Songs
                     </h2>
-                    <div className="grid grid-cols-4 gap-4 px-4 justify-items-stretch">
+                    <div className="grid grid-cols-4 gap-4 px-4 mb-4 justify-items-stretch">
                         {firebaseSongs.map((song) => {
                             return (
                                 <div
