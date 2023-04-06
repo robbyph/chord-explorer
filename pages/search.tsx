@@ -28,6 +28,13 @@ const Search = () => {
         { data: any; id: string }[]
     >([]);
 
+    const toTitleCase = (str: string) => {
+        return str.replace(
+            /\w\S*/g,
+            (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+        );
+    };
+
     useEffect(() => {
         const getSongs = async () => {
             //get all the songs in our database
@@ -90,20 +97,33 @@ const Search = () => {
         }
 
         getSongs();
-
-
-        // const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        //   const songs: { data: any; id: string }[] = [];
-        //   querySnapshot.forEach((doc) => {
-        //     songs.push({ data: doc.data(), id: doc.id });
-        //   });
-        //   console.log(songs);
-        //   setFirebaseSongs(songs);
-        //   setLoading(false);
-        // });
-
-        // return () => unsubscribe();
     }, [chordRoot, chordQuality, genre, difficulty]);
+
+    const getSearchResultTitle = () => {
+        let title = ''
+        if (chordRoot === "any" && chordQuality === "any" && genre === "any" && difficulty === "any") {
+            title = 'All songs'
+        } else {
+            title = 'Songs'
+            if (chordRoot !== "any" && chordQuality !== "any") {
+                title = title + ` containing ${chordRoot} ${chordQuality}`
+            } else if (chordRoot !== "any" && chordQuality === "any") {
+                title = title + ` containing any ${chordRoot} chord`
+            } else if (chordRoot === "any" && chordQuality !== "any") {
+                title = title + ` containing any ${chordQuality} chord`
+            }
+
+            if (genre !== "any") {
+                title = toTitleCase(genre) + ' ' + title.slice(0, 1).toLowerCase() + title.slice(1)
+            }
+
+            if (difficulty !== "any") {
+                title = toTitleCase(difficulty) + ' ' + title.slice(0, 1).toLowerCase() + title.slice(1)
+            }
+        }
+
+        return title;
+    }
 
     console.log(firebaseSongs)
 
@@ -224,7 +244,7 @@ const Search = () => {
                         </div>
                     </div>
                     <h2 className="col-span-4 p-6 text-3xl font-semibold font-HindSiliguri">
-                        Songs
+                        {getSearchResultTitle()}
                     </h2>
                     <div className="grid grid-cols-4 gap-4 px-4 mb-4 justify-items-stretch">
                         {firebaseSongs.map((song) => {
