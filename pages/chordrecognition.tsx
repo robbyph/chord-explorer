@@ -52,13 +52,29 @@ const ChordRecognition = () => {
                 const mediaStreamSource = audioContextRef.current.createMediaStreamSource(stream);
                 const analyserNode = audioContextRef.current.createAnalyser();
                 const scriptNode = audioContextRef.current.createScriptProcessor(bufferSize, 1, 1);
+                const gainNode = audioContextRef.current.createGain();
+                gainNode.gain.value = 0; // set gain value to act as gate threshold
+                const compressorNode = audioContextRef.current.createDynamicsCompressor();
+                compressorNode.threshold.setValueAtTime(-32, audioContextRef.current.currentTime); // set threshold to same value as gain
+                compressorNode.knee.setValueAtTime(40, audioContextRef.current.currentTime);
+                compressorNode.ratio.setValueAtTime(12, audioContextRef.current.currentTime);
+                compressorNode.attack.setValueAtTime(0, audioContextRef.current.currentTime);
+                compressorNode.release.setValueAtTime(0.25, audioContextRef.current.currentTime);
+                const lowPassNode = audioContextRef.current.createBiquadFilter();
+                lowPassNode.type = "allpass";
+                lowPassNode.frequency.setValueAtTime(600.0, audioContextRef.current.currentTime)
+                lowPassNode.Q.setValueAtTime(0.5, audioContextRef.current.currentTime)
+                lowPassNode.gain.setValueAtTime(25.0, audioContextRef.current.currentTime)
 
                 mediaStreamSource.connect(analyserNode);
                 analyserNode.connect(scriptNode);
-                scriptNode.connect(audioContextRef.current.destination);
+                scriptNode.connect(compressorNode);
+                compressorNode.connect(lowPassNode);
+                lowPassNode.connect(gainNode);
+                gainNode.connect(audioContextRef.current.destination);
 
                 const dataArray = new Float32Array(bufferSize);
-                const threshold = 0.001; // set threshold value here
+                const threshold = 0.005; // set threshold value here
 
                 console.log(audioContextRef.current.sampleRate)
 
@@ -78,6 +94,8 @@ const ChordRecognition = () => {
 
                 scriptNodeRef.current = scriptNode;
                 analyserNodeRef.current = analyserNode;
+                gainNodeRef.current = gainNode;
+                lowEQNodeRef.current = lowPassNode;
 
                 setIsPlaying(true);
             } catch (err) {
