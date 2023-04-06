@@ -295,8 +295,29 @@ const SubmitSong: NextPage = () => {
                     <div className='col-span-2 px-20'>
                         <h2 className='block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl'>Submission Preview</h2>
                         <div className='flex flex-col text-black bg-white'>
-                            <div className='flex flex-col items-center'>
+                            <div className='flex flex-col items-center text-base'>
                                 <h3 className='p-2 pb-0 text-2xl font-medium font-HindSiliguri'>{title.length > 0 ? title : 'Title Placeholder'}</h3>
+                                <h3 className='p-2 pb-0 text-lg font-medium font-HindSiliguri'>{artist.length > 0 ? artist : 'Artist Placeholder'}</h3>
+                                {songLink && (
+                                    <a
+                                        className='text-blue-600 underline'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                        href={songLink}
+                                    >
+                                        Listen Here!
+                                    </a>
+                                )}
+                                {tabLink && (
+                                    <a
+                                        className='text-blue-600 underline'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                        href={tabLink}
+                                    >
+                                        See Tabs Here!
+                                    </a>
+                                )}
                                 <ChordPreview chords={chords} />
                                 {/* <embed className='p-2' width="560" height="315" src={songLink.length > 0 ? vidLink : 'https://www.youtube.com/embed/ScMzIvxBSi4'} title="Video Submission" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></embed> */}
                                 <p className='mt-8 mb-4 text-sm text-gray-600 font-HindSiliguri'>Submitted by <span className='underline'>{account?.data()?.username}</span></p>
