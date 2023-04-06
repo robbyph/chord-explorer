@@ -123,7 +123,7 @@ const ChordSelection = ({ chords, onChange, deleteChord }) => {
   );
 
   return (
-    <Popover className='relative flex max-w-full'>
+    <Popover className='relative flex max-w-full '>
       <div
         ref={containerRef}
         className='container flex flex-row items-center py-2 overflow-x-auto'
@@ -154,7 +154,7 @@ const ChordSelection = ({ chords, onChange, deleteChord }) => {
           )}
         </Popover.Button>
       </div>
-      <Popover.Panel className='absolute z-10 flex flex-wrap items-center p-2 bg-white shadow-2xl left-10 -top-44 font-IBMPlexSans'>
+      <Popover.Panel className='absolute z-10 flex flex-wrap items-center p-2 bg-white shadow-2xl min-w-[20rem] left-10 -top-44 font-IBMPlexSans'>
         <div className='relative w-full h-16 m-2 shadow-lg'>
           <div className='absolute inset-0 flex items-center justify-center w-full h-full bg-gray-200 rounded-lg shadow-md'>
             <input
