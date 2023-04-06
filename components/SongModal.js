@@ -4,6 +4,9 @@ import { useRef, useEffect } from 'react';
 import guitarData from '../components/data/guitar.json';
 import ReactChord from '@tombatossals/react-chords/lib/Chord';
 import { Chord, ChordType, Key, Scale } from 'tonal';
+import { useDocument } from 'react-firebase-hooks/firestore';
+import { db } from '../firebase/firestore';
+import { doc } from 'firebase/firestore';
 
 const SongModal = ({ song, onClose }) => {
   const modalRef = useRef();
@@ -19,6 +22,13 @@ const SongModal = ({ song, onClose }) => {
       standard: ['E', 'A', 'D', 'G', 'B', 'E'],
     },
   };
+
+  const [author, accountLoading, accountError] = useDocument(
+    doc(db, 'Users', song.data.author),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -122,6 +132,11 @@ const SongModal = ({ song, onClose }) => {
               })}
             </div>
           </div>
+          {author && (
+            <p className='mt-8 text-sm text-gray-600 font-HindSiliguri'>
+              Submitted by {author?.data().username}
+            </p>
+          )}
         </div>
       </div>
     </div>
