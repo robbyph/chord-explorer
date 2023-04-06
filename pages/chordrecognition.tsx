@@ -8,6 +8,9 @@ import { Tab } from '@headlessui/react'
 import { Fragment } from 'react'
 import Alert from '../components/Alert'
 import { Chromagram } from "../akkorder/src/index";
+import guitarData from '../components/data/guitar.json'
+import ReactChord from "@tombatossals/react-chords/lib/Chord";
+
 
 const ChordRecognition = () => {
     var sourceBuffer: AudioBuffer;
@@ -66,11 +69,11 @@ const ChordRecognition = () => {
                 scriptNode.onaudioprocess = () => {
                     analyserNode.getFloatTimeDomainData(dataArray);
                     const amplitude = dataArray.reduce((acc, val) => acc + Math.abs(val)) / bufferSize; // calculate the amplitude
-                    console.log(amplitude)
-                    console.log(threshold)
+                    //console.log(amplitude)
+                    //console.log(threshold)
                     if (amplitude > threshold) { // execute the logic only if amplitude is above threshold
-                        console.log(analyserNode.maxDecibels, analyserNode.minDecibels, analyserNode.smoothingTimeConstant)
-                        console.log(Array.from(dataArray));
+                        //console.log(analyserNode.maxDecibels, analyserNode.minDecibels, analyserNode.smoothingTimeConstant)
+                        //console.log(Array.from(dataArray));
                         const chords = detectChordsLive(Array.from(dataArray), 44100, bufferSize);
                         setDetectedChords(chordFiltering(chords));
                     }
@@ -171,13 +174,13 @@ const ChordRecognition = () => {
     }
 
     async function chordDetection() {
-        console.log(sourceBuffer)
+        //console.log(sourceBuffer)
         if (sourceBuffer === undefined) {
             setRecognitionWarning(true)
             setSubmitWarning(false)
         } else {
             var channelData = Array.from(sourceBuffer.getChannelData(0));
-            console.log(channelData)
+            //console.log(channelData)
             var channelDataSilenceRemoved = await silenceRemovalAlgorithm(channelData);
             let chords = detectChords(channelDataSilenceRemoved, 44100);
             setDetectedChords(chordFiltering(chords))
@@ -225,22 +228,22 @@ const ChordRecognition = () => {
     function toTextQuality(quality) {
         switch (quality) {
             case 0:
-                return "Minor";
+                return "minor";
                 break;
             case 1:
-                return "Major";
+                return "major";
                 break;
             case 2:
-                return "Suspended";
+                return "sus";
                 break;
             case 3:
-                return "Dominant";
+                return "7";
                 break;
             case 4:
-                return "Diminished";
+                return "dim";
                 break;
             case 5:
-                return "Augmented";
+                return "aug";
                 break;
             default:
                 return "";
@@ -277,6 +280,68 @@ const ChordRecognition = () => {
             setSubmittedIndicator(true)
         }
     };
+
+    const getChordBox = (chord) => {
+        var chordStringArray = getChordName(chord).split(' ')
+        console.log('chordStringArray: ', chordStringArray)
+        var data = guitarData.chords[chordStringArray[0]].find((chord) => chord.suffix === chordStringArray[1]).positions[0]
+        return data
+    }
+
+    const instrument = {
+        strings: 6,
+        fretsOnChord: 4,
+        name: 'Guitar',
+        keys: [],
+        tunings: {
+            standard: ['E', 'A', 'D', 'G', 'B', 'E']
+        }
+    }
+
+    const getProperChordSuffix = (chord) => {
+        switch (chord) {
+            case 'm7':
+                return 'm7'
+            case 'maj7':
+                return 'maj7'
+            case 'sus2':
+                return 'sus2'
+            case 'sus4':
+                return 'sus4'
+            case 'dim':
+                return 'Diminished'
+            case 'aug':
+                return 'Augmented'
+            default: return chord.charAt(0).toUpperCase() + chord.slice(1)
+        }
+    }
+
+    const getProperChordRoot = (root) => {
+        switch (root) {
+            case 'C#/Db':
+                return 'Csharp'
+            case 'F#/Gb':
+                return 'Fsharp'
+            case 'D#/Eb':
+                return 'Eb'
+            case 'G#/Ab':
+                return 'Ab'
+            case 'A#/Bb':
+                return 'Bb'
+            default: return root
+        }
+    }
+
+    const getChordName = (chord) => {
+        console.log('chord in chordname: ', chord)
+        if (chord.interval == 7 || chord.interval == 2 || chord.interval == 4) {
+            console.log('inteval : ', chord.interval)
+            return chord.rootNote + ' ' + getProperChordSuffix(toTextQuality(chord.quality)) + chord.interval
+        }
+        else {
+            return chord.rootNote + ' ' + getProperChordSuffix(toTextQuality(chord.quality))
+        }
+    }
 
 
 
@@ -335,9 +400,47 @@ const ChordRecognition = () => {
                                     `py-2 px-4 border mb-2 font-HindSiliguri font-medium xl:mr-2 ${isPlaying ? 'bg-white text-purple-600' : 'bg-opacity-0 text-white'}`
                                 } onClick={handlePlayClick}>{isPlaying ? 'Stop' : 'Start'}</button>
                                 <h3 className="col-span-4 pt-2 text-xl underline font-HindSiliguri">Chord Detected</h3>
-                                <ul className="list-disc list-inside font-IBMPlexSans">
+                                <ul className="flex flex-col mt-4 lg:grid lg:grid-cols-6 lg:gap-4 font-IBMPlexSans">
                                     {detectedChords.map((chord, i) => {
-                                        return <li key={i}>{chord.rootNote} {toTextQuality(chord.quality)} {chord.interval != 0 ? chord.interval : ''}</li>
+                                        let textQuality = toTextQuality(chord.quality);
+                                        let chordQuality = textQuality + (chord.interval != 0 ? chord.interval : '')
+                                        var reduced = [chord.rootNote, chordQuality]
+                                        // console.log(reduced)
+                                        // console.log(guitarData.chords)
+                                        if (reduced[0] == 'C#/Db') {
+                                            reduced[0] = 'Csharp';
+                                        } else if (reduced[0] == 'F#/Gb') {
+                                            reduced[0] = 'Fsharp';
+                                        } else if (reduced[0] == 'G#/Ab') {
+                                            reduced[0] = 'Ab';
+                                        } else if (reduced[0] == 'A#/Bb') {
+                                            reduced[0] = 'Bb';
+                                        } else if (reduced[0] == 'D#/Eb') {
+                                            reduced[0] = 'Eb';
+                                        }
+
+                                        if (reduced[1] == 'major7') {
+                                            reduced[1] = 'maj7';
+                                        } else if (reduced[1] == 'minor7') {
+                                            reduced[1] = 'm7';
+                                        } else if (reduced[1] == 'dominant7') {
+                                            reduced[1] = '7';
+                                        }
+                                        console.log(guitarData.chords)
+                                        console.log(reduced)
+                                        const chordBoxData = guitarData.chords[reduced[0]].find(
+                                            (c) => c.suffix === reduced[1].toLowerCase()
+                                        ).positions;
+                                        return (
+                                            <div key={chord} className="flex flex-col p-4 text-center text-black bg-white rounded">
+                                                <h3 className="pb-2 text-2xl font-medium font-HindSiliguri">{getChordName(chord)}</h3>
+                                                <div className='w-56 mx-auto'>
+                                                    <ReactChord
+                                                        chord={chordBoxData[0]}
+                                                        instrument={instrument}
+                                                    /></div>
+                                            </div>
+                                        )
                                     })}
                                 </ul>
                             </div>
@@ -352,10 +455,47 @@ const ChordRecognition = () => {
                             </div>
                             <h2 className="col-span-4 pt-2 mb-2 text-2xl font-HindSiliguri">Then, let the AI do the rest</h2>
                             <button className="col-span-4 px-2 py-2 text-xl border font-IBMPlexSans font-medium bg-white text-[#5B21B6]" onClick={() => uploadToServer()}>Detect Chords</button>
-                            <h3 className="col-span-4 pt-2 text-xl underline font-HindSiliguri">Chords Detected</h3>
-                            <ul className="list-disc list-inside font-IBMPlexSans">
+                            <h3 className="col-span-4 pt-2 mt-6 text-2xl underline font-HindSiliguri">Chords Detected</h3>
+                            <ul className="flex flex-col mt-4 lg:grid lg:grid-cols-6 lg:gap-4 font-IBMPlexSans">
                                 {detectedChords.map((chord, i) => {
-                                    return <li key={i}>{chord.rootNote} {toTextQuality(chord.quality)} {chord.interval != 0 ? chord.interval : ''}</li>
+                                    let textQuality = toTextQuality(chord.quality);
+                                    let chordQuality = textQuality + (chord.interval != 0 ? chord.interval : '')
+                                    var reduced = [chord.rootNote, chordQuality]
+                                    // console.log(reduced)
+                                    // console.log(guitarData.chords)
+                                    if (reduced[0] == 'C#/Db') {
+                                        reduced[0] = 'Csharp';
+                                    } else if (reduced[0] == 'F#/Gb') {
+                                        reduced[0] = 'Fsharp';
+                                    } else if (reduced[0] == 'G#/Ab') {
+                                        reduced[0] = 'Ab';
+                                    } else if (reduced[0] == 'A#/Bb') {
+                                        reduced[0] = 'Bb';
+                                    } else if (reduced[0] == 'D#/Eb') {
+                                        reduced[0] = 'Eb';
+                                    }
+
+                                    if (reduced[1] == 'major7') {
+                                        reduced[1] = 'maj7';
+                                    } else if (reduced[1] == 'minor7') {
+                                        reduced[1] = 'm7';
+                                    } else if (reduced[1] == 'dominant7') {
+                                        reduced[1] = '7';
+                                    }
+
+                                    const chordBoxData = guitarData.chords[reduced[0]].find(
+                                        (c) => c.suffix === reduced[1].toLowerCase()
+                                    ).positions;
+                                    return (
+                                        <div key={chord} className="flex flex-col p-4 text-center text-black bg-white rounded">
+                                            <h3 className="pb-2 text-2xl font-medium font-HindSiliguri">{getChordName(chord)}</h3>
+                                            <div className='w-56 mx-auto'>
+                                                <ReactChord
+                                                    chord={chordBoxData[0]}
+                                                    instrument={instrument}
+                                                /></div>
+                                        </div>
+                                    )
                                 })}
                             </ul>
                         </Tab.Panel>
