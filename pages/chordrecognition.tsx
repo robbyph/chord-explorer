@@ -74,7 +74,7 @@ const ChordRecognition = () => {
                 gainNode.connect(audioContextRef.current.destination);
 
                 const dataArray = new Float32Array(bufferSize);
-                const threshold = 0.005; // set threshold value here
+                const threshold = 0.003; // set threshold value here
 
                 console.log(audioContextRef.current.sampleRate)
 
