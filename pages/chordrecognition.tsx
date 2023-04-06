@@ -23,6 +23,9 @@ const ChordRecognition = () => {
     const [submittedIndicator, setSubmittedIndicator] = useState(false)
     const [loading, setLoading] = useState(false)
 
+    const [debugCounter, setDebugCounter] = useState(0)
+    const [debugCorrectCounter, setDebugCorrectCounter] = useState(0)
+
     //live chord detection 
     const [isPlaying, setIsPlaying] = useState(false);
     const audioContextRef = useRef(null);
@@ -30,6 +33,7 @@ const ChordRecognition = () => {
     const scriptNodeRef = useRef(null);
     const analyserNodeRef = useRef(null);
     const gainNodeRef = useRef(null);
+    const lowEQNodeRef = useRef(null);
 
     const handlePlayClick = async () => {
         if (isPlaying) {
@@ -49,32 +53,41 @@ const ChordRecognition = () => {
                 const analyserNode = audioContextRef.current.createAnalyser();
                 const scriptNode = audioContextRef.current.createScriptProcessor(bufferSize, 1, 1);
                 const gainNode = audioContextRef.current.createGain();
-                gainNode.gain.value = 5; // set gain value to act as gate threshold
+                gainNode.gain.value = 0; // set gain value to act as gate threshold
                 const compressorNode = audioContextRef.current.createDynamicsCompressor();
-                compressorNode.threshold.setValueAtTime(gainNode.gain.value, audioContextRef.current.currentTime); // set threshold to same value as gain
+                compressorNode.threshold.setValueAtTime(-32, audioContextRef.current.currentTime); // set threshold to same value as gain
                 compressorNode.knee.setValueAtTime(40, audioContextRef.current.currentTime);
                 compressorNode.ratio.setValueAtTime(12, audioContextRef.current.currentTime);
                 compressorNode.attack.setValueAtTime(0, audioContextRef.current.currentTime);
                 compressorNode.release.setValueAtTime(0.25, audioContextRef.current.currentTime);
+                const lowPassNode = audioContextRef.current.createBiquadFilter();
+                lowPassNode.type = "allpass";
+                lowPassNode.frequency.setValueAtTime(600.0, audioContextRef.current.currentTime)
+                lowPassNode.Q.setValueAtTime(0.5, audioContextRef.current.currentTime)
+                lowPassNode.gain.setValueAtTime(25.0, audioContextRef.current.currentTime)
 
                 mediaStreamSource.connect(analyserNode);
                 analyserNode.connect(scriptNode);
                 scriptNode.connect(compressorNode);
-                compressorNode.connect(gainNode);
+                compressorNode.connect(lowPassNode);
+                lowPassNode.connect(gainNode);
                 gainNode.connect(audioContextRef.current.destination);
 
                 const dataArray = new Float32Array(bufferSize);
-                const threshold = 0.001; // set threshold value here
+                const threshold = 0.005; // set threshold value here
+
+                console.log(audioContextRef.current.sampleRate)
 
                 scriptNode.onaudioprocess = () => {
                     analyserNode.getFloatTimeDomainData(dataArray);
                     const amplitude = dataArray.reduce((acc, val) => acc + Math.abs(val)) / bufferSize; // calculate the amplitude
-                    //console.log(amplitude)
-                    //console.log(threshold)
                     if (amplitude > threshold) { // execute the logic only if amplitude is above threshold
-                        //console.log(analyserNode.maxDecibels, analyserNode.minDecibels, analyserNode.smoothingTimeConstant)
-                        //console.log(Array.from(dataArray));
+                        setDebugCounter(prevCounter => prevCounter + 1)
                         const chords = detectChordsLive(Array.from(dataArray), 44100, bufferSize);
+                        if (chords[0].rootNote === "G" && chords[0].quality === 1) {
+                            setDebugCorrectCounter(prevCounter => prevCounter + 1)
+                        }
+
                         setDetectedChords(chordFiltering(chords));
                     }
                 };
@@ -82,6 +95,7 @@ const ChordRecognition = () => {
                 scriptNodeRef.current = scriptNode;
                 analyserNodeRef.current = analyserNode;
                 gainNodeRef.current = gainNode;
+                lowEQNodeRef.current = lowPassNode;
 
                 setIsPlaying(true);
             } catch (err) {
@@ -90,79 +104,11 @@ const ChordRecognition = () => {
         }
     };
 
+    console.log('chords logged: ', debugCounter)
+    console.log('correct chords logged: ', debugCorrectCounter)
+    console.log('accuracy: ', debugCorrectCounter / debugCounter * 100 + '%')
+    console.log('outputted chords: ', detectedChords)
 
-
-
-    const handlePlayClickOLD = async () => {
-        if (isPlaying) {
-            setIsPlaying(false);
-            if (scriptNodeRef.current && analyserNodeRef.current) {
-                scriptNodeRef.current.disconnect(); // remove the onaudioprocess event listener
-                analyserNodeRef.current.disconnect();
-            }
-        } else {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                audioStreamRef.current = stream;
-                audioContextRef.current = new AudioContext();
-
-                const bufferSize = 8192;
-                const mediaStreamSource = audioContextRef.current.createMediaStreamSource(stream);
-                const analyserNode = audioContextRef.current.createAnalyser();
-                const scriptNode = audioContextRef.current.createScriptProcessor(bufferSize, 1, 1);
-
-                mediaStreamSource.connect(analyserNode);
-                analyserNode.connect(scriptNode);
-                scriptNode.connect(audioContextRef.current.destination);
-
-                let frameSize = 512;
-                let sampleRate = 44100;
-
-                let chrome = new Chromagram(frameSize, sampleRate);
-
-                chrome.setChromaCalculationInterval(8192);
-
-                scriptNode.onaudioprocess = () => {
-                    let frame = new Array(frameSize);
-                    c.processAudioFrame(frame);
-                    if (c.isReady()) {
-                        let chroma = c.getChromagram();
-                    }
-
-                    // analyserNode.getFloatTimeDomainData(dataArray);
-                    // console.log(Array.from(dataArray))
-                    // const chords = detectChords(Array.from(dataArray), bufferSize);
-                    // setDetectedChords(chordFiltering(chords));
-                };
-
-                scriptNodeRef.current = scriptNode;
-                analyserNodeRef.current = analyserNode;
-
-                setIsPlaying(true);
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-    }
-
-    function resampleLinear(input, inputRate, outputRate) {
-        const outputLength = Math.round(input.length * outputRate / inputRate);
-        const output = new Float32Array(outputLength);
-
-        for (let i = 0; i < outputLength; i++) {
-            const index = i * inputRate / outputRate;
-            const intIndex = Math.floor(index);
-            const frac = index - intIndex;
-
-            const a = input[intIndex];
-            const b = input[intIndex + 1] || input[intIndex];
-
-            output[i] = a * (1 - frac) + b * frac;
-        }
-
-        return output;
-    }
 
     async function loadSound(url: string | URL) {
         context = new AudioContext();
@@ -174,13 +120,11 @@ const ChordRecognition = () => {
     }
 
     async function chordDetection() {
-        //console.log(sourceBuffer)
         if (sourceBuffer === undefined) {
             setRecognitionWarning(true)
             setSubmitWarning(false)
         } else {
             var channelData = Array.from(sourceBuffer.getChannelData(0));
-            //console.log(channelData)
             var channelDataSilenceRemoved = await silenceRemovalAlgorithm(channelData);
             let chords = detectChords(channelDataSilenceRemoved, 44100);
             setDetectedChords(chordFiltering(chords))
@@ -281,12 +225,7 @@ const ChordRecognition = () => {
         }
     };
 
-    const getChordBox = (chord) => {
-        var chordStringArray = getChordName(chord).split(' ')
-        console.log('chordStringArray: ', chordStringArray)
-        var data = guitarData.chords[chordStringArray[0]].find((chord) => chord.suffix === chordStringArray[1]).positions[0]
-        return data
-    }
+
 
     const instrument = {
         strings: 6,
@@ -316,26 +255,10 @@ const ChordRecognition = () => {
         }
     }
 
-    const getProperChordRoot = (root) => {
-        switch (root) {
-            case 'C#/Db':
-                return 'Csharp'
-            case 'F#/Gb':
-                return 'Fsharp'
-            case 'D#/Eb':
-                return 'Eb'
-            case 'G#/Ab':
-                return 'Ab'
-            case 'A#/Bb':
-                return 'Bb'
-            default: return root
-        }
-    }
+
 
     const getChordName = (chord) => {
-        console.log('chord in chordname: ', chord)
         if (chord.interval == 7 || chord.interval == 2 || chord.interval == 4) {
-            console.log('inteval : ', chord.interval)
             return chord.rootNote + ' ' + getProperChordSuffix(toTextQuality(chord.quality)) + chord.interval
         }
         else {
@@ -435,8 +358,6 @@ const ChordRecognition = () => {
                                         } else if (reduced[1] == 'dominant7') {
                                             reduced[1] = '7';
                                         }
-                                        console.log(guitarData.chords)
-                                        console.log(reduced)
                                         const chordBoxData = guitarData.chords[reduced[0]].find(
                                             (c) => c.suffix === reduced[1].toLowerCase()
                                         ).positions;
