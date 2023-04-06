@@ -297,9 +297,10 @@ const SubmitSong: NextPage = () => {
                         <div className='flex flex-col text-black bg-white'>
                             <div className='flex flex-col items-center'>
                                 <h3 className='p-2 pb-0 text-2xl font-medium font-HindSiliguri'>{title.length > 0 ? title : 'Title Placeholder'}</h3>
-                                <p className='p-2 pt-1 text-sm font-IBMPlexSans text-[#808080]'>Submitted by <span className='underline'>{account?.data()?.username}</span></p>
                                 <ChordPreview chords={chords} />
                                 {/* <embed className='p-2' width="560" height="315" src={songLink.length > 0 ? vidLink : 'https://www.youtube.com/embed/ScMzIvxBSi4'} title="Video Submission" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></embed> */}
+                                <p className='mt-8 mb-4 text-sm text-gray-600 font-HindSiliguri'>Submitted by <span className='underline'>{account?.data()?.username}</span></p>
+
                             </div>
                         </div>
                     </div>

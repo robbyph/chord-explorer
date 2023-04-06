@@ -6,6 +6,7 @@ import ReactChord from '@tombatossals/react-chords/lib/Chord';
 import { Chord, ChordType, Key, Scale } from 'tonal';
 import { useDocument } from 'react-firebase-hooks/firestore';
 import { db } from '../firebase/firestore';
+import Link from 'next/link';
 import { doc } from 'firebase/firestore';
 
 const SongModal = ({ song, onClose }) => {
@@ -134,7 +135,12 @@ const SongModal = ({ song, onClose }) => {
           </div>
           {author && author.data() && author.data().username ? (
             <p className='mt-8 text-sm text-gray-600 font-HindSiliguri'>
-              Submitted by {author?.data().username}
+              Submitted by{' '}
+              <span className='underline'>
+                <Link href={`/profile/${song.data.author}`}>
+                  {author?.data().username}
+                </Link>
+              </span>
             </p>
           ) : (
             <p className='mt-8 text-sm text-gray-600 font-HindSiliguri'>
