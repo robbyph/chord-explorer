@@ -132,9 +132,13 @@ const SongModal = ({ song, onClose }) => {
               })}
             </div>
           </div>
-          {author && (
+          {author && author.data() && author.data().username ? (
             <p className='mt-8 text-sm text-gray-600 font-HindSiliguri'>
               Submitted by {author?.data().username}
+            </p>
+          ) : (
+            <p className='mt-8 text-sm text-gray-600 font-HindSiliguri'>
+              {!accountLoading ? 'Submitted by [Deleted User]' : 'Loading...'}
             </p>
           )}
         </div>
