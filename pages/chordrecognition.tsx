@@ -369,6 +369,11 @@ const ChordRecognition = () => {
                                     className={
                                         `p-2 border font-HindSiliguri font-medium xl:mr-2 ${selected ? 'bg-white text-purple-700' : 'bg-opacity-0 text-white'}`
                                     }
+                                    onClick={() => {
+                                        setDetectedChords([]);
+                                        setIsPlaying(false);
+                                    }
+                                    }
                                 >
                                     Live Chord Recognition
                                 </button>
@@ -380,6 +385,10 @@ const ChordRecognition = () => {
                                     className={
                                         `p-2 border font-HindSiliguri font-medium xl:mr-2 ${selected ? 'bg-white text-purple-700' : 'bg-opacity-0 text-white'}`
                                     }
+                                    onClick={() => {
+                                        setDetectedChords([]);
+                                        setIsPlaying(false);
+                                    }}
                                 >
                                     Chord Recognition from a File
                                 </button>
