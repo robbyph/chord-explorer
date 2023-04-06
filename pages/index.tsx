@@ -51,17 +51,17 @@ const Home: NextPage = () => {
 
                 </svg>
                 <main className='grid grid-cols-3'>
-                    <div className='z-50 row-start-3 bg-[#120724] lg:bg-transparent p-4 xl:ml-8 2xl:ml-16 xl:mt-48 2xl:mt-80'>
+                    <div className='z-50 row-start-3 bg-[#120724] absolute lg:bg-transparent p-4 left-20 top-96 3xl:left-28 3xl:top-[30rem]'>
                         <h2 className='p-2 text-4xl font-semibold font-HindSiliguri'>
-                            Learn guitar, without the boring stuff!
+                            Learn guitar, without the <br /> boring stuff!
                         </h2>
 
                         <p className='p-2 font-IBMPlexSans'>
-                            Learn to play chords on the guitar while simultaneously learning the songs you know and love.
+                            Learn to play chords on the guitar while simultaneously <br /> learning the songs you know and love.
                         </p>
 
                         <p className='p-2 font-IBMPlexSans'>
-                            Search for songs to learn based on what chords you are learning, then submit your performance for community based feedback.
+                            Search for songs to learn based on what chords you are <br /> learning, then submit your performance for community <br /> based feedback.
                         </p>
 
                         <div className='flex flex-row gap-4 p-4 pl-2 text-xl font-medium font-IBMPlexSans '>

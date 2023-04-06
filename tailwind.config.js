@@ -14,6 +14,9 @@ module.exports = {
         bounceslowonce: 'bounceslowonce .1s ease-out .5',
         slideup: 'slideup .7s ease-in-out 1',
       },
+      screens: {
+        '3xl': '1920px',
+      },
       keyframes: {
         bounceslowonce: {
           '0%, 100%': { transform: 'rotate(-2deg)' },
