@@ -122,6 +122,9 @@ const Search = () => {
             }
         }
 
+        title = title + ` (${firebaseSongs.length})`
+
+
         return title;
     }
 
