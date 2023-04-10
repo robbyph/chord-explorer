@@ -173,7 +173,7 @@ const SubmitFeedback: NextPage = () => {
                                 <div className="flex justify-center pt-8">
                                     <button
                                         type="submit"
-                                        className={`p-2 m-2 ml-0 bg-white border-2 text-lg  cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium`}
+                                        className={`p-2 m-2 ml-0 bg-white border-2 text-lg cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium`}
                                     >
                                         <p className="">Submit</p>
                                     </button>
@@ -189,7 +189,7 @@ const SubmitFeedback: NextPage = () => {
                                 <p className='p-2 pt-1 text-sm font-IBMPlexSans text-[#808080]'>Submitted by <span className='underline'>{account?.data()?.username}</span></p>
                                 {<YoutubeLazyLoad video={vidLink} height={'14rem'} playable={false} />}
                             </div>
-                            <pre className='p-2 pb-6 pl-0 ml-14 font-IBMPlexSans'>{description.length > 0 ? description : 'Type a description for your post, and it will appear here!'}</pre>
+                            <p className='p-2 pb-6 pl-0 mr-14 ml-14 font-IBMPlexSans'>{description.length > 0 ? description : 'Type a description for your post, and it will appear here!'}</p>
                         </div>
                     </div>
                 </main>
