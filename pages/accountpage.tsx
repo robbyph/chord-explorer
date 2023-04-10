@@ -90,7 +90,7 @@ const AccountPage = () => {
                                                     <h4 className="text-sm"><em>Submitted on {p.data().created.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })} {p.data().created.toDate().toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
                                                 </div>
                                                 <br />
-                                                <p className="w-3/4 font-IBMPlexSans">{p.data().description}</p>
+                                                <p className="w-3/4 font-IBMPlexSans">{p.data().description.substring(0, 300)}{p.data().description.substring(301).length > 0 && '...'}</p>
                                                 <br />
                                                 <button className="px-4 font-medium font-IBMPlexSans p-2 mt-2 text-lg text-white bg-[#5B21B6]"><Link className='-m-2' href={`/post/${p.id}`}>View</Link></button>
                                             </div>
