@@ -58,7 +58,7 @@ const GiveFeedback = () => {
                         var myUsername = usernames[i]
                         return (
                             <li key={p.id} className='flex flex-row p-4 m-4 ml-6 text-black bg-white'>
-                                <div>
+                                <div className="w-3/4">
                                     <h2 className="text-2xl font-medium font-HindSiliguri">{p.data().title}</h2>
                                     <div className="text-gray-500 font-IBMPlexSans">
                                         <h4 className="text-sm text-[#808080]">Submitted by <Link href={`/profile/${p.data().author}`}><a className="underline">{myUsername}</a></Link></h4>
@@ -71,7 +71,7 @@ const GiveFeedback = () => {
                                 </div>
                                 <div className="ml-auto">
                                     {p.data().vidLink && (
-                                        <YoutubeLazyLoad video={p.data().vidLink} height={'14rem'} />
+                                        <YoutubeLazyLoad video={p.data().vidLink} height={'14rem'} width={'24rem'} />
                                     )}
                                 </div>
                             </li>

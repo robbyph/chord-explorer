@@ -61,7 +61,7 @@ export default function YouTubeFrame({ video, width, height, playable }) {
         loading='lazy'
         src={`https://img.youtube.com/vi/${video}/${thumbnailQuality}.jpg`}
         alt='YouTube Video Thumbnail'
-        className='w-full object-cover object-center sm:h-[10rem] lg:h-[12rem] xl:h-[14rem]'
+        className='w-full xl:w-[24rem] object-cover object-center sm:h-[10rem] lg:h-[12rem] xl:h-[14rem]'
       />
     </div>
   );
