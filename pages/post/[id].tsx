@@ -180,13 +180,13 @@ const PostPage = (props) => {
             {showAlert && <Alert message="⚠️ Profanity Warning! ⚠️" setShow={setShowAlert} />}
             {showVotingAlert && <Alert message='You cannot vote on your own comment!' setShow={setShowVotingAlert} />}
             {showSignInPrompt && <SignInPrompt setShow={setShowSignInPrompt} />}
-            <div className='flex flex-col items-center w-2/3 mx-auto mt-10 space-y-6' >
+            <div className='flex flex-col items-center w-11/12 mx-auto mt-10 space-y-6' >
                 <div id='header' className='flex flex-col items-center pb-6 text-center'>
                     <h1 className='pb-1 text-4xl font-medium font-HindSiliguri'>{props.post.title}</h1>
                     <h3 className='font-IBMPlexSans'>From <Link href={`/profile/${props.post.author}`}><a className="underline">{author?.data().username}</a></Link></h3>
                     <h3 className='font-IBMPlexSans'>Submitted on <em>{new Date(props.post.created).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{new Date(props.post.created).toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em> </h3>
                 </div>
-                <div id='body' className='flex flex-col justify-center pb-16 space-y-2 space-x-18 lg:space-y-0 lg:grid lg:grid-cols-3'>
+                <div id='body' className='flex flex-col justify-center pb-16 space-y-2 space-x-18 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-24'>
                     <p className='lg:col-span-2 lg:mr-4'>{props.post.description}</p>
                     <div>{<YoutubeLazyLoad video={props.post.vidLink} />}</div>
                 </div>
