@@ -188,7 +188,7 @@ const PostPage = (props) => {
                 </div>
                 <div id='body' className='flex flex-col justify-center pb-16 space-y-2 space-x-18 lg:space-y-0 lg:grid lg:grid-cols-3'>
                     <p className='lg:col-span-2 lg:mr-4'>{props.post.description}</p>
-                    {<YoutubeLazyLoad video={props.post.vidLink} />}
+                    <div>{<YoutubeLazyLoad video={props.post.vidLink} />}</div>
                 </div>
             </div>
             <div id='comments' className='grid justify-center grid-cols-12 px-4 pb-8'>
