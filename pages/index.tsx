@@ -60,7 +60,7 @@ const Home: NextPage = () => {
           </g>
         </svg>
         <main className="grid grid-cols-3">
-          <div className="z-50 row-start-3 bg-[#120724] absolute lg:bg-transparent p-4 left-20 top-96 3xl:left-28 3xl:top-[30rem]">
+          <div className="z-50 row-start-3 bg-[#120724] absolute lg:bg-transparent p-4 left-16 top-96 3xl:left-28 3xl:top-[30rem]">
             <h2 className="p-2 text-4xl font-semibold font-HindSiliguri">
               Learn guitar, without the <br /> boring stuff!
             </h2>
