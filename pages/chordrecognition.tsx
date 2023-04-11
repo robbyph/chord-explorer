@@ -258,7 +258,7 @@ const ChordRecognition = () => {
 
 
     const getChordName = (chord) => {
-        if (chord.interval == 7 || chord.interval == 2 || chord.interval == 4) {
+        if (chord.interval == 2 || chord.interval == 4) {
             return chord.rootNote + ' ' + getProperChordSuffix(toTextQuality(chord.quality)) + chord.interval
         }
         else {
@@ -335,7 +335,7 @@ const ChordRecognition = () => {
                                 <ul className="flex flex-col mt-4 lg:grid lg:grid-cols-6 lg:gap-4 font-IBMPlexSans">
                                     {detectedChords.map((chord, i) => {
                                         let textQuality = toTextQuality(chord.quality);
-                                        let chordQuality = textQuality + (chord.interval != 0 ? chord.interval : '')
+                                        let chordQuality = textQuality + ((chord.interval != 0 && chord.interval != 7) ? chord.interval : '')
                                         var reduced = [chord.rootNote, chordQuality]
                                         // console.log(reduced)
                                         // console.log(guitarData.chords)
@@ -358,6 +358,9 @@ const ChordRecognition = () => {
                                         } else if (reduced[1] == 'dominant7') {
                                             reduced[1] = '7';
                                         }
+
+                                        console.log(reduced)
+
                                         const chordBoxData = guitarData.chords[reduced[0]].find(
                                             (c) => c.suffix === reduced[1].toLowerCase()
                                         ).positions;
@@ -389,7 +392,7 @@ const ChordRecognition = () => {
                             <ul className="flex flex-col mt-4 lg:grid lg:grid-cols-6 lg:gap-4 font-IBMPlexSans">
                                 {detectedChords.map((chord, i) => {
                                     let textQuality = toTextQuality(chord.quality);
-                                    let chordQuality = textQuality + (chord.interval != 0 ? chord.interval : '')
+                                    let chordQuality = textQuality + ((chord.interval != 0 && chord.interval != 7) ? chord.interval : '')
                                     var reduced = [chord.rootNote, chordQuality]
                                     // console.log(reduced)
                                     // console.log(guitarData.chords)
