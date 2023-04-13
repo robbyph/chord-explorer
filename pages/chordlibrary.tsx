@@ -94,7 +94,7 @@ const ChordLibrary = () => {
                         root={chordRoot}
                     />}
                 <h1 className="col-span-12 p-6 text-4xl font-semibold font-HindSiliguri">Chord Library</h1>
-                <div className="flex flex-col w-1/6 px-4 mb-4" id="parameters">
+                <div className="flex flex-col px-4 mb-4 lg:w-1/6" id="parameters">
                     <label className="mb-1 ml-1 font-semibold" htmlFor="chordRoot">Chord Root</label>
                     <select value={chordRoot} name="chordRoot" id="chordRootSelect" className="h-10 px-3 border-gray-300 rounded" onChange={handleChange}>
                         <option value="C">C</option>
@@ -114,7 +114,7 @@ const ChordLibrary = () => {
                 <h2 className="col-span-4 p-6 text-3xl font-semibold font-HindSiliguri">
                     Chords
                 </h2>
-                <div className="grid grid-cols-4 gap-4 px-4 mb-4 justify-items-stretch">
+                <div className="flex flex-col gap-4 px-4 mb-4 sm:grid sm:grid-cols-2 lg:grid-cols-4 justify-items-stretch">
                     {chords.map((chord) => {
                         var chordBoxData = getChordBox(chord)
                         return (
