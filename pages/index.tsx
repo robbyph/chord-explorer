@@ -40,20 +40,17 @@ const Home: NextPage = () => {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div className="">
+            <div className="relative overflow-x-clip">
                 <svg
                     version="1.1"
                     id="svg9"
-                    viewBox="0 200 1632 1056"
+                    viewBox="170 250 1350 600"
                     fill="#000000"
                     fillOpacity=".8"
                     fillRule="nonzero"
                     xmlns="http://www.w3.org/2000/svg"
                     xmlns-svg="http://www.w3.org/2000/svg"
-                    className="absolute transform -rotate-[20deg] w-[125%]
-                    xl:-translate-x-28 xl:-translate-y-32 xl:w-[123%]
-                    2xl:-translate-x-36 2xl:-translate-y-28 2xl:w-[123%]
-                    3xl:-translate-x-32 3xl:-translate-y-24 3xl:w-[120%] max-[1279px]:hidden"
+                    className="absolute transform -rotate-[20deg] max-[1279px]:hidden "
                 >
                     <defs id="defs13">
                         <clipPath clipPathUnits="userSpaceOnUse" id="clipPath25">
@@ -77,42 +74,40 @@ const Home: NextPage = () => {
                         </g>
                     </g>
                 </svg>
-                <main className="lg:grid lg:grid-cols-3">
-                    <div className="z-50 row-start-3 bg-[#120724] mx-4 my-8 
-                    lg:m-0 lg:absolute xl:bg-transparent p-4 lg:left-[3%] lg:top-[35%] 
-                    xl:left-[5%] xl:top-[30%]
-                    2xl:left-[5%] 2xl:top-[40%] 
-                    3xl:left-[7%] 3xl:top-[45%]
+                <div className="z-50 sm:left-[10%] md:left-[25%] md:top-[50%] absolute bg-[#120724] mx-8 my-8 
+                    xl:m-0 xl:bg-transparent p-4 
+                    xl:top-56 xl:left-[4%] 
+                    2xl:left-[5%] 2xl:top-72 
+                    3xl:top-80
                     ">
-                        <h2 className="p-2 text-4xl font-semibold font-HindSiliguri">
-                            Learn guitar, without the <br /> boring stuff!
-                        </h2>
+                    <h2 className="p-2 text-4xl font-semibold xl:text-3xl 2xl:text-4xl font-HindSiliguri">
+                        Learn guitar, without the <br /> boring stuff!
+                    </h2>
 
-                        <p className="p-2 lg:w-3/4 font-IBMPlexSans">
-                            Learn to play chords on the guitar while simultaneously <br />{" "}
-                            learning the songs you know and love.
-                        </p>
+                    <p className="p-2 lg:w-3/4 font-IBMPlexSans">
+                        Learn to play chords on the guitar while simultaneously <br />{" "}
+                        learning the songs you know and love.
+                    </p>
 
-                        <p className="p-2 font-IBMPlexSans">
-                            Search for songs to learn based on what chords you are <br />{" "}
-                            learning, then submit your performance for community <br /> based
-                            feedback.
-                        </p>
+                    <p className="p-2 font-IBMPlexSans">
+                        Search for songs to learn based on what chords you are <br />{" "}
+                        learning, then submit your performance for community <br /> based
+                        feedback.
+                    </p>
 
-                        <div className="flex flex-row gap-4 p-4 pl-2 text-xl font-medium font-IBMPlexSans ">
-                            <Link href="/search">
-                                <a className="px-4 py-2 bg-[#5B21B6]  col-span-2">Search</a>
-                            </Link>
-                            <Link href="/submitfeedback">
-                                <a className="px-4 py-2 bg-[#5B21B6]  col-span-3">
-                                    Get Feedback
-                                </a>
-                            </Link>
-                        </div>
+                    <div className="flex flex-row gap-4 p-4 pl-2 text-xl font-medium xl:ml-6 2xl:ml-0 font-IBMPlexSans ">
+                        <Link href="/search">
+                            <a className="px-4 py-2 bg-[#5B21B6]  col-span-2">Search</a>
+                        </Link>
+                        <Link href="/submitfeedback">
+                            <a className="px-4 py-2 bg-[#5B21B6]  col-span-3">
+                                Get Feedback
+                            </a>
+                        </Link>
                     </div>
-                </main>
+                </div>
             </div>
-        </div>
+        </div >
     );
 };
 
