@@ -136,7 +136,6 @@ const SubmitFeedback: NextPage = () => {
                                         value={vidLink}
                                         onChange={e => setVidLink(e.target.value)}
                                     />
-                                    <p className='pt-1 pl-2 text-sm text-white font-IBMPlexSans'>Testing Link: https://www.youtube.com/embed/8tPnX7OPo0Q</p>
                                     {errors.vidLink && <p className="pt-1 pl-2 text-red-400">{errors.vidLink.message}</p>}
                                 </div>
 
