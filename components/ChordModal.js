@@ -291,7 +291,7 @@ const ChordModal = ({ chord, root, onClose }) => {
     <div className='fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50 font-HindSiliguri'>
       <div
         ref={modalRef}
-        className='relative w-3/5 pt-4 mb-8 overflow-auto bg-white rounded'
+        className='relative pt-4 mx-4 mb-8 overflow-auto bg-white rounded md:mx-0 md:w-3/5'
         style={{
           maxHeight: 'calc(100vh - 200px)',
         }}
@@ -323,7 +323,7 @@ const ChordModal = ({ chord, root, onClose }) => {
               {Chord.get(getTrueName()).notes.join(' - ')}
             </p>
           </div>
-          <div className='grid grid-cols-6 font-HindSiliguri'>
+          <div className='flex flex-col lg:grid lg:grid-cols-6 font-HindSiliguri'>
             <div className='flex flex-col col-span-1'>
               <div className='w-64 mx-auto'>
                 <ReactChord
@@ -347,7 +347,7 @@ const ChordModal = ({ chord, root, onClose }) => {
                 Listen
               </button>
             </div>
-            <div className='flex flex-col col-span-5 pl-24 text-left'>
+            <div className='flex flex-col col-span-5 text-left lg:pl-32 xl:pl-24'>
               <h3 className='pt-6 text-2xl font-semibold'>Chord Symbols</h3>
               <p className='pl-4 text-lg'>
                 {Chord.get(getTrueName()).aliases.map((alias, i) => {
@@ -365,7 +365,7 @@ const ChordModal = ({ chord, root, onClose }) => {
               </p>
             </div>
           </div>
-          <div className='grid grid-cols-4 mt-8 text-left'>
+          <div className='flex flex-col mt-8 text-left lg:grid lg:grid-cols-4'>
             <div>
               <h3
                 className='text-xl font-semibold cursor-pointer'
