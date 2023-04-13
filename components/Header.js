@@ -6,7 +6,7 @@ const Header = () => {
     <div className='z-10 mt-1'>
       <Link href='/'>
         <a className='pl-4 font-semibold text-black 2xl:pl-20 2xl:pr-8 font-HindSiliguri'>
-          <span className='text-4xl 2xl:leading-5 whitespace-nowrap'>
+          <span className='text-4xl xl:leading-3 whitespace-nowrap'>
             Chord Explorer
           </span>
         </a>
