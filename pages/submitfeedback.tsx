@@ -95,7 +95,7 @@ const SubmitFeedback: NextPage = () => {
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
 
-                <main className='grid grid-cols-4 '>
+                <main className='flex flex-col lg:grid lg:grid-cols-4 '>
                     {showAlert && <Alert message={alertMessage} setShow={setShowAlert} />}
                     {showSignInPrompt && <SignInPrompt setShow={setShowSignInPrompt} />}
 
@@ -181,7 +181,7 @@ const SubmitFeedback: NextPage = () => {
                             </form>
                         </FormProvider>
                     </div>
-                    <div className='col-span-2 px-20'>
+                    <div className='col-span-2 px-4 my-8 lg:my-0 lg:px-20'>
                         <h2 className='block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl'>Submission Preview</h2>
                         <div className='flex flex-col text-black bg-white'>
                             <div className='flex flex-col items-center'>
@@ -189,7 +189,7 @@ const SubmitFeedback: NextPage = () => {
                                 <p className='p-2 pt-1 text-sm font-IBMPlexSans text-[#808080]'>Submitted by <span className='underline'>{account?.data()?.username}</span></p>
                                 {<YoutubeLazyLoad video={vidLink} height={'14rem'} playable={false} />}
                             </div>
-                            <p className='p-2 pb-6 pl-0 mr-14 ml-14 font-IBMPlexSans'>{description.length > 0 ? description : 'Type a description for your post, and it will appear here!'}</p>
+                            <p className='p-4 pb-6 lg:p-2 lg:pl-0 lg:mr-14 lg:ml-14 font-IBMPlexSans'>{description.length > 0 ? description : 'Type a description for your post, and it will appear here!'}</p>
                         </div>
                     </div>
                 </main>

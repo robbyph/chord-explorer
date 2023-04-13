@@ -211,7 +211,6 @@ const PostPage = (props) => {
                             return (
                                 <div id='comment' key={c.id} className='p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
                                     <p id='comment-content' className='pb-6'>{c.data().comment}</p>
-
                                     <div className='flex flex-col lg:items-end lg:space-x-4 lg:flex-row font-HindSiliguri'>
                                         <div className='order-last mt-4 mr-auto space-x-4 lg:mt-0 lg:order-first'>
                                             <button onClick={() => handleUpvote(c)} className='px-2 py-1 font-medium text-black transition bg-purple-200 border border-purple-400 shadow-md active:-translate-y-1'>{c.data().helpfulCount} | Helpful</button>
