@@ -191,19 +191,19 @@ const PostPage = (props) => {
                     <div>{<YoutubeLazyLoad video={props.post.vidLink} />}</div>
                 </div>
             </div>
-            <div id='comments' className='grid justify-center grid-cols-12 px-4 pb-8'>
+            <div id='comments' className='flex flex-col justify-center px-4 pb-8 lg:grid lg:grid-cols-12'>
                 <div id='leftCol' className='justify-center col-span-5 text-center'>
                     <h2 className='text-3xl pb-[.37rem] font-semibold text-center font-HindSiliguri'>Leave Feedback</h2>
-                    <hr className="border-[1.5px] justify-center rounded-full mx-auto w-[30rem]"></hr>
-                    <div className='flex flex-col pl-6 pr-12 space-y-2 '>
+                    <hr className="border-[1.5px] justify-center rounded-full mx-auto lg:w-[30rem]"></hr>
+                    <div className='flex flex-col mb-8 space-y-2 lg:mb-0 lg:pl-6 lg:pr-12 '>
                         <textarea type="text" value={newComment} onChange={(e) => { setNewComment(e.target.value) }} rows={14} className='justify-center p-2 mt-4 mb-4 text-lg' placeholder="Leave some feedback!" />
-                        <input value="Submit" onClick={(e) => { handleSubmit(e); }} className="p-2 m-2 ml-auto mr-14 w-1/4 bg-white border-2 text-lg  cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
+                        <input value="Submit" onClick={(e) => { handleSubmit(e); }} className="p-2 m-2 ml-auto mr-14 w-full bg-white border-2 text-lg lg:w-1/4 cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium" type='submit' />
                     </div>
 
                 </div>
-                <div id='rightCol' className='justify-center col-span-7 pr-16 mr-0'>
+                <div id='rightCol' className='justify-center col-span-7 mr-0 lg:pr-16'>
                     <h2 className='text-3xl pb-[.37rem] font-semibold text-center font-HindSiliguri'>Read Feedback</h2>
-                    <hr className="border-[1.5px] justify-center rounded-full mx-auto w-[30rem]"></hr>
+                    <hr className="border-[1.5px] justify-center rounded-full mx-auto lg:w-[30rem]"></hr>
                     <ul>
                         {error && <strong>Error! <br /> {JSON.stringify(error)} </strong>}
                         {loading && <em>Loading...</em>}
@@ -212,12 +212,12 @@ const PostPage = (props) => {
                                 <div id='comment' key={c.id} className='p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
                                     <p id='comment-content' className='pb-6'>{c.data().comment}</p>
 
-                                    <div className='flex flex-row items-end space-x-4 font-HindSiliguri'>
-                                        <div className='mr-auto space-x-4'>
+                                    <div className='flex flex-col lg:items-end lg:space-x-4 lg:flex-row font-HindSiliguri'>
+                                        <div className='order-last mt-4 mr-auto space-x-4 lg:mt-0 lg:order-first'>
                                             <button onClick={() => handleUpvote(c)} className='px-2 py-1 font-medium text-black transition bg-purple-200 border border-purple-400 shadow-md active:-translate-y-1'>{c.data().helpfulCount} | Helpful</button>
                                             <button onClick={() => handleDownvote(c)} className='px-2 py-1 font-medium text-black transition bg-purple-200 border border-purple-400 shadow-md active:-translate-y-1'>{c.data().unhelpfulCount} | Unhelpful</button>
                                         </div>
-                                        <div>
+                                        <div className='order-first lg:order-last'>
                                             <h4 id='comment-author' className='pt-4 pb-0 text-lg font-medium font-HindSiliguri'>From <Link href={`/profile/${c.data().author}`}><a className="underline">{c.data().authorUserName}</a></Link></h4>
                                             <h4 id='comment-author' className='pb-0 text-sm font-medium font-HindSiliguri'>Posted <em>{c.data().created?.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{c.data().created?.toDate().toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
                                         </div>
