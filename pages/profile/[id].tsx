@@ -53,20 +53,20 @@ const PostPage = (props) => {
                             <h2 className="p-6 pb-2 text-2xl font-semibold font-HindSiliguri">Bio</h2>
                             <p className="p-6 pt-0 font-IBMPlexSans">{props.profile.bio}</p>
                         </div>
-                        <div className="grid grid-cols-2 p-6 font-IBMPlexSans">
+                        <div className="flex flex-col p-6 lg:grid lg:grid-cols-2 font-IBMPlexSans">
                             <div>
                                 <h2 className="text-2xl font-semibold font-HindSiliguri">User Posts</h2>
                                 {posts && posts?.docs.map((p: { id: React.Key | null | undefined; data: () => { (): any; new(): any; title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; created: { (): any; new(): any; toDate: { (): { (): any; new(): any; toLocaleDateString: { (arg0: string, arg1: { weekday: string; year: string; month: string; day: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; toLocaleTimeString: { (arg0: string, arg1: { hour: string; minute: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; }; new(): any; }; }; description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }; }) => {
                                     console.log('p ', p)
                                     return (
-                                        <li key={p.id} className='flex flex-row p-4 m-4 ml-0 text-black bg-white'>
+                                        <li key={p.id} className='flex flex-row p-4 my-4 ml-0 text-black bg-white lg:mr-4'>
                                             <div>
                                                 <h2 className="text-2xl font-medium font-HindSiliguri">{p.data().title}</h2>
                                                 <div className="text-gray-500 font-IBMPlexSans">
                                                     <h4 className="text-sm"><em>Submitted on {p.data().created.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })} {p.data().created.toDate().toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
                                                 </div>
                                                 <br />
-                                                <p className="w-3/4 font-IBMPlexSans">{p.data().description}</p>
+                                                <p className="lg:w-3/4 font-IBMPlexSans">{p.data().description.substring(0, 150)}{p.data().description.substring(151).length > 0 && '...'}</p>
                                                 <br />
                                                 <button className="px-4 font-medium font-IBMPlexSans p-2 mt-2 text-lg text-white bg-[#5B21B6]"><Link className='-m-2' href={`/post/${p.id}`}>View</Link></button>
                                             </div>
@@ -78,15 +78,15 @@ const PostPage = (props) => {
                                 <h2 className="text-2xl font-semibold font-HindSiliguri">User Comments</h2>
                                 {comments && comments?.docs.map((c: { id: React.Key | null | undefined; data: () => { (): any; new(): any; comment: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; helpfulCount: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; unhelpfulCount: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; parentPost: any; created: { (): any; new(): any; toDate: { (): { (): any; new(): any; toLocaleDateString: { (arg0: string, arg1: { weekday: string; year: string; month: string; day: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; toLocaleTimeString: { (arg0: string, arg1: { hour: string; minute: string; }): string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; new(): any; }; }; new(): any; }; }; }; }) => {
                                     return (
-                                        <div id='comment' key={c.id} className='w-10/12 p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans'>
+                                        <div id='comment' key={c.id} className='p-4 px-8 mt-4 text-black bg-white font-IBMPlexSans lg:w-10/12'>
                                             <p id='comment-content' className='pb-6'>{c.data().comment}</p>
 
-                                            <div className='flex flex-row items-end space-x-4 font-HindSiliguri'>
-                                                <div className='mr-auto space-x-4'>
+                                            <div className='flex flex-col lg:items-end lg:space-x-4 lg:flex-row font-HindSiliguri'>
+                                                <div className='order-last mt-4 mr-auto space-x-4 lg:mt-0 lg:order-first'>
                                                     <button disabled className='px-2 py-1 font-medium text-black bg-purple-200 border border-purple-400 shadow-md'>{c.data().helpfulCount} | Helpful</button>
                                                     <button disabled className='px-2 py-1 font-medium text-black bg-purple-200 border border-purple-400 shadow-md'>{c.data().unhelpfulCount} | Unhelpful</button>
                                                 </div>
-                                                <div>
+                                                <div className="order-first lg:order-last">
                                                     <button className="underline"><Link href={`/post/${c.data().parentPost}`}>View Parent Post</Link></button>
                                                     <h4 id='comment-author' className='pb-0 text-sm font-medium font-HindSiliguri'>Posted <em>{c.data().created?.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</em> at <em>{c.data().created?.toDate().toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
                                                 </div>
