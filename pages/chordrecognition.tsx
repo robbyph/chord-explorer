@@ -290,7 +290,7 @@ const ChordRecognition = () => {
                                 /* Use the `selected` state to conditionally style the selected tab. */
                                 <button
                                     className={
-                                        `p-2 border font-HindSiliguri font-medium xl:mr-2 ${selected ? 'bg-white text-purple-700' : 'bg-opacity-0 text-white'}`
+                                        `p-2 border font-HindSiliguri w-full md:w-fit font-medium md:mr-2 ${selected ? 'bg-white text-purple-700' : 'bg-opacity-0 text-white'}`
                                     }
                                     onClick={() => {
                                         setDetectedChords([]);
@@ -306,7 +306,7 @@ const ChordRecognition = () => {
                                 /* Use the `selected` state to conditionally style the selected tab. */
                                 <button
                                     className={
-                                        `p-2 border font-HindSiliguri font-medium xl:mr-2 ${selected ? 'bg-white text-purple-700' : 'bg-opacity-0 text-white'}`
+                                        `p-2 border font-HindSiliguri w-full md:w-fit font-medium md:mr-2 ${selected ? 'bg-white text-purple-700' : 'bg-opacity-0 text-white'}`
                                     }
                                     onClick={() => {
                                         setDetectedChords([]);
@@ -389,7 +389,7 @@ const ChordRecognition = () => {
                             <h2 className="col-span-4 pt-2 mb-2 text-2xl font-HindSiliguri">Then, let the AI do the rest</h2>
                             <button className="col-span-4 px-2 py-2 text-xl border font-IBMPlexSans font-medium bg-white text-[#5B21B6]" onClick={() => uploadToServer()}>Detect Chords</button>
                             <h3 className="col-span-4 pt-2 mt-6 text-2xl underline font-HindSiliguri">Chords Detected</h3>
-                            <ul className="flex flex-col mt-4 lg:grid lg:grid-cols-6 lg:gap-4 font-IBMPlexSans">
+                            <ul className="flex flex-col gap-4 mt-4 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 font-IBMPlexSans">
                                 {detectedChords.map((chord, i) => {
                                     let textQuality = toTextQuality(chord.quality);
                                     let chordQuality = textQuality + ((chord.interval != 0 && chord.interval != 7) ? chord.interval : '')
@@ -420,7 +420,7 @@ const ChordRecognition = () => {
                                         (c) => c.suffix === reduced[1].toLowerCase()
                                     ).positions;
                                     return (
-                                        <div key={chord} className="flex flex-col p-4 text-center text-black bg-white rounded">
+                                        <div key={i} className="flex flex-col p-4 text-center text-black bg-white rounded">
                                             <h3 className="pb-2 text-2xl font-medium font-HindSiliguri">{getChordName(chord)}</h3>
                                             <div className='w-56 mx-auto'>
                                                 <ReactChord
