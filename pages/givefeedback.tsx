@@ -57,19 +57,19 @@ const GiveFeedback = () => {
                         //var myUsername = String.toString(getUsername(p.data().author))
                         var myUsername = usernames[i]
                         return (
-                            <li key={p.id} className='flex flex-row p-4 m-4 ml-6 text-black bg-white'>
-                                <div className="w-3/4">
+                            <li key={p.id} className='flex flex-row flex-wrap p-4 m-4 ml-6 text-black bg-white lg:flex-nowrap'>
+                                <div className="lg:w-3/4">
                                     <h2 className="text-2xl font-medium font-HindSiliguri">{p.data().title}</h2>
                                     <div className="text-gray-500 font-IBMPlexSans">
                                         <h4 className="text-sm text-[#808080]">Submitted by <Link href={`/profile/${p.data().author}`}><a className="underline">{myUsername}</a></Link></h4>
                                         <h4 className="text-sm"><em>Submitted on {p.data().created.toDate().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" })} {p.data().created.toDate().toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}</em></h4>
                                     </div>
                                     <br />
-                                    <p className="w-3/4 font-IBMPlexSans">{p.data().description.substring(0, 300)}{p.data().description.substring(301).length > 0 && '...'}</p>
+                                    <p className="lg:w-3/4 font-IBMPlexSans">{p.data().description.substring(0, 300)}{p.data().description.substring(301).length > 0 && '...'}</p>
                                     <br />
                                     <button className="font-medium font-IBMPlexSans p-2 mt-2 text-lg text-white bg-[#5B21B6]"><Link className='-m-2' href={`/post/${p.id}`}>Give Feedback</Link></button>
                                 </div>
-                                <div className="ml-auto">
+                                <div className="mt-4 lg:ml-auto lg:mt-0">
                                     {p.data().vidLink && (
                                         <YoutubeLazyLoad video={p.data().vidLink} height={'14rem'} width={'24rem'} />
                                     )}
