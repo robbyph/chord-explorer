@@ -53,7 +53,7 @@ const AccountPage = () => {
 
     return (
         <ProtectedRoute>
-            <div>
+            <div className="min-h-screen">
                 <Head>
                     <title>Chord Explorer</title>
                     <meta

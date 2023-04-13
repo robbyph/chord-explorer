@@ -176,7 +176,7 @@ const PostPage = (props) => {
 
 
     return (
-        <div id='page'>
+        <div className="min-h-screen" id='page'>
             {showAlert && <Alert message="⚠️ Profanity Warning! ⚠️" setShow={setShowAlert} />}
             {showVotingAlert && <Alert message='You cannot vote on your own comment!' setShow={setShowVotingAlert} />}
             {showSignInPrompt && <SignInPrompt setShow={setShowSignInPrompt} />}

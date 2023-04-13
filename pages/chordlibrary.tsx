@@ -77,7 +77,7 @@ const ChordLibrary = () => {
     }
 
     return (
-        <div>
+        <div className="min-h-screen">
             <Head>
                 <title>Chord Explorer</title>
                 <meta

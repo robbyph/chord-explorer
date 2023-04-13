@@ -51,7 +51,7 @@ const SignupPage = () => {
     };
 
     return (
-        <div className="container mx-auto mt-12 lg:w-1/3 sign-up-form">
+        <div className="min-h-screen mx-auto mt-12  lg:w-1/3 sign-up-form">
             {showAlert && <Alert message={alertMessage} setShow={setShowAlert} />}
             <h2 className="px-12 mt-8 text-4xl font-semibold text-center text-white font-HindSiliguri">Sign Up</h2>
             <FormProvider {...methods}>

@@ -269,7 +269,7 @@ const ChordRecognition = () => {
 
 
     return (
-        <div>
+        <div className="min-h-screen">
             <Head>
                 <title>Chord Recognition</title>
                 <meta

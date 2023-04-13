@@ -36,7 +36,7 @@ const PostPage = (props) => {
     console.log(props.profile.userUID)
 
     return (
-        <div id='page'>
+        <div className="min-h-screen" id='page'>
             <div>
                 <Head>
                     <title>Chord Explorer</title>
