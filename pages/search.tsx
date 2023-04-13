@@ -151,7 +151,7 @@ const Search = () => {
                     <h1 className="col-span-4 p-6 text-4xl font-semibold font-HindSiliguri">
                         Search
                     </h1>
-                    <div className="grid grid-cols-4 gap-4 px-4">
+                    <div className="flex flex-col gap-4 px-4 sm:grid sm:grid-cols-2 lg:grid-cols-4">
                         <div className="flex flex-col mb-4">
                             <label className="mb-1 ml-1 font-semibold" htmlFor="chordRoot">
                                 Chord Root
@@ -249,7 +249,7 @@ const Search = () => {
                     <h2 className="col-span-4 p-6 text-3xl font-semibold font-HindSiliguri">
                         {getSearchResultTitle()}
                     </h2>
-                    <div className="grid grid-cols-4 gap-4 px-4 mb-4 justify-items-stretch">
+                    <div className="flex flex-col gap-4 px-4 mb-4 sm:grid sm:grid-cols-2 lg:grid-cols-4 justify-items-stretch">
                         {firebaseSongs.map((song) => {
                             return (
                                 <div
