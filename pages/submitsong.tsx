@@ -136,7 +136,7 @@ const SubmitSong: NextPage = () => {
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
 
-                <main className='grid grid-cols-4 '>
+                <main className='flex flex-col md:grid md:grid-cols-4 '>
                     {showAlert && <Alert message={alertMessage} setShow={setShowAlert} />}
                     {showSignInPrompt && <SignInPrompt setShow={setShowSignInPrompt} />}
 
@@ -292,7 +292,7 @@ const SubmitSong: NextPage = () => {
                             </form>
                         </FormProvider>
                     </div>
-                    <div className='col-span-2 px-20'>
+                    <div className='col-span-2 px-4 mt-8 mb-8 sm:px-20 md:mt-0'>
                         <h2 className='block pl-2 text-base font-medium text-white font-IBMPlexSans lg:text-xl'>Submission Preview</h2>
                         <div className='flex flex-col text-black bg-white'>
                             <div className='flex flex-col items-center text-base'>

@@ -18,9 +18,9 @@ const ChordPreview = ({ chords }: ChordPreviewProps) => {
         },
     };
     return (
-        <div className='p-2'>
+        <div className='p-2 '>
             <h4 className='p-2 pb-0 text-xl font-medium text-center font-HindSiliguri'>Chords</h4>
-            <div className='flex flex-wrap justify-center'>
+            <div className='flex flex-row flex-wrap justify-center '>
                 {chords.map((chord, index) => {
                     var reduced = chord.split(' ');
                     if (reduced[0] == 'C#') {
