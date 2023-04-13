@@ -3,11 +3,15 @@ import Link from 'next/link';
 
 const Header = () => {
   return (
-    <Link href='/'>
-      <a className='z-10 pl-20 pr-8 font-semibold text-black font-HindSiliguri'>
-        <span className='text-4xl leading-5'>Chord Explorer</span>
-      </a>
-    </Link>
+    <div className='z-10 mt-1'>
+      <Link href='/'>
+        <a className='pl-4 font-semibold text-black 2xl:pl-20 2xl:pr-8 font-HindSiliguri'>
+          <span className='text-4xl 2xl:leading-5 whitespace-nowrap'>
+            Chord Explorer
+          </span>
+        </a>
+      </Link>
+    </div>
   );
 };
 
