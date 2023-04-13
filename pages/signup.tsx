@@ -51,7 +51,7 @@ const SignupPage = () => {
     };
 
     return (
-        <div className="container w-1/3 mx-auto mt-12 sign-up-form">
+        <div className="container mx-auto mt-12 lg:w-1/3 sign-up-form">
             {showAlert && <Alert message={alertMessage} setShow={setShowAlert} />}
             <h2 className="px-12 mt-8 text-4xl font-semibold text-center text-white font-HindSiliguri">Sign Up</h2>
             <FormProvider {...methods}>
@@ -126,7 +126,7 @@ const SignupPage = () => {
                     </div>
                 </form>
             </FormProvider>
-            <Link href='/login'><a className="underline">Already have an account? Login here!</a ></Link>
+            <Link href='/login'><a className="ml-4 underline lg:ml-0">Already have an account? Login here!</a ></Link>
         </div>
     );
 };
