@@ -1,19 +1,35 @@
 import Link from 'next/link';
 import { slide as Menu } from 'react-burger-menu';
 import { useAuth } from '../context/AuthContext';
+import { useState } from 'react';
 
-const HamburgerMenu = () => (
-  <div className='relative p-2 '>
-    <Menu
-      customBurgerIcon={<HamburgerIcon />}
-      width={'auto'}
-      className='top-0 right-0 '
-      right
-    >
-      <Links />
-    </Menu>
-  </div>
-);
+const HamburgerMenu = () => {
+  const [isOpen, setOpen] = useState(false);
+
+  const handleIsOpen = () => {
+    setOpen(!isOpen);
+  };
+
+  const closeSideBar = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div className='relative p-2 '>
+      <Menu
+        isOpen={isOpen}
+        customBurgerIcon={<HamburgerIcon />}
+        width={'auto'}
+        className='top-0 right-0 '
+        right
+        onOpen={handleIsOpen}
+        onClose={handleIsOpen}
+      >
+        <Links closeSideBar={closeSideBar} />
+      </Menu>
+    </div>
+  );
+};
 
 const HamburgerIcon = () => (
   <div className='p-1/2'>
@@ -31,7 +47,7 @@ const HamburgerIcon = () => (
   </div>
 );
 
-export const Links = () => {
+export const Links = ({ closeSideBar }) => {
   const { user, logOut } = useAuth();
 
   const handleLogout = async () => {
@@ -48,32 +64,54 @@ export const Links = () => {
   return (
     <>
       <Link href='/'>
-        <a className='p-4 font-bold'>Home</a>
+        <a onClick={closeSideBar} className='p-4 font-bold'>
+          Home
+        </a>
       </Link>
       <Link href='/search'>
-        <a className='p-4 font-bold'>Search</a>
+        <a onClick={closeSideBar} className='p-4 font-bold'>
+          Search
+        </a>
       </Link>
       <Link href='/chordlibrary'>
-        <a className='p-4 font-bold'>Chord Library</a>
+        <a onClick={closeSideBar} className='p-4 font-bold'>
+          Chord Library
+        </a>
       </Link>
       <Link href='/givefeedback'>
-        <a className='p-4 font-bold'>Give Feedback</a>
+        <a onClick={closeSideBar} className='p-4 font-bold'>
+          Give Feedback
+        </a>
       </Link>
       <Link href='/submitfeedback'>
-        <a className='p-4 font-bold'>Request Feedback</a>
+        <a onClick={closeSideBar} className='p-4 font-bold'>
+          Request Feedback
+        </a>
       </Link>
       <Link href='/submitsong'>
-        <a className='p-4 font-bold'>Submit A Song</a>
+        <a onClick={closeSideBar} className='p-4 font-bold'>
+          Submit A Song
+        </a>
       </Link>
       <Link href='/chordrecognition'>
-        <a className='p-4 font-bold'>Chord Recognition</a>
+        <a onClick={closeSideBar} className='p-4 font-bold'>
+          Chord Recognition
+        </a>
       </Link>
       <Link href='/accountpage'>
-        <a className='p-4 font-bold'>Account</a>
+        <a onClick={closeSideBar} className='p-4 font-bold'>
+          Account
+        </a>
       </Link>
       {user.uid != null && (
         <Link href='/login'>
-          <a onClick={handleLogout} className='p-4 font-bold'>
+          <a
+            onClick={() => {
+              handleLogout();
+              closeSideBar();
+            }}
+            className='p-4 font-bold'
+          >
             Log Out
           </a>
         </Link>
