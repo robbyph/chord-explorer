@@ -5,8 +5,8 @@ import ChordModal from '../components/ChordModal';
 import guitarData from '../components/data/guitar.json'
 import Chord from "@tombatossals/react-chords/lib/Chord";
 
-const chords = ['major', 'minor', 'dim', 'aug', 'sus2', 'sus4', 'maj7', 'm7', '7', 'mmaj7']
-
+const chords = ['major', 'minor', 'dim', 'aug', 'sus2', 'sus4', 'maj7', 'm7', '7']
+const advancedChords = ['mmaj7']
 
 const ChordLibrary = () => {
     const [selectedChord, setSelectedChord] = useState({});
@@ -140,6 +140,20 @@ const ChordLibrary = () => {
                             </div>
                         )
                     })}
+                    {advancedHarmonyEnabled && advancedChords.map((chord) => {
+                        var chordBoxData = getChordBox(chord)
+                        return (
+                            <div key={chord} className="flex flex-col p-4 text-center text-black bg-white rounded">
+                                <h3 className="pb-2 text-3xl font-semibold font-HindSiliguri">{getChordName(chord)}</h3>
+                                <div className='w-64 mx-auto'><Chord chord={chordBoxData} instrument={instrument} /></div>
+                                <button onClick={() => {
+                                    setSelectedChord(chord);
+                                    setModalOpen(true);
+                                }} className={`p-2 mt-4 px-8 m-2 ml-0 bg-white border-2 text-lg cursor-pointer text-[#5B21B6] font-IBMPlexSans font-medium hover:text-white hover:bg-[#5B21B6]`}>Read More & Listen</button>
+                            </div>
+                        )
+                    })
+                    }
                 </div>
             </main>
         </div>
