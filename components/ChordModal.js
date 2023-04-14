@@ -287,6 +287,36 @@ const ChordModal = ({ chord, root, onClose }) => {
     }
   };
 
+  const getChordSymbols = () => {
+    let dataAliases = Chord.get(getTrueName()).aliases;
+    let aliases = [...dataAliases];
+    if (chord == 'major') {
+      //If it's a major chord, it's incorrectly missing Δ, so this is a workaround
+      aliases = [...aliases, 'Δ'];
+    } else if (chord === 'maj7') {
+      //If it's a major 7 chord, it's incorrectly returning Δ, so this is a workaround
+      aliases = aliases.filter((alias) => alias !== 'Δ');
+    }
+    console.log('aliases after: ', aliases);
+    console.log('aliases length: ', aliases.length);
+
+    let formattedAliases = '';
+
+    aliases.map((alias, i) => {
+      console.log('alias length: ', aliases.length - 1);
+      console.log('i: ', i);
+      // if last item in array
+      if (i >= aliases.length - 1) {
+        formattedAliases += getTrueRoot() + alias;
+      } else {
+        // if not last item in array
+        formattedAliases += getTrueRoot() + alias + ', ';
+      }
+    });
+
+    return formattedAliases;
+  };
+
   return (
     <div className='fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50 font-HindSiliguri'>
       <div
@@ -349,15 +379,7 @@ const ChordModal = ({ chord, root, onClose }) => {
             </div>
             <div className='flex flex-col col-span-5 text-left lg:pl-32 xl:pl-24'>
               <h3 className='pt-6 text-2xl font-semibold'>Chord Symbols</h3>
-              <p className='pl-4 text-lg'>
-                {Chord.get(getTrueName()).aliases.map((alias, i) => {
-                  if (i >= Chord.get(getTrueName()).aliases.length - 1) {
-                    return getTrueRoot() + alias;
-                  } else {
-                    return getTrueRoot() + alias + ', ';
-                  }
-                })}
-              </p>
+              <p className='pl-4 text-lg'>{getChordSymbols()}</p>
               <h3 className='text-2xl font-semibold'>Interval Construction</h3>
               <p className='pl-4 text-lg'>
                 {convertedIntervalsEnglish.join(' - ')} (
