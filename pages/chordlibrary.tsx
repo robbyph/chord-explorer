@@ -12,6 +12,7 @@ const ChordLibrary = () => {
     const [selectedChord, setSelectedChord] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
     const [chordRoot, setChordRoot] = useState('C');
+    const [advancedHarmonyEnabled, setAdvancedHarmonyEnabled] = useState(false);
 
 
     const handleChange = (event) => {
@@ -96,7 +97,7 @@ const ChordLibrary = () => {
                 <h1 className="col-span-12 p-6 text-4xl font-semibold font-HindSiliguri">Chord Library</h1>
                 <div className="flex flex-col px-4 mb-4 lg:w-1/6" id="parameters">
                     <label className="mb-1 ml-1 font-semibold" htmlFor="chordRoot">Chord Root</label>
-                    <select value={chordRoot} name="chordRoot" id="chordRootSelect" className="h-10 px-3 border-gray-300 rounded" onChange={handleChange}>
+                    <select value={chordRoot} name="chordRoot" id="chordRootSelect" className="h-10 px-3 mb-2 border-gray-300 rounded" onChange={handleChange}>
                         <option value="C">C</option>
                         <option value="Csharp">C#/Db</option>
                         <option value="D">D</option>
@@ -110,6 +111,12 @@ const ChordLibrary = () => {
                         <option value="Bb">A#/Bb</option>
                         <option value="B">B</option>
                     </select>
+                    <div>
+                        <input type="checkbox" name="advancedHarmony" id="advancedHarmony" onChange={() => {
+                            setAdvancedHarmonyEnabled(!advancedHarmonyEnabled)
+                        }} style={{ display: 'inline' }} />
+                        <label className="mb-1 ml-1 font-semibold" htmlFor="advancedHarmony" style={{ display: 'inline' }}>Enable Advanced Harmony?</label>
+                    </div>
                 </div>
                 <h2 className="col-span-4 p-6 text-3xl font-semibold font-HindSiliguri">
                     Chords
