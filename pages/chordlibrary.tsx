@@ -6,7 +6,7 @@ import guitarData from '../components/data/guitar.json'
 import Chord from "@tombatossals/react-chords/lib/Chord";
 
 const chords = ['major', 'minor', 'dim', 'aug', 'sus2', 'sus4', 'maj7', 'm7', '7']
-const advancedChords = ['mmaj7']
+const advancedChords = ['mmaj7', 'dim7', 'm7b5', 'aug7', 'maj7#5', '7sus4']
 
 const ChordLibrary = () => {
     const [selectedChord, setSelectedChord] = useState({});
@@ -51,6 +51,14 @@ const ChordLibrary = () => {
                 return 'Augmented'
             case 'mmaj7':
                 return 'm/maj7'
+            case 'dim7':
+                return 'diminished 7th'
+            case 'm7b5':
+                return 'half-diminished 7th';
+            case 'aug7':
+                return 'augmented 7th'
+            case 'maj7#5':
+                return 'augmented major 7th'
             default: return chord.charAt(0).toUpperCase() + chord.slice(1)
         }
     }
@@ -74,7 +82,7 @@ const ChordLibrary = () => {
     const getChordName = (chord) => {
         console.log(chord)
         if (chord === 'm7' || chord === 'maj7' || chord === 'sus2' || chord === 'sus4' || chord == '7' ||
-            chord === 'mmaj7') {
+            chord === 'mmaj7' || chord === '7sus4') {
             return getProperChordRoot(chordRoot) + getProperChordSuffix(chord)
         }
         else {

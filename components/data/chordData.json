@@ -67,5 +67,40 @@
             "harmonic minor", "melodic minor"
         ],
         "emotional_cliches": ["mysterious", "weird"]
+    },
+    {
+        "quality": "dim7",
+        "scales": [
+            "diminished"
+        ],
+        "emotional_cliches": ["distressed", "evil"]
+    },
+    {
+        "quality": "m7b5",
+        "scales": [
+            "locrian"
+        ],
+        "emotional_cliches": ["somber", "dark"]
+    },
+    {
+        "quality": "aug7",
+        "scales": [
+            "whole tone"
+        ],
+        "emotional_cliches": ["dreamlike", "freefalling", "underwater", "anxious"]
+    },
+    {
+        "quality": "7sus4",
+        "scales": [
+            "mixolydian"
+        ],
+        "emotional_cliches": ["smooth", "jazzy", "otherworldly", "ambient", "suspended"]
+    },
+    {
+        "quality": "maj7#5",
+        "scales": [
+            "lydian augmented", "melodic minor"
+        ],
+        "emotional_cliches": ["surreal", "sharp"]
     }
 ]

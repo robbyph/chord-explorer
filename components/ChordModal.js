@@ -105,6 +105,8 @@ const ChordModal = ({ chord, root, onClose }) => {
         return 'Minor 7th';
       case '7M':
         return 'Major 7th';
+      case '7d':
+        return 'Diminished 7th';
       case '8P':
         return 'Octave';
       default:
@@ -128,6 +130,12 @@ const ChordModal = ({ chord, root, onClose }) => {
         return 'Augmented';
       case 'mmaj7':
         return 'minor/major 7th';
+      case 'm7b5':
+        return 'half-diminished 7th';
+      case 'aug7':
+        return 'augmented 7th';
+      case 'maj7#5':
+        return 'augmented major 7th';
       default:
         return chord.charAt(0).toUpperCase() + chord.slice(1);
     }
@@ -156,7 +164,8 @@ const ChordModal = ({ chord, root, onClose }) => {
       chord === 'maj7' ||
       chord === 'sus2' ||
       chord === 'sus4' ||
-      chord == '7'
+      chord == '7' ||
+      chord === '7sus4'
     ) {
       return getProperChordRoot(root) + getProperChordSuffix(chord);
     } else {
@@ -194,6 +203,8 @@ const ChordModal = ({ chord, root, onClose }) => {
         return 'b7';
       case '7M':
         return '7';
+      case '7d':
+        return 'bb7';
       case '8P':
         return '8';
       default:
