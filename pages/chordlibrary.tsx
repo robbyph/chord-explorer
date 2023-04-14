@@ -5,7 +5,7 @@ import ChordModal from '../components/ChordModal';
 import guitarData from '../components/data/guitar.json'
 import Chord from "@tombatossals/react-chords/lib/Chord";
 
-const chords = ['major', 'minor', 'dim', 'aug', 'sus2', 'sus4', 'maj7', 'm7', '7']
+const chords = ['major', 'minor', 'dim', 'aug', 'sus2', 'sus4', 'maj7', 'm7', '7', 'mmaj7']
 
 
 const ChordLibrary = () => {
@@ -14,6 +14,7 @@ const ChordLibrary = () => {
     const [chordRoot, setChordRoot] = useState('C');
     const [advancedHarmonyEnabled, setAdvancedHarmonyEnabled] = useState(false);
 
+    console.log(guitarData.chords[chordRoot])
 
     const handleChange = (event) => {
         setChordRoot(event.target.value);
@@ -48,6 +49,8 @@ const ChordLibrary = () => {
                 return 'Diminished'
             case 'aug':
                 return 'Augmented'
+            case 'mmaj7':
+                return 'm/maj7'
             default: return chord.charAt(0).toUpperCase() + chord.slice(1)
         }
     }
@@ -69,7 +72,9 @@ const ChordLibrary = () => {
     }
 
     const getChordName = (chord) => {
-        if (chord === 'm7' || chord === 'maj7' || chord === 'sus2' || chord === 'sus4' || chord == '7') {
+        console.log(chord)
+        if (chord === 'm7' || chord === 'maj7' || chord === 'sus2' || chord === 'sus4' || chord == '7' ||
+            chord === 'mmaj7') {
             return getProperChordRoot(chordRoot) + getProperChordSuffix(chord)
         }
         else {

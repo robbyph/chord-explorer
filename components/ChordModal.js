@@ -9,8 +9,16 @@ import * as Tone from 'tone';
 import Link from 'next/link';
 
 const ChordModal = ({ chord, root, onClose }) => {
+  const initializeChordName = (chord, root) => {
+    if (chord === 'mmaj7') {
+      return `${root} m/maj7`;
+    } else {
+      return `${root} ${chord}`;
+    }
+  };
+
   const modalRef = useRef();
-  const chordName = `${root} ${chord}`;
+  const chordName = initializeChordName(chord, root);
   const [scalesOpen, setScalesOpen] = useState(false);
   const [extOpen, setExtOpen] = useState(false);
   const [keysOpen, setKeysOpen] = useState(false);
@@ -20,14 +28,19 @@ const ChordModal = ({ chord, root, onClose }) => {
   const [samplerLoaded, setSamplerLoaded] = useState(false);
 
   const getTrueName = () => {
+    let newChordName = chordName;
     if (chordName.includes('sharp')) {
-      return chordName.replace('sharp', '#');
+      newChordName = chordName.replace('sharp', '#');
     } else if (chordName.includes('flat')) {
-      return chordName.replace('flat', 'b');
+      newChordName = chordName.replace('flat', 'b');
     } else {
-      return chordName;
+      newChordName = chordName;
     }
+
+    return newChordName;
   };
+
+  console.log(ChordType.symbols());
 
   const handleVoicingPositionUp = () => {
     if (
@@ -113,6 +126,8 @@ const ChordModal = ({ chord, root, onClose }) => {
         return 'Diminished';
       case 'aug':
         return 'Augmented';
+      case 'mmaj7':
+        return 'minor/major 7th';
       default:
         return chord.charAt(0).toUpperCase() + chord.slice(1);
     }

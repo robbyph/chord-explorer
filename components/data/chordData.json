@@ -60,5 +60,12 @@
             "mixolydian"
         ],
         "emotional_cliches": ["bluesy", "soulful"]
+    },
+    {
+        "quality": "mmaj7",
+        "scales": [
+            "harmonic minor", "melodic minor"
+        ],
+        "emotional_cliches": ["mysterious", "weird"]
     }
 ]
