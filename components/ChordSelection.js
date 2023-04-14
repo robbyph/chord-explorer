@@ -108,13 +108,48 @@ const ChordSelection = ({ chords, onChange, deleteChord }) => {
   };
 
   const getChordOptions = () => {
-    var chordArray = Object.values(guitarData.chords);
-    var filteredChords = [];
-    chordArray.forEach((chord) =>
-      chord
+    const chordArray = Object.values(guitarData.chords);
+
+    const chordsBySuffix = {};
+
+    chordArray.forEach((chord) => {
+      chord.forEach((c) => {
+        if (!chordsBySuffix[c.suffix]) {
+          chordsBySuffix[c.suffix] = [];
+        }
+        chordsBySuffix[c.suffix].push(c);
+      });
+    });
+
+    const sortedChords = Object.keys(chordsBySuffix)
+      .sort((a, b) => {
+        // Order major and minor chords first
+        if (a === 'major' || a === 'minor') return -1;
+        if (b === 'major' || b === 'minor') return 1;
+        // Otherwise, order alphabetically
+        if (a < b) return -1;
+        if (a > b) return 1;
+        return 0;
+      })
+      .map((suffix) => {
+        return {
+          suffix,
+          chords: chordsBySuffix[suffix].sort((a, b) => {
+            if (a.key < b.key) return -1;
+            if (a.key > b.key) return 1;
+            return 0;
+          }),
+        };
+      });
+
+    const filteredChords = [];
+
+    sortedChords.forEach((suffixGroup) =>
+      suffixGroup.chords
         .filter((c) => chordOptions.includes(c.suffix))
         .map((c) => filteredChords.push(c.key + ' ' + c.suffix))
     );
+
     return filteredChords;
   };
 
